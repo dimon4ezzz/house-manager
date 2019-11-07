@@ -1,4 +1,4 @@
-package com.dvor.my.mydvor;
+package com.dvor.my.mydvor.news;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dvor.my.mydvor.utils.DataConverter;
+import com.dvor.my.mydvor.R;
+import com.dvor.my.mydvor.Storage;
+import com.dvor.my.mydvor.data.News;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -46,15 +50,15 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         View view=inflater.inflate(this.layout, parent, false);
 
-        ImageView imgView = (ImageView) view.findViewById(R.id.image);
-        TextView titleView = (TextView) view.findViewById(R.id.title);
-        TextView textView = (TextView) view.findViewById(R.id.text);
-        TextView dateView = (TextView) view.findViewById(R.id.date);
-        TextView likesView = (TextView) view.findViewById(R.id.likesCount);
-        TextView dislikesView = (TextView) view.findViewById(R.id.dislikesCount);
-        ImageButton likesButton = (ImageButton) view.findViewById(R.id.likesButton);
-        ImageButton dislikesButton = (ImageButton) view.findViewById(R.id.dislikesButton);
-        ImageButton deleteButton=(ImageButton) view.findViewById(R.id.deleteButton);
+        ImageView imgView = view.findViewById(R.id.image);
+        TextView titleView = view.findViewById(R.id.title);
+        TextView textView = view.findViewById(R.id.text);
+        TextView dateView = view.findViewById(R.id.date);
+        TextView likesView = view.findViewById(R.id.likesCount);
+        TextView dislikesView = view.findViewById(R.id.dislikesCount);
+        ImageButton likesButton = view.findViewById(R.id.likesButton);
+        ImageButton dislikesButton = view.findViewById(R.id.dislikesButton);
+        ImageButton deleteButton= view.findViewById(R.id.deleteButton);
         final News currentNews = news.get(position);
         Storage.downloadPicture(currentNews.getImgResource(), imgView);
         titleView.setText(currentNews.getTitle());

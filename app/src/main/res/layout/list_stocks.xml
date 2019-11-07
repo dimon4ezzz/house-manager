@@ -10,7 +10,7 @@
         android:layout_height="87dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:contentDescription="image" />
+        android:contentDescription="@string/image" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,13 +22,13 @@
             style="@style/TitleText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Заголовок" />
+            android:text="@string/header" />
 
         <TextView
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Текст"
+            android:text="@string/example_text"
             android:textColor="@color/colorBackGround" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="TextView"
+            android:text="@string/textview"
             android:textAlignment="textEnd" />
 
     </LinearLayout>

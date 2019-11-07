@@ -1,4 +1,4 @@
-package com.dvor.my.mydvor;
+package com.dvor.my.mydvor.service;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dvor.my.mydvor.R;
+import com.dvor.my.mydvor.data.Service;
 
 import java.util.List;
 
@@ -31,10 +34,10 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
 
         View view=inflater.inflate(this.layout, parent, false);
 
-        ImageView imgView = (ImageView) view.findViewById(R.id.image);
-        TextView titleView = (TextView) view.findViewById(R.id.title);
-        TextView textView = (TextView) view.findViewById(R.id.text);
-        final TextView phone =(TextView) view.findViewById(R.id.phone);
+        ImageView imgView = view.findViewById(R.id.image);
+        TextView titleView = view.findViewById(R.id.title);
+        TextView textView = view.findViewById(R.id.text);
+        final TextView phone = view.findViewById(R.id.phone);
 
         Service service = services.get(position);
 

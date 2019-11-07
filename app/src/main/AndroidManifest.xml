@@ -49,7 +49,7 @@
         </receiver>
 
         <activity android:name=".NotificationsFakeActivity" />
-        <activity android:name=".MessageFakeActivity"></activity>
+        <activity android:name=".MessageFakeActivity" />
     </application>
 
 </manifest>

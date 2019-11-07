@@ -36,4 +36,19 @@
     <string name="send_post">Опубликовать</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="password">Пароль</string>
+    <string name="confirmation">Подтверждение пароля</string>
+    <string name="registration">Регистрация</string>
+    <string name="back">Назад</string>
+    <string name="login">Войти</string>
+    <string name="sender">Отправитель</string>
+    <string name="example_date">12.12.2018</string>
+    <string name="example_text">Текст</string>
+    <string name="title">Название</string>
+    <string name="textview">TextView</string>
+    <string name="image">image</string>
+    <string name="one">1</string>
+    <string name="provider">Поставщик</string>
+    <string name="phone_number">88000000000</string>
+    <string name="header">Заголовок</string>
 </resources>

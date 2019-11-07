@@ -1,4 +1,4 @@
-package com.dvor.my.mydvor;
+package com.dvor.my.mydvor.notifications;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+
+import com.dvor.my.mydvor.utils.DataConverter;
+import com.dvor.my.mydvor.R;
+import com.dvor.my.mydvor.data.Notification;
 
 import java.util.List;
 
@@ -30,11 +34,11 @@ private Context context;
 
         View view=inflater.inflate(this.layout, parent, false);
 
-        TextView textView = (TextView) view.findViewById(R.id.text);
-        TextView dataView = (TextView) view.findViewById(R.id.data);
+        TextView textView = view.findViewById(R.id.text);
+        TextView dataView = view.findViewById(R.id.data);
         Notification notification = notifications.get(position);
         text=notification.getText();
-        ImageButton shareButton = (ImageButton) view.findViewById(R.id.shareButton);
+        ImageButton shareButton = view.findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -16,6 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.dvor.my.mydvor.message.MessageFragment;
+import com.dvor.my.mydvor.news.NewsFragment;
+import com.dvor.my.mydvor.notifications.NotificationFragment;
+import com.dvor.my.mydvor.service.ServiceFragment;
+import com.dvor.my.mydvor.stock.StockFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -41,13 +47,13 @@ public class MainActivity extends AppCompatActivity
         outState.putInt("currentActivity", currentActivity);
         if (currentActivity==R.id.nav_massage)
         {
-            TextView messageText=(TextView)findViewById(R.id.message_text);
+            TextView messageText= findViewById(R.id.message_text);
             outState.putString("message", (messageText.getText().toString()));
         }
 
         if (currentActivity==R.id.nav_plans)
         {
-            TextView postText=(TextView)findViewById(R.id.post_text);
+            TextView postText= findViewById(R.id.post_text);
             outState.putString("post", (postText.getText().toString()));
         }
 
@@ -103,25 +109,23 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         try {
             Class fragmentClass = HeaderFragment.class;
             Fragment fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.nav_view, fragment).commit();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
@@ -146,7 +150,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

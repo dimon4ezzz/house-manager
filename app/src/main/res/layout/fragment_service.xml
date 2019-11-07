@@ -9,8 +9,6 @@
         android:layout_marginTop="60dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
-        >
-
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="match_parent"
@@ -27,8 +25,8 @@
         android:layout_marginTop="100dp">
 
         <ListView
-            android:id="@+id/newsList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+                android:id="@+id/newsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
     <ImageView
         android:id="@+id/image"
@@ -11,7 +10,7 @@
         android:layout_height="58dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:contentDescription="image" />
+        android:contentDescription="@string/image" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,13 +22,13 @@
             style="@style/TitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Поставщик" />
+            android:text="@string/provider" />
 
         <TextView
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Текст"
+            android:text="@string/example_text"
             android:textColor="@color/colorBackGround" />
 
         <TextView
@@ -37,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="88000000000"
+            android:text="@string/phone_number"
             android:textColor="@color/colorPrimary" />
 
     </LinearLayout>

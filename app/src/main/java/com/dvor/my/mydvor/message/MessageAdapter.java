@@ -1,12 +1,15 @@
-package com.dvor.my.mydvor;
+package com.dvor.my.mydvor.message;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dvor.my.mydvor.utils.DataConverter;
+import com.dvor.my.mydvor.R;
+import com.dvor.my.mydvor.data.Message;
 
 import java.util.List;
 
@@ -27,9 +30,9 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         View view=inflater.inflate(this.layout, parent, false);
 
 
-        TextView titleView = (TextView) view.findViewById(R.id.title);
-        TextView textView = (TextView) view.findViewById(R.id.text);
-        TextView dataView = (TextView) view.findViewById(R.id.data);
+        TextView titleView = view.findViewById(R.id.title);
+        TextView textView = view.findViewById(R.id.text);
+        TextView dataView = view.findViewById(R.id.data);
         Message message = messages.get(position);
 
         titleView.setText(message.getTitle());

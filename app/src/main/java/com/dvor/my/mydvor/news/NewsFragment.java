@@ -1,5 +1,5 @@
 
-package com.dvor.my.mydvor;
+package com.dvor.my.mydvor.news;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +20,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dvor.my.mydvor.MainActivity;
+import com.dvor.my.mydvor.MyEvent;
+import com.dvor.my.mydvor.MyEventListener;
+import com.dvor.my.mydvor.R;
+import com.dvor.my.mydvor.Storage;
+import com.dvor.my.mydvor.Type;
+import com.dvor.my.mydvor.data.News;
+import com.dvor.my.mydvor.data.NewsBD;
+import com.dvor.my.mydvor.news.NewsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,10 +70,10 @@ public class NewsFragment extends Fragment
     ValueEventListener listenerNews;
     public static boolean updateUIflag;
     private View view;
-    private List<News> news = new ArrayList<News>();
-    private List<String> likes = new ArrayList<String>();
-    private List<String> dislikes = new ArrayList<String>();
-    private List<NewsAdapter.Comment> comments = new ArrayList<NewsAdapter.Comment>();
+    private List<News> news = new ArrayList<>();
+    private List<String> likes = new ArrayList<>();
+    private List<String> dislikes = new ArrayList<>();
+    private List<NewsAdapter.Comment> comments = new ArrayList<>();
     private String imgID="newsImages/no";
     ListView newsList;
     AdapterView.OnItemClickListener itemListener;
@@ -102,26 +111,22 @@ public class NewsFragment extends Fragment
         view = inflater.inflate(R.layout.fragment_news, container, false);
         // начальная инициализация списка
         // получаем элемент ListView
-        newsList = (ListView) view.findViewById(R.id.newsList);
+        newsList = view.findViewById(R.id.newsList);
 
         // создаем адаптер
         context = view.getContext();
 
-        Button button = (Button) view.findViewById(R.id.send_post);
+        Button button = view.findViewById(R.id.send_post);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.send_post:
-                        sendPost();
-                        break;
-                    default:
-                        break;
+                if (v.getId() == R.id.send_post) {
+                    sendPost();
                 }
             }
         });
 
-        ImageButton imgbutton = (ImageButton) view.findViewById(R.id.add_img);
+        ImageButton imgbutton = view.findViewById(R.id.add_img);
         imgbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,27 +144,22 @@ public class NewsFragment extends Fragment
             }
         });
 
-        ImageButton imgPref = (ImageButton) view.findViewById(R.id.imgPref);
+        ImageButton imgPref = view.findViewById(R.id.imgPref);
         BitmapDrawable preImg = new BitmapDrawable(context.getResources(),MainActivity.imgPref);
         imgPref.setBackground(preImg);
         imgPref.setOnClickListener(new View.OnClickListener() {
             @Override
            public void onClick(View v) {
-              switch (v.getId()) {
-                  case R.id.imgPref: {
-                       deletePrefImg();
-                    }
-                       break;
-                    default:
-                        break;
-               }
+                if (v.getId() == R.id.imgPref) {
+                    deletePrefImg();
+                }
             }
         });
         if (MainActivity.imgPref!=null)
             imgPref.setImageResource(R.drawable.delete);
 
 
-        postText = (TextView)view.findViewById(R.id.post_text) ;
+        postText = view.findViewById(R.id.post_text);
         mAuth = FirebaseAuth.getInstance();
 
         postText.setText(MainActivity.savedPost);
@@ -175,7 +175,7 @@ public class NewsFragment extends Fragment
                     userStreetId = dataSnapshot.child("street_id").getValue().toString();
                     userBuildingId = dataSnapshot.child("building_id").getValue().toString();
 
-                    notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateAddressID));
+                    notifyEventListeners(new MyEvent(this, Type.UpdateAddressID));
                 }
             }
 
@@ -206,7 +206,7 @@ public class NewsFragment extends Fragment
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 organizationId = dataSnapshot.getValue().toString();
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateOrganizationId));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateOrganizationId));
                             }
 
                             @Override
@@ -231,7 +231,7 @@ public class NewsFragment extends Fragment
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 newsSnapshot = dataSnapshot;
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateNews));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateNews));
                             }
 
                             @Override
@@ -263,14 +263,14 @@ public class NewsFragment extends Fragment
     {
         MainActivity.imgPref = null;
         imgID="newsImages/no";
-        ImageButton imgPref = (ImageButton) view.findViewById(R.id.imgPref);
+        ImageButton imgPref = view.findViewById(R.id.imgPref);
         imgPref.setBackground(null);
         MainActivity.postImg="newsImages/no";
 
         imgPref.setImageResource(R.drawable.transparent);
     }
     private void addImage(){
-        imgID ="newsImages/"+Integer.toString(lastID+1)+".jpg";
+        imgID ="newsImages/"+ (lastID + 1) +".jpg";
          final int RESULT_LOAD_IMAGE = 1;
          Intent galleryIntent = new Intent(
                 Intent.ACTION_PICK,
@@ -309,25 +309,20 @@ public class NewsFragment extends Fragment
      public void onActivityResult(int requestCode, int resultCode, Intent data) {
          super.onActivityResult(requestCode, resultCode, data);
 
-         switch (requestCode) {
-             case RESULT_GALLERY :
-                 if (null != data) {
+         if (requestCode == RESULT_GALLERY) {
+             if (null != data) {
 
-                     imageUri = data.getData();
-                     try{
+                 imageUri = data.getData();
+                 try {
                      final InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
                      final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                      Storage.uploadPicture(selectedImage, imgID);
-                     ImageButton imgPref = (ImageButton) view.findViewById(R.id.imgPref);
-                     imgPref.setImageResource(R.drawable.delete);}
-                     catch (Exception ex)
-                     {
-                         Log.d("state", ex.getMessage());
-                     }
+                     ImageButton imgPref = view.findViewById(R.id.imgPref);
+                     imgPref.setImageResource(R.drawable.delete);
+                 } catch (Exception ex) {
+                     Log.d("state", ex.getMessage());
                  }
-                 break;
-             default:
-                 break;
+             }
          }
      }
 

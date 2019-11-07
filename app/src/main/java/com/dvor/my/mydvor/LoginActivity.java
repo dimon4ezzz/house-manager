@@ -62,11 +62,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         };
 
-        ETemail = (EditText) findViewById(R.id.email);
-        ETpassword = (EditText) findViewById(R.id.password);
+        ETemail = findViewById(R.id.email);
+        ETpassword = findViewById(R.id.password);
 
-        Button button_sign_in = (Button)findViewById(R.id.sign_in_button);
-        Button button_registration = (Button)findViewById(R.id.registration_button);
+        Button button_sign_in = findViewById(R.id.sign_in_button);
+        Button button_registration = findViewById(R.id.registration_button);
         button_sign_in.setOnClickListener(this);
         button_registration.setOnClickListener(this);
     }

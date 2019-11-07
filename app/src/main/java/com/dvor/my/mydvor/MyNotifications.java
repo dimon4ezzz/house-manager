@@ -132,7 +132,7 @@ public class MyNotifications extends Service {
                     userStreetId = dataSnapshot.child("street_id").getValue().toString();
                     userBuildingId = dataSnapshot.child("building_id").getValue().toString();
 
-                    notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateAddressID));
+                    notifyEventListeners(new MyEvent(this, Type.UpdateAddressID));
                 }
             }
 
@@ -164,7 +164,7 @@ public class MyNotifications extends Service {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 organizationId = dataSnapshot.getValue().toString();
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateOrganizationId));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateOrganizationId));
                             }
 
                             @Override
@@ -188,7 +188,7 @@ public class MyNotifications extends Service {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 notificationsSnapshot = dataSnapshot;
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateNotifications));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateNotifications));
                             }
 
                             @Override
@@ -214,7 +214,7 @@ public class MyNotifications extends Service {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 messageSnapshot = dataSnapshot;
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateUI));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateUI));
                             }
 
                             @Override
@@ -239,7 +239,7 @@ public class MyNotifications extends Service {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 notificationsRead = dataSnapshot;
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateUI_2));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateUI_2));
                             }
 
                             @Override

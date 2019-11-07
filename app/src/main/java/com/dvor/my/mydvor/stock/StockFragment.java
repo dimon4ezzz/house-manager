@@ -1,4 +1,4 @@
-package com.dvor.my.mydvor;
+package com.dvor.my.mydvor.stock;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,8 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.dvor.my.mydvor.MyEvent;
+import com.dvor.my.mydvor.MyEventListener;
+import com.dvor.my.mydvor.R;
+import com.dvor.my.mydvor.Type;
+import com.dvor.my.mydvor.data.Stock;
+import com.dvor.my.mydvor.stock.StockAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,13 +45,13 @@ public class StockFragment extends Fragment {
     DataSnapshot retailersStreet;
     DatabaseReference myRef2;
     DatabaseReference myRef3;
-    List<DataSnapshot> retailers = new LinkedList<DataSnapshot>();
-    List<DataSnapshot> shopsID = new LinkedList<DataSnapshot>();
+    List<DataSnapshot> retailers = new LinkedList<>();
+    List<DataSnapshot> shopsID = new LinkedList<>();
     ValueEventListener listenerRetailersStreet;
     ValueEventListener listenerRetailers;
     AdapterView.OnItemClickListener itemListener;
 
-    private List<Stock> stocks = new ArrayList<Stock>();
+    private List<Stock> stocks = new ArrayList<>();
     ListView stockList;
 
     @Override
@@ -64,7 +69,7 @@ public class StockFragment extends Fragment {
         // начальная инициализация списка
         //setInitialData();
         // получаем элемент ListView
-        stockList = (ListView) view.findViewById(R.id.stocksList);
+        stockList = view.findViewById(R.id.stocksList);
         // создаем адаптер
         Context context = view.getContext();
 
@@ -78,7 +83,7 @@ public class StockFragment extends Fragment {
                 if(dataSnapshot.getValue() != null) {
                     userStreetId = dataSnapshot.child("street_id").getValue().toString();
 
-                    notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateAddressID));
+                    notifyEventListeners(new MyEvent(this, Type.UpdateAddressID));
                 }
             }
 
@@ -109,7 +114,7 @@ public class StockFragment extends Fragment {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 retailersStreet = dataSnapshot;
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateRetailersStreet));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateRetailersStreet));
                             }
 
                             @Override
@@ -143,7 +148,7 @@ public class StockFragment extends Fragment {
                                         String retailerID = retailerStreet.child("id").getValue().toString();
                                         retailers.add(dataSnapshot.child(retailerID));
 
-                                        notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateRetailers));
+                                        notifyEventListeners(new MyEvent(this, Type.UpdateRetailers));
                                     }
                                 }
                             }

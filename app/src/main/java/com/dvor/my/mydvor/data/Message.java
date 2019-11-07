@@ -1,14 +1,24 @@
-package com.dvor.my.mydvor;
+package com.dvor.my.mydvor.data;
 
-public class Notification {
+public class Message {
 
+    private String title;
     private String text;
     private String date;
 
-    public Notification(String text, String date){
+    public Message(String title, String text, String date){
 
+        this.title=title;
         this.text=text;
         this.date=date;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getText() {

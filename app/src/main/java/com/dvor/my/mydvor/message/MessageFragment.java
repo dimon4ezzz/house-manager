@@ -1,5 +1,4 @@
-package com.dvor.my.mydvor;
-
+package com.dvor.my.mydvor.message;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,10 +6,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
+import java.util.*;
+
+import com.dvor.my.mydvor.MainActivity;
+import com.dvor.my.mydvor.MyEvent;
+import com.dvor.my.mydvor.MyEventListener;
+import com.dvor.my.mydvor.R;
+import com.dvor.my.mydvor.Type;
+import com.dvor.my.mydvor.data.Message;
+import com.dvor.my.mydvor.data.MessageBD;
+import com.dvor.my.mydvor.message.MessageAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,17 +29,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
-
-public class ServiceFragment extends Fragment {
+public class MessageFragment extends Fragment implements View.OnClickListener{
 
     private static List<MyEventListener> eventListeners;
-    String[] data = {"Доставка воды", "Продукты", "Сантехник"};
 
     public void addEventListener(MyEventListener eventListener) {
         eventListeners.add(eventListener);
@@ -46,43 +49,29 @@ public class ServiceFragment extends Fragment {
     String userBuildingId;
     DatabaseReference myRef2;
     DatabaseReference myRef3;
-    DataSnapshot servicesSnapshot;
+    DataSnapshot messageSnapshot;
     ValueEventListener listenerBuilding;
-    ValueEventListener listenerService;
+    ValueEventListener listenerMessages;
 
-
-    private List<Service> services = new ArrayList<Service>();
-    ListView servicesList;
+    private List<Message> messages = new ArrayList<>();
+    private TextView messageText;
+    ListView messageList;
     AdapterView.OnItemClickListener itemListener;
-    Long serviceType;
+    Context context;
 
-
-    private  void spinner(View view)
-    {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, data);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
-        spinner.setAdapter(adapter);
-        spinner.setPrompt("Title");
-        spinner.setSelection(0);
-        // обработчик нажатия
-        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-               serviceType=id;
-               takeDataSnapshot();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-            }
-        });
+    //сохранение текста неотправленного сообщения
+    //костыльно но работает
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("message", (messageText.getText().toString()));
+        MainActivity.savedMessage=messageText.getText().toString();
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
 
         if(eventListeners == null) {
             eventListeners = new LinkedList<>();
@@ -91,21 +80,22 @@ public class ServiceFragment extends Fragment {
             eventListeners.clear();
         }
 
-        View view = inflater.inflate(R.layout.fragment_service, container, false);
+        View view = inflater.inflate(R.layout.fragment_message, container, false);
         // начальная инициализация списка
         // получаем элемент ListView
-        servicesList = (ListView) view.findViewById(R.id.newsList);
+        messageList = view.findViewById(R.id.messageList);
         // создаем адаптер
-        Context context = view.getContext();
-        spinner(view);
-        takeDataSnapshot();
-        return view;
-    }
+        context = view.getContext();
 
-    private void takeDataSnapshot()
-    {
         mAuth = FirebaseAuth.getInstance();
+
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getUid());
+
+        Button button = view.findViewById(R.id.send_message);
+        button.setOnClickListener(this);
+
+        messageText= view.findViewById(R.id.message_text);
+        messageText.setText(MainActivity.savedMessage);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -113,11 +103,13 @@ public class ServiceFragment extends Fragment {
                     userStreetId = dataSnapshot.child("street_id").getValue().toString();
                     userBuildingId = dataSnapshot.child("building_id").getValue().toString();
 
-                    notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateAddressID));
+                    notifyEventListeners(new MyEvent(this, Type.UpdateAddressID));
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
@@ -143,7 +135,7 @@ public class ServiceFragment extends Fragment {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 organizationId = dataSnapshot.getValue().toString();
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateOrganizationId));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateOrganizationId));
                             }
 
                             @Override
@@ -158,18 +150,18 @@ public class ServiceFragment extends Fragment {
                     case UpdateOrganizationId: {
 
                         if(myRef3 != null) {
-                            myRef3.removeEventListener(listenerService);
+                            myRef3.removeEventListener(listenerMessages);
                         }
 
-                        myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId)
-                                .child("services").child(Long.toString(serviceType));
+                        myRef3 = FirebaseDatabase.getInstance().getReference("organization")
+                                .child(organizationId).child("messages").child(mAuth.getUid());
 
-                        listenerService = new ValueEventListener() {
+                        listenerMessages = new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                servicesSnapshot = dataSnapshot;
+                                messageSnapshot = dataSnapshot;
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateNews));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateNews));
                             }
 
                             @Override
@@ -178,7 +170,7 @@ public class ServiceFragment extends Fragment {
                             }
                         };
 
-                        myRef3.addValueEventListener(listenerService);
+                        myRef3.addValueEventListener(listenerMessages);
                     } break;
 
                     case UpdateNews: {
@@ -188,23 +180,60 @@ public class ServiceFragment extends Fragment {
                 }
             }
         });
+
+        return view;
+    }
+
+
+
+    @Override
+    public void onClick(View v) {
+        messageText.clearFocus();
+        //скрыть клавиатуру
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(messageText.getWindowToken(), 0);
+
+        if (v.getId() == R.id.send_message) {
+            sendMessage();
+        }
+    }
+
+    private void sendMessage()
+    {
+        if (messageText.getText().toString()==null)
+            return;
+        if (messageText.getText().toString().trim().length() == 0 )
+            return;
+        MessageBD mes=new MessageBD(0, messageText.getText().toString(), (new Date()).toString());
+        int messageId=messages.size()+1;
+        messageText.setText("");
+        MainActivity.savedMessage="";
+        FirebaseDatabase.getInstance().getReference("organization")
+             .child(organizationId).child("messages")
+                .child(mAuth.getUid()).child(Integer.toString(messageId)).setValue(mes);
     }
 
     private void updateUI(){
-        services.clear();
+        messages.clear();
+        String userName;
 
-
-        if(servicesSnapshot != null) {
-            for (DataSnapshot n : servicesSnapshot.getChildren()) {
-                services.add(new Service(n.child("provider").getValue().toString(), n.child("text").getValue().toString(),
-                        n.child("phone").getValue().toString()));
-
+        if(messageSnapshot != null) {
+            for (DataSnapshot n : messageSnapshot.getChildren()) {
+                if (Integer.parseInt(n.child("income").getValue().toString())==0)
+                    userName="Вы:";
+                else {
+                    userName = "Управляющая компания:";
+                    FirebaseDatabase.getInstance().getReference("organization")
+                            .child(organizationId).child("messages")
+                            .child(mAuth.getUid()).child(n.getKey()).child("read").setValue(1);
+                }
+                messages.add(new Message(userName, n.child("Text").getValue().toString(), n.child("date").getValue().toString()));
             }
         }
-
-        ServiceAdapter serviceAdapter = new ServiceAdapter(getActivity(), R.layout.list_service, services);
+        Collections.reverse(messages);
+        MessageAdapter messageAdapter = new MessageAdapter(getActivity(), R.layout.list_message, messages);
         // устанавливаем адаптер
-        servicesList.setAdapter(serviceAdapter);
+        messageList.setAdapter(messageAdapter);
     }
 
     @Override
@@ -216,10 +245,9 @@ public class ServiceFragment extends Fragment {
             myRef2.removeEventListener(listenerBuilding);
         }
         if(myRef3 != null) {
-            myRef3.removeEventListener(listenerService);
+            myRef3.removeEventListener(listenerMessages);
         }
         listenerBuilding=null;
-        listenerService=null;
+        listenerMessages=null;
     }
 }
-

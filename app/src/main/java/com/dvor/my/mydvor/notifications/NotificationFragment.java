@@ -1,4 +1,4 @@
-package com.dvor.my.mydvor;
+package com.dvor.my.mydvor.notifications;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,16 +12,18 @@ import android.widget.ListView;
 
 import java.util.*;
 
+import com.dvor.my.mydvor.MyEvent;
+import com.dvor.my.mydvor.MyEventListener;
+import com.dvor.my.mydvor.R;
+import com.dvor.my.mydvor.Type;
+import com.dvor.my.mydvor.data.Notification;
+import com.dvor.my.mydvor.notifications.NotificationAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class NotificationFragment extends Fragment {
 
@@ -45,7 +47,7 @@ public class NotificationFragment extends Fragment {
     ValueEventListener listenerBuilding;
     ValueEventListener listenerMessages;
 
-    private List<Notification> notifications = new ArrayList<Notification>();
+    private List<Notification> notifications = new ArrayList<>();
 
     ListView notificationList;
     AdapterView.OnItemClickListener itemListener;
@@ -68,7 +70,7 @@ public class NotificationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
         // начальная инициализация списка
         // получаем элемент ListView
-        notificationList = (ListView) view.findViewById(R.id.notificationList);
+        notificationList = view.findViewById(R.id.notificationList);
         // создаем адаптер
         context = view.getContext();
 
@@ -84,7 +86,7 @@ public class NotificationFragment extends Fragment {
                     userStreetId = dataSnapshot.child("street_id").getValue().toString();
                     userBuildingId = dataSnapshot.child("building_id").getValue().toString();
 
-                    notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateAddressID));
+                    notifyEventListeners(new MyEvent(this, Type.UpdateAddressID));
                 }
             }
 
@@ -116,7 +118,7 @@ public class NotificationFragment extends Fragment {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 notificationSnapshot = dataSnapshot;
 
-                                notifyEventListeners(new MyEvent(this, MyEvent.Type.UpdateNews));
+                                notifyEventListeners(new MyEvent(this, Type.UpdateNews));
                             }
 
                             @Override

@@ -15,7 +15,7 @@
             style="@style/TitleText"
             android:layout_width="259dp"
             android:layout_height="wrap_content"
-            android:text="Название" />
+            android:text="@string/title" />
 
         <ImageButton
             android:id="@+id/deleteButton"
@@ -32,14 +32,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Текст"
+        android:text="@string/example_text"
         android:textColor="@color/colorBackGround" />
 
     <ImageView
@@ -48,7 +48,7 @@
         android:layout_height="250dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:contentDescription="image" />
+        android:contentDescription="@string/image" />
 
     <LinearLayout
         android:layout_width="100dp"
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="1" />
+                android:text="@string/one" />
         </LinearLayout>
 
         <LinearLayout
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="1" />
+                android:text="@string/one" />
 
         </LinearLayout>
     </LinearLayout>

@@ -1,4 +1,4 @@
-package com.dvor.my.mydvor;
+package com.dvor.my.mydvor.utils;
 import android.icu.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,12 +15,12 @@ public class DataConverter {
         }
 
 
-        catch(Exception e) { }
+        catch(Exception ignored) { }
 
         int minutes=postDate.getMinutes();
         String minutesStr;
         if (minutes<10)
-            minutesStr="0"+Long.toString(minutes);
+            minutesStr="0"+ minutes;
         else
             minutesStr=Long.toString(minutes);
 
@@ -29,12 +29,12 @@ public class DataConverter {
         if (currentDate.getYear()==postDate.getYear() && currentDate.getMonth()==postDate.getMonth()
         && currentDate.getDay()==postDate.getDay())
 
-            return  Long.toString(postDate.getHours())+":"+minutesStr;
+            return postDate.getHours() +":"+minutesStr;
 
         // вчера
         if (currentDate.getYear()==postDate.getYear() && currentDate.getMonth()==postDate.getMonth()
                 && currentDate.getDay()==(postDate.getDay()+1))
-        return  "Вчера " +Long.toString(postDate.getHours())+":"+minutesStr;
+        return  "Вчера " + postDate.getHours() +":"+minutesStr;
 
         // раньше
         Calendar cal = Calendar.getInstance();
@@ -42,6 +42,6 @@ public class DataConverter {
         int month = cal.get(Calendar.MONTH)+1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
         int year = cal.get(Calendar.YEAR);
-        return  Integer.toString(day)+"."+Integer.toString(month)+"."+Integer.toString(year);
+        return day +"."+ month +"."+ year;
     }
 }

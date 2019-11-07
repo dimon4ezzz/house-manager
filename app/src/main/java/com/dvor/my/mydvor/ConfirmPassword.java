@@ -61,15 +61,15 @@ public class ConfirmPassword extends AppCompatActivity implements View.OnClickLi
 
         Bundle arguments = getIntent().getExtras();
 
-        ETemail = (EditText) findViewById(R.id.email);
-        ETpassword = (EditText) findViewById(R.id.password);
-        ETconfirmedPassword = (EditText) findViewById(R.id.confirmedPassword);
+        ETemail = findViewById(R.id.email);
+        ETpassword = findViewById(R.id.password);
+        ETconfirmedPassword = findViewById(R.id.confirmedPassword);
 
         ETemail.setText(arguments.get("email").toString());
         ETpassword.setText(arguments.get("password").toString());
 
-        Button button_sign_in = (Button)findViewById(R.id.back_button);
-        Button button_registration = (Button)findViewById(R.id.registration_button);
+        Button button_sign_in = findViewById(R.id.back_button);
+        Button button_registration = findViewById(R.id.registration_button);
         button_sign_in.setOnClickListener(this);
         button_registration.setOnClickListener(this);
     }

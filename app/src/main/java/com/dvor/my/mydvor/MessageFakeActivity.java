@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.dvor.my.mydvor.MainActivity;
+import com.dvor.my.mydvor.R;
+
 public class MessageFakeActivity extends AppCompatActivity {
 
     @Override

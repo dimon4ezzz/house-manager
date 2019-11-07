@@ -29,8 +29,8 @@ public class HeaderFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.nav_header_menu, container, false);
-        userName = (TextView) view.findViewById(R.id.user_name);
-        userAddress = (TextView) view.findViewById(R.id.user_address);
+        userName = view.findViewById(R.id.user_name);
+        userAddress = view.findViewById(R.id.user_address);
 
         mAuth = FirebaseAuth.getInstance();
 
