@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "739857109504",
+    "firebase_url": "https://moidvor.firebaseio.com",
+    "project_id": "moidvor",
+    "storage_bucket": "moidvor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739857109504:android:31cf19ce9e2f373539bee5",
+        "android_client_info": {
+          "package_name": "com.dvor.my.mydvor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "739857109504-rq3tbohsnl5k51flfm92kgjgu4gqpjah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0KBrcCHc1-YCTvWVNJ_dW3b2pftnJP3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "739857109504-rq3tbohsnl5k51flfm92kgjgu4gqpjah.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
