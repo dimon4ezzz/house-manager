@@ -9,14 +9,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
-import android.widget.ListView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
 
 class MyNotifications : Service() {
     internal lateinit var notificationManager: NotificationManager
-    internal var count = 2
+    private var notificationId = 2
 
     private var mAuth: FirebaseAuth? = null
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
@@ -35,10 +34,9 @@ class MyNotifications : Service() {
     internal var listenerNotifications: ValueEventListener? = null
     internal var listenerRead: ValueEventListener? = null
 
-    internal var messageList: ListView? = null
     internal var context: Context? = null
 
-    fun addEventListener(eventListener: MyEventListener) {
+    private fun addEventListener(eventListener: MyEventListener) {
         eventListeners!!.add(eventListener)
     }
 
@@ -119,7 +117,7 @@ class MyNotifications : Service() {
 
         this.addEventListener(object : MyEventListener {
             override fun processEvent(event: MyEvent) {
-                if (event.source == null || event.type == null) {
+                if (event.source == null) {
                     return
                 }
 
@@ -218,7 +216,7 @@ class MyNotifications : Service() {
                     }
 
                     Type.UpdateUI -> {
-                        updateUI()
+                        deleteMessagesAndUpdateUI()
                         System.gc()
                     }
 
@@ -231,7 +229,7 @@ class MyNotifications : Service() {
         })
     }
 
-    private fun updateUI() {
+    private fun deleteMessagesAndUpdateUI() {
         deleteMessages()
 
         if (messageSnapshot != null) {
@@ -243,7 +241,7 @@ class MyNotifications : Service() {
 
             for (n in messageSnapshot!!.children) {
                 if (Integer.parseInt(n.child("income").value!!.toString()) == 1 && Integer.parseInt(n.child("read").value!!.toString()) == 0) {
-                    sendNotif("Сообщение от УК:", n.child("Text").value!!.toString(), "1", contentIntent, true)
+                    buildAndSendNotification("Сообщение от УК:", n.child("Text").value!!.toString(), "1", contentIntent, true)
                 }
             }
         }
@@ -260,7 +258,7 @@ class MyNotifications : Service() {
 
             for (n in notificationsSnapshot!!.children) {
                 if (notificationsRead.child(n.key!!).value == null) {
-                    sendNotif("Уведомление для вашего дома:", n.child("text").value!!.toString(), "2", contentIntent, false)
+                    buildAndSendNotification("Уведомление для вашего дома:", n.child("text").value!!.toString(), "2", contentIntent, false)
                 }
             }
         }
@@ -270,21 +268,21 @@ class MyNotifications : Service() {
         val channel = notificationManager.getNotificationChannel("1")
         notificationManager.deleteNotificationChannel("1")
         notificationManager.createNotificationChannel(channel)
-        count = notificationManager.activeNotifications.size
+        notificationId = notificationManager.activeNotifications.size
     }
 
     private fun deleteNotifications() {
         val channel = notificationManager.getNotificationChannel("2")
         notificationManager.deleteNotificationChannel("2")
         notificationManager.createNotificationChannel(channel)
-        count = notificationManager.activeNotifications.size
+        notificationId = notificationManager.activeNotifications.size
     }
 
     override fun onBind(arg0: Intent): IBinder? {
         return null
     }
 
-    internal fun sendNotif(title: String, message: String, channelId: String, contentIntent: PendingIntent, mess: Boolean) {
+    private fun buildAndSendNotification(title: String, message: String, channelId: String, contentIntent: PendingIntent, mess: Boolean) {
         val builder: NotificationCompat.Builder = if (mess) {
             NotificationCompat.Builder(this, channelId)
                     .setSmallIcon(R.drawable.ic_menu_message)
@@ -301,8 +299,8 @@ class MyNotifications : Service() {
                     .setAutoCancel(true)
         }
 
-        notificationManager.notify(count, builder.build())
-        count++
+        notificationManager.notify(notificationId, builder.build())
+        notificationId++
     }
 
     override fun onDestroy() {
@@ -332,11 +330,11 @@ class MyNotifications : Service() {
     }
 
     private fun deleteNotification() {
-        val r = Thread(deleteNot())
+        val r = Thread(WaitAndDeleteNotificationChannel())
         r.start()
     }
 
-    private inner class deleteNot : Runnable {
+    private inner class WaitAndDeleteNotificationChannel : Runnable {
         override fun run() {
             try {
                 Thread.sleep(1000)

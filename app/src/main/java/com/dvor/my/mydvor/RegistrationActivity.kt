@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
 
-class ConfirmPassword : AppCompatActivity(), View.OnClickListener {
+class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
     private var mAuth: FirebaseAuth? = null
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
@@ -19,7 +19,6 @@ class ConfirmPassword : AppCompatActivity(), View.OnClickListener {
     private var ETemail: EditText? = null
     private var ETpassword: EditText? = null
     private var ETconfirmedPassword: EditText? = null
-
 
     override fun onClick(view: View) {
         if (view.id == R.id.back_button) {
@@ -31,7 +30,7 @@ class ConfirmPassword : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_confirm_password)
+        setContentView(R.layout.activity_registration)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -39,7 +38,7 @@ class ConfirmPassword : AppCompatActivity(), View.OnClickListener {
             val user = firebaseAuth.currentUser
 
             if (user != null) {
-                val i: Intent = Intent(this@ConfirmPassword, MainActivity::class.java)
+                val i: Intent = Intent(this@RegistrationActivity, MainActivity::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(i)
             }
@@ -111,11 +110,11 @@ class ConfirmPassword : AppCompatActivity(), View.OnClickListener {
         if (password == confirmedPassword) {
             mAuth!!.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 if (!task.isSuccessful) {
-                    Toast.makeText(this@ConfirmPassword, "Ошибка, измените регистрационные данные", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RegistrationActivity, "Ошибка, измените регистрационные данные", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
-            Toast.makeText(this@ConfirmPassword, "Ошибка, пароли не совпадают", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@RegistrationActivity, "Ошибка, пароли не совпадают", Toast.LENGTH_SHORT).show()
         }
     }
 }

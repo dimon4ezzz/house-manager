@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import com.dvor.my.mydvor.message.MessageFragment
@@ -20,7 +19,6 @@ import com.dvor.my.mydvor.notifications.NotificationFragment
 import com.dvor.my.mydvor.service.ServiceFragment
 import com.dvor.my.mydvor.stock.StockFragment
 import com.google.firebase.auth.FirebaseAuth
-
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -137,21 +135,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-
-        return if (id == R.id.action_settings) {
-            true
-        } else super.onOptionsItemSelected(item)
-
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        menuInflater.inflate(R.menu.menu, menu)
+//        return true
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        val id = item.itemId
+//
+//
+//        return if (id == R.id.action_settings) {
+//            true
+//        } else super.onOptionsItemSelected(item)
+//
+//    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         currentActivity = item.itemId

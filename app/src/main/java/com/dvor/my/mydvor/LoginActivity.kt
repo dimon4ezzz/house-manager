@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         if (view.id == R.id.sign_in_button) {
             signin(ETemail!!.text.toString(), ETpassword!!.text.toString())
         } else {
-            val i: Intent = Intent(this@LoginActivity, ConfirmPassword::class.java)
+            val i: Intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
             i.putExtra("email", ETemail!!.text)
             i.putExtra("password", ETpassword!!.text)
             startActivity(i)
