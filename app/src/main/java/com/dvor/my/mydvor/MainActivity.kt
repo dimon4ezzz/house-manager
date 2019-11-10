@@ -20,7 +20,7 @@ import com.dvor.my.mydvor.service.ServiceFragment
 import com.dvor.my.mydvor.stock.StockFragment
 import com.google.firebase.auth.FirebaseAuth
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
     private var mAuth: FirebaseAuth? = null
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
@@ -89,27 +89,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val toggle = ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer.addDrawerListener(toggle)
-        toggle.syncState()
-
-        val navigationView = findViewById<NavigationView>(R.id.nav_view)
-
-        try {
-            val fragmentClass = HeaderFragment::class.java
-            val fragment = fragmentClass.newInstance() as Fragment
-            val fragmentManager = supportFragmentManager
-            fragmentManager.beginTransaction().replace(R.id.nav_view, fragment).commit()
-        } catch (e: InstantiationException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        }
-
-        navigationView.setNavigationItemSelectedListener(this)
-
         ContextCompat.startForegroundService(this, Intent(this, MyNotifications::class.java))
     }
 
@@ -123,44 +102,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (mAuthListener != null) {
             mAuth!!.removeAuthStateListener(mAuthListener!!)
         }
-    }
-
-    override fun onBackPressed() {
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.menu, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val id = item.itemId
-//
-//
-//        return if (id == R.id.action_settings) {
-//            true
-//        } else super.onOptionsItemSelected(item)
-//
-//    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        currentActivity = item.itemId
-        loadFragment(currentActivity)
-
-        // Выделяем выбранный пункт меню в шторке
-        item.isChecked = true
-        // Выводим выбранный пункт в заголовке
-        title = item.title
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        drawer.closeDrawer(GravityCompat.START)
-        return true
     }
 
     private fun loadFragment(id: Int) {
@@ -195,8 +136,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             // Выводим выбранный пункт в заголовке
             title = "MyDvor"
-            val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-            drawer.closeDrawer(GravityCompat.START)
+//            val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+//            drawer.closeDrawer(GravityCompat.START)
         }
     }
 
