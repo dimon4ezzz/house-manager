@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -309,7 +309,7 @@ class NewsFragment : Fragment() {
                         n.child("text").value!!.toString(), n.child("date").value!!.toString(),
                         n.child("img").value!!.toString(), n.child("uID").value!!.toString()))
 
-                lastID = Integer.parseInt(n.key)
+                lastID = Integer.parseInt(n.key.toString())
                 var countLikes: Long = 0
                 var countDislikes: Long = 0
                 var comment: NewsAdapter.Comment = NewsAdapter.Comment.absent

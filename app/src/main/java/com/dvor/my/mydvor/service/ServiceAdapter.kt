@@ -2,7 +2,7 @@ package com.dvor.my.mydvor.service
 
 import android.content.Intent
 import android.net.Uri
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.Service
 
-class ServiceAdapter(private val context: FragmentActivity?, private val layout: Int, private val services: List<Service>) : ArrayAdapter<Service>(context, layout, services) {
+class ServiceAdapter(private val context: FragmentActivity?, private val layout: Int, private val services: List<Service>) : ArrayAdapter<Service>(context!!, layout, services) {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 

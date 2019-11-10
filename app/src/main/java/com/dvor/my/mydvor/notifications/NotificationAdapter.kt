@@ -1,7 +1,7 @@
 package com.dvor.my.mydvor.notifications
 
 import android.content.Intent
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ import com.dvor.my.mydvor.utils.DataConverter
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.Notification
 
-class NotificationAdapter(private val context: FragmentActivity?, private val layout: Int, private val notifications: List<Notification>) : ArrayAdapter<Notification>(context, layout, notifications) {
+class NotificationAdapter(private val context: FragmentActivity?, private val layout: Int, private val notifications: List<Notification>) : ArrayAdapter<Notification>(context!!, layout, notifications) {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var text: String? = null

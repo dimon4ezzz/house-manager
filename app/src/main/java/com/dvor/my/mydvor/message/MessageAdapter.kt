@@ -1,6 +1,6 @@
 package com.dvor.my.mydvor.message
 
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.dvor.my.mydvor.utils.DataConverter
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.Message
 
-class MessageAdapter(context: FragmentActivity?, private val layout: Int, private val messages: List<Message>) : ArrayAdapter<Message>(context, layout, messages) {
+class MessageAdapter(context: FragmentActivity?, private val layout: Int, private val messages: List<Message>) : ArrayAdapter<Message>(context!!, layout, messages) {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 

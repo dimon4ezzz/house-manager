@@ -1,6 +1,6 @@
 package com.dvor.my.mydvor.news
 
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ import com.dvor.my.mydvor.data.News
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
-class NewsAdapter(context: FragmentActivity?, private val layout: Int, private val news: List<News>, internal var organizationId: String, private val likes: List<String>, private val dislikes: List<String>, private val comments: List<Comment>) : ArrayAdapter<News>(context, layout, news) {
+class NewsAdapter(context: FragmentActivity?, private val layout: Int, private val news: List<News>, internal var organizationId: String, private val likes: List<String>, private val dislikes: List<String>, private val comments: List<Comment>) : ArrayAdapter<News>(context!!, layout, news) {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
