@@ -51,7 +51,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:padding="10dp"
+                    android:contentDescription="TODO" android:padding="10dp"
                     android:scaleType="matrix"
                     tools:src="@drawable/delete" />
 
@@ -59,7 +59,7 @@
                     android:id="@+id/add_img"
                     android:layout_width="101dp"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/ic_menu_gallery" />
+                    android:contentDescription="TODO" app:srcCompat="@android:drawable/ic_menu_gallery" />
             </LinearLayout>
         </LinearLayout>
 
