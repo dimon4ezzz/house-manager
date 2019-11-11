@@ -89,7 +89,7 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
         }
 
         // не срабатывает с == при обновлении БД
-        if (mAuth.uid!!.contains(currentNews.uid)) {
+        if (mAuth.uid!!.contains(currentNews.uid.toString())) {
             deleteButton.setOnClickListener {
                 FirebaseDatabase.getInstance().getReference("organization")
                         .child(organizationId).child("news")
