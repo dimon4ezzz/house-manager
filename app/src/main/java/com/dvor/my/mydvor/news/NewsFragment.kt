@@ -305,9 +305,9 @@ class NewsFragment : Fragment() {
             for (n in newsSnapshot!!.children) {
 
                 news.add(News(n.key.toString(),
-                        n.child("header").value!!.toString(),
-                        n.child("text").value!!.toString(), n.child("date").value!!.toString(),
-                        n.child("img").value!!.toString(), n.child("uID").value.toString()))
+                        n.child("header").value.toString(),
+                        n.child("text").value.toString(), n.child("date").value.toString(),
+                        n.child("img").value.toString(), n.child("uid").value.toString()))
 
                 lastID = Integer.parseInt(n.key.toString())
                 var countLikes: Long = 0

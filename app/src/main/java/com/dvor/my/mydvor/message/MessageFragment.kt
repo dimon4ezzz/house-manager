@@ -209,7 +209,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
                             .child(organizationId).child("messages")
                             .child(mAuth!!.uid!!).child(n.key!!).child("read").setValue(1)
                 }
-                messages.add(Message(userName, n.child("Text").value!!.toString(), n.child("date").value!!.toString()))
+                messages.add(Message(userName, n.child("text").value.toString(), n.child("date").value.toString()))
             }
         }
         messages.reverse()
