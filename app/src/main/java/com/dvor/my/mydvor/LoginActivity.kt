@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         if (view.id == R.id.sign_in_button) {
             signin(ETemail!!.text.toString(), ETpassword!!.text.toString())
         } else {
-            val i: Intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
+            val i = Intent(this@LoginActivity, RegistrationActivity::class.java)
             i.putExtra("email", ETemail!!.text)
             i.putExtra("password", ETpassword!!.text)
             startActivity(i)
@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             val user = firebaseAuth.currentUser
 
             if (user != null) {
-                val i: Intent = Intent(this@LoginActivity, MainActivity::class.java)
+                val i = Intent(this@LoginActivity, MainActivity::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(i)
             }
@@ -94,7 +94,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         if (!validateForm()) {
             return
         }
-
 
         mAuth!!.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (!task.isSuccessful) {

@@ -10,7 +10,7 @@ class NotificationsFakeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notifications_fake)
 
-        val i: Intent = Intent(this, MainActivity::class.java)
+        val i = Intent(this, MainActivity::class.java)
         i.putExtra("fragment", "NotificationFragment")
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(i)

@@ -38,12 +38,11 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
             val user = firebaseAuth.currentUser
 
             if (user != null) {
-                val i: Intent = Intent(this@RegistrationActivity, MainActivity::class.java)
+                val i = Intent(this@RegistrationActivity, MainActivity::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(i)
             }
         }
-
 
         val arguments = intent.extras
 
