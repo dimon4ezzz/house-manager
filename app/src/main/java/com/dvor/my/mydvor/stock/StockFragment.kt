@@ -34,7 +34,6 @@ class StockFragment : Fragment() {
     internal var shopsID: MutableList<DataSnapshot> = LinkedList()
     internal var listenerRetailersStreet: ValueEventListener? = null
     internal var listenerRetailers: ValueEventListener? = null
-    internal var itemListener: AdapterView.OnItemClickListener? = null
 
     private val stocks = ArrayList<Stock>()
     internal lateinit var stockList: ListView
@@ -63,8 +62,6 @@ class StockFragment : Fragment() {
         //setInitialData();
         // получаем элемент ListView
         stockList = view.findViewById(R.id.stocksList)
-        // создаем адаптер
-        val context = view.context
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -86,7 +83,7 @@ class StockFragment : Fragment() {
 
         this.addEventListener(object : MyEventListener {
             override fun processEvent(event: MyEvent) {
-                if (event.source == null || event.type == null) {
+                if (event.source == null) {
                     return
                 }
 
@@ -97,7 +94,10 @@ class StockFragment : Fragment() {
                             myRef2!!.removeEventListener(listenerRetailersStreet!!)
                         }
 
-                        myRef2 = FirebaseDatabase.getInstance().getReference("streets").child(userStreetId).child("retailers")
+                        myRef2 = FirebaseDatabase.getInstance()
+                                .getReference("streets")
+                                .child(userStreetId)
+                                .child("retailers")
 
                         listenerRetailersStreet = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {

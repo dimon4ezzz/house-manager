@@ -43,7 +43,6 @@ class MessageFragment : Fragment(), View.OnClickListener {
     private val messages = ArrayList<Message>()
     private var messageText: TextView? = null
     internal lateinit var messageList: ListView
-    internal var itemListener: AdapterView.OnItemClickListener? = null
     internal lateinit var context: Context
 
     fun addEventListener(eventListener: MyEventListener) {
@@ -108,7 +107,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
 
         this.addEventListener(object : MyEventListener {
             override fun processEvent(event: MyEvent) {
-                if (event.source == null || event.type == null) {
+                if (event.source == null) {
                     return
                 }
 
@@ -185,8 +184,6 @@ class MessageFragment : Fragment(), View.OnClickListener {
     }
 
     private fun sendMessage() {
-        if (messageText!!.text.toString() == null)
-            return
         if (messageText!!.text.toString().trim { it <= ' ' }.isEmpty())
             return
         val mes = MessageBD(0, messageText!!.text.toString(), Date().toString())

@@ -1,5 +1,7 @@
 package com.dvor.my.mydvor.service
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -39,11 +41,11 @@ class ServiceFragment : Fragment() {
     internal var listenerBuilding: ValueEventListener? = null
     internal var listenerService: ValueEventListener? = null
 
-
     private val services = ArrayList<Service>()
     internal lateinit var servicesList: ListView
-    internal var itemListener: AdapterView.OnItemClickListener? = null
     internal var serviceType: Long? = null
+    internal lateinit var context: Context
+    private lateinit var thisview: View
 
     fun addEventListener(eventListener: MyEventListener) {
         eventListeners!!.add(eventListener)
@@ -55,11 +57,10 @@ class ServiceFragment : Fragment() {
         }
     }
 
-
-    private fun spinner(view: View) {
+    private fun spinner() {
         val adapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, data)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        val spinner = view.findViewById<Spinner>(R.id.spinner)
+        val spinner = thisview.findViewById<Spinner>(R.id.spinner)
         spinner.adapter = adapter
         spinner.prompt = "Title"
         spinner.setSelection(0)
@@ -75,7 +76,6 @@ class ServiceFragment : Fragment() {
         }
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -85,15 +85,14 @@ class ServiceFragment : Fragment() {
             eventListeners!!.clear()
         }
 
-        val view = inflater.inflate(R.layout.fragment_service, container, false)
+        thisview = inflater.inflate(R.layout.fragment_service, container, false)
         // начальная инициализация списка
         // получаем элемент ListView
-        servicesList = view.findViewById(R.id.newsList)
-        // создаем адаптер
-        val context = view.context
-        spinner(view)
+        servicesList = thisview.findViewById(R.id.newsList)
+        context = thisview.context
+        spinner()
         takeDataSnapshot()
-        return view
+        return thisview
     }
 
     private fun takeDataSnapshot() {
@@ -114,7 +113,7 @@ class ServiceFragment : Fragment() {
 
         this.addEventListener(object : MyEventListener {
             override fun processEvent(event: MyEvent) {
-                if (event.source == null || event.type == null) {
+                if (event.source == null) {
                     return
                 }
 
@@ -125,8 +124,12 @@ class ServiceFragment : Fragment() {
                             myRef2!!.removeEventListener(listenerBuilding!!)
                         }
 
-                        myRef2 = FirebaseDatabase.getInstance().getReference("streets").child(userStreetId)
-                                .child("buildings").child(userBuildingId).child("organization_id")
+                        myRef2 = FirebaseDatabase.getInstance()
+                                .getReference("streets")
+                                .child(userStreetId)
+                                .child("buildings")
+                                .child(userBuildingId)
+                                .child("organization_id")
 
                         listenerBuilding = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -149,8 +152,12 @@ class ServiceFragment : Fragment() {
                             myRef3!!.removeEventListener(listenerService!!)
                         }
 
-                        myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId)
-                                .child("services").child((serviceType!!).toString())
+                        myRef3 = FirebaseDatabase.getInstance()
+                                .getReference("organization")
+                                .child(organizationId)
+                                .child("services")
+                                .child((serviceType!!)
+                                        .toString())
 
                         listenerService = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -179,12 +186,10 @@ class ServiceFragment : Fragment() {
     private fun updateUI() {
         services.clear()
 
-
         if (servicesSnapshot != null) {
             for (n in servicesSnapshot!!.children) {
                 services.add(Service(n.child("provider").value!!.toString(), n.child("text").value!!.toString(),
                         n.child("phone").value!!.toString()))
-
             }
         }
 

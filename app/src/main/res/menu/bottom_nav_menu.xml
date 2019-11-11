@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:id="@+id/serviceFragment"
-            android:icon="@drawable/ic_menu_service"
-            android:title="@string/title_menu_service" />
-    <item
-            android:id="@+id/messageFragment"
-            android:icon="@drawable/ic_menu_message"
-            android:title="@string/title_menu_message" />
+            android:id="@+id/newsFragment"
+            android:icon="@drawable/ic_menu_plans"
+            android:title="@string/title_menu_plans" />
     <item
             android:id="@+id/stockFragment"
             android:icon="@drawable/ic_menu_buys"
             android:title="@string/title_menu_buys" />
     <item
-            android:id="@+id/newsFragment"
-            android:icon="@drawable/ic_menu_plans"
-            android:title="@string/title_menu_plans" />
+            android:id="@+id/messageFragment"
+            android:icon="@drawable/ic_menu_message"
+            android:title="@string/title_menu_message" />
     <item
             android:id="@+id/notificationFragment"
             android:icon="@drawable/ic_menu_notif"
             android:title="@string/title_menu_notification" />
+    <item
+        android:id="@+id/serviceFragment"
+        android:icon="@drawable/ic_menu_service"
+        android:title="@string/title_menu_service" />
 </menu>
