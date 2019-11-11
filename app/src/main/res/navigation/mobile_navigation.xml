@@ -8,25 +8,26 @@
     <fragment
             android:id="@+id/messageFragment"
             android:name="com.dvor.my.mydvor.message.MessageFragment"
-            android:label="MessageFragment"
+            android:label="@string/title_menu_message"
             tools:layout="@layout/fragment_message" />
     <fragment
             android:id="@+id/newsFragment"
             android:name="com.dvor.my.mydvor.news.NewsFragment"
-            android:label="NewsFragment"
+            android:label="@string/title_menu_news"
             tools:layout="@layout/fragment_news" />
     <fragment
             android:id="@+id/stockFragment"
             android:name="com.dvor.my.mydvor.stock.StockFragment"
-            android:label="StockFragment"
+            android:label="@string/title_menu_stock"
             tools:layout="@layout/fragment_stock" />
     <fragment
             android:id="@+id/serviceFragment"
             android:name="com.dvor.my.mydvor.service.ServiceFragment"
-            android:label="ServiceFragment"
+            android:label="@string/title_menu_service"
             tools:layout="@layout/fragment_service" />
     <fragment
             android:id="@+id/notificationFragment"
             android:name="com.dvor.my.mydvor.notifications.NotificationFragment"
-            android:label="NotificationFragment" />
+            android:label="@string/title_menu_notification"
+            tools:layout="@layout/fragment_notification" />
 </navigation>

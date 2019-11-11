@@ -3,11 +3,11 @@
     <item
             android:id="@+id/newsFragment"
             android:icon="@drawable/ic_menu_plans"
-            android:title="@string/title_menu_plans" />
+            android:title="@string/title_menu_news" />
     <item
             android:id="@+id/stockFragment"
             android:icon="@drawable/ic_menu_buys"
-            android:title="@string/title_menu_buys" />
+            android:title="@string/title_menu_stock" />
     <item
             android:id="@+id/messageFragment"
             android:icon="@drawable/ic_menu_message"
