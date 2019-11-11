@@ -66,7 +66,7 @@ class ServiceFragment : Fragment() {
         spinner.setSelection(0)
         // обработчик нажатия
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View,
+            override fun onItemSelected(parent: AdapterView<*>, view: View?,
                                         position: Int, id: Long) {
                 serviceType = id
                 takeDataSnapshot()
