@@ -5,30 +5,19 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginRight="20dp"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
         <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
-
         </Spinner>
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
-            android:orientation="horizontal">
 
         <ListView
                 android:id="@+id/newsList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
     </LinearLayout>
+
 </androidx.drawerlayout.widget.DrawerLayout>
