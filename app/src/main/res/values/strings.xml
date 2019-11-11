@@ -51,4 +51,7 @@
     <string name="provider">Поставщик</string>
     <string name="phone_number">88000000000</string>
     <string name="header">Заголовок</string>
+    <string name="title_menu_menu">Меню</string>
+    <string name="settings">Настройки</string>
+    <string name="logout">Выход</string>
 </resources>

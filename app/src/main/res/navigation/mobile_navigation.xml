@@ -30,4 +30,9 @@
             android:name="com.dvor.my.mydvor.notifications.NotificationFragment"
             android:label="@string/title_menu_notification"
             tools:layout="@layout/fragment_notification" />
+    <fragment
+            android:id="@+id/menuFragment"
+            android:name="com.dvor.my.mydvor.menu.MenuFragment"
+            android:label="fragment_menu"
+            tools:layout="@layout/fragment_menu" />
 </navigation>

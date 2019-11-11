@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
             android:id="@+id/newsFragment"
-            android:icon="@drawable/ic_menu_plans"
+            android:icon="@drawable/ic_menu_news"
             android:title="@string/title_menu_news" />
     <item
             android:id="@+id/stockFragment"
-            android:icon="@drawable/ic_menu_buys"
+            android:icon="@drawable/ic_menu_stock"
             android:title="@string/title_menu_stock" />
     <item
             android:id="@+id/messageFragment"
@@ -17,7 +17,7 @@
             android:icon="@drawable/ic_menu_notif"
             android:title="@string/title_menu_notification" />
     <item
-        android:id="@+id/serviceFragment"
-        android:icon="@drawable/ic_menu_service"
-        android:title="@string/title_menu_service" />
+            android:id="@+id/menuFragment"
+            android:icon="@drawable/ic_menu_black_24dp"
+            android:title="@string/title_menu_menu" />
 </menu>
