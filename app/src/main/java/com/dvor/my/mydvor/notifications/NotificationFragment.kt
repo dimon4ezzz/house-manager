@@ -1,28 +1,21 @@
 package com.dvor.my.mydvor.notifications
 
+
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ListView
-
-
-import java.util.*
-
+import androidx.fragment.app.Fragment
 import com.dvor.my.mydvor.MyEvent
 import com.dvor.my.mydvor.MyEventListener
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Type
 import com.dvor.my.mydvor.data.Notification
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import java.util.*
 
 class NotificationFragment : Fragment() {
 
@@ -32,15 +25,14 @@ class NotificationFragment : Fragment() {
     internal var myRef2: DatabaseReference? = null
     internal var notificationSnapshot: DataSnapshot? = null
     internal var listenerBuilding: ValueEventListener? = null
-    internal var listenerMessages: ValueEventListener? = null
+    private var listenerMessages: ValueEventListener? = null
 
     private val notifications = ArrayList<Notification>()
 
-    internal lateinit var notificationList: ListView
-    internal var itemListener: AdapterView.OnItemClickListener? = null
+    private lateinit var notificationList: ListView
     internal lateinit var context: Context
 
-    fun addEventListener(eventListener: MyEventListener) {
+    private fun addEventListener(eventListener: MyEventListener) {
         eventListeners!!.add(eventListener)
     }
 

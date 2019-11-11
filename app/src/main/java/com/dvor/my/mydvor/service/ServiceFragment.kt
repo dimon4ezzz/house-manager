@@ -1,32 +1,24 @@
 package com.dvor.my.mydvor.service
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import android.widget.ListView
-
+import android.widget.Spinner
+import androidx.fragment.app.Fragment
 import com.dvor.my.mydvor.MyEvent
 import com.dvor.my.mydvor.MyEventListener
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Type
 import com.dvor.my.mydvor.data.Service
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-
-import java.util.ArrayList
-import java.util.LinkedList
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.AdapterView.OnItemSelectedListener
+import com.google.firebase.database.*
+import java.util.*
 
 class ServiceFragment : Fragment() {
     internal var data = arrayOf("Доставка воды", "Продукты", "Сантехник")
@@ -42,12 +34,12 @@ class ServiceFragment : Fragment() {
     internal var listenerService: ValueEventListener? = null
 
     private val services = ArrayList<Service>()
-    internal lateinit var servicesList: ListView
+    private lateinit var servicesList: ListView
     internal var serviceType: Long? = null
     internal lateinit var context: Context
     private lateinit var thisview: View
 
-    fun addEventListener(eventListener: MyEventListener) {
+    private fun addEventListener(eventListener: MyEventListener) {
         eventListeners!!.add(eventListener)
     }
 

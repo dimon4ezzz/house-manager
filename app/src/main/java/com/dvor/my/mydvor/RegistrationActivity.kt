@@ -101,7 +101,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         return valid
     }
 
-    fun registration(email: String, password: String, confirmedPassword: String) {
+    private fun registration(email: String, password: String, confirmedPassword: String) {
         if (!validateForm()) {
             return
         }

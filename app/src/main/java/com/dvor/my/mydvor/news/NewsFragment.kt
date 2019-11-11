@@ -6,37 +6,19 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
-
-import com.dvor.my.mydvor.MainActivity
-import com.dvor.my.mydvor.MyEvent
-import com.dvor.my.mydvor.MyEventListener
+import android.widget.*
+import androidx.fragment.app.Fragment
+import com.dvor.my.mydvor.*
 import com.dvor.my.mydvor.R
-import com.dvor.my.mydvor.Storage
-import com.dvor.my.mydvor.Type
 import com.dvor.my.mydvor.data.News
 import com.dvor.my.mydvor.data.NewsBD
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-
-import java.util.ArrayList
-import java.util.Collections
-import java.util.Date
-import java.util.LinkedList
+import com.google.firebase.database.*
+import java.util.*
 
 class NewsFragment : Fragment() {
 
@@ -56,16 +38,16 @@ class NewsFragment : Fragment() {
     private val dislikes = ArrayList<String>()
     private val comments = ArrayList<NewsAdapter.Comment>()
     private var imgID = "newsImages/no"
-    internal lateinit var newsList: ListView
-    internal var itemListener: AdapterView.OnItemClickListener? = null
+    private lateinit var newsList: ListView
+    private var itemListener: AdapterView.OnItemClickListener? = null
     internal lateinit var context: Context
     private var postText: TextView? = null
-    internal var imageUri: Uri? = null
-    internal var lastID = 0
-    internal var index: Int = 0
-    internal var top: Int = 0
+    private var imageUri: Uri? = null
+    private var lastID = 0
+    private var index: Int = 0
+    private var top: Int = 0
 
-    fun addEventListener(eventListener: MyEventListener) {
+    private fun addEventListener(eventListener: MyEventListener) {
         eventListeners!!.add(eventListener)
     }
 
@@ -378,6 +360,6 @@ class NewsFragment : Fragment() {
 
         private var eventListeners: MutableList<MyEventListener>? = null
         var updateUIflag: Boolean = false
-        val RESULT_GALLERY = 0
+        const val RESULT_GALLERY = 0
     }
 }

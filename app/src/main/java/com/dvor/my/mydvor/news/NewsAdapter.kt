@@ -16,7 +16,7 @@ import com.dvor.my.mydvor.data.News
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
-class NewsAdapter(context: FragmentActivity?, private val layout: Int, private val news: List<News>, internal var organizationId: String, private val likes: List<String>, private val dislikes: List<String>, private val comments: List<Comment>) : ArrayAdapter<News>(context!!, layout, news) {
+class NewsAdapter(context: FragmentActivity?, private val layout: Int, private val news: List<News>, private var organizationId: String, private val likes: List<String>, private val dislikes: List<String>, private val comments: List<Comment>) : ArrayAdapter<News>(context!!, layout, news) {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -56,35 +56,43 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
         }
 
         likesButton.setOnClickListener {
-            if (comment == Comment.like) {
-                val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
-                myRef3.removeValue()
-            } else if (comment == Comment.dislike) {
-                NewsFragment.updateUIflag = false
-                val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
-                myRef.removeValue()
-                val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes")
-                myRef2.child(mAuth.uid!!).child("info").setValue(0)
-            } else {
-                val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes")
-                myRef3.child(mAuth.uid!!).child("info").setValue(0)
+            when (comment) {
+                Comment.like -> {
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
+                    myRef3.removeValue()
+                }
+                Comment.dislike -> {
+                    NewsFragment.updateUIflag = false
+                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
+                    myRef.removeValue()
+                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes")
+                    myRef2.child(mAuth.uid!!).child("info").setValue(0)
+                }
+                else -> {
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes")
+                    myRef3.child(mAuth.uid!!).child("info").setValue(0)
+                }
             }
         }
 
         dislikesButton.setOnClickListener {
-            if (comment == Comment.like) {
-                NewsFragment.updateUIflag = false
-                val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
-                myRef.removeValue()
-                val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes")
-                myRef2.child(mAuth.uid!!).child("info").setValue(0)
-            } else if (comment == Comment.dislike) {
-                val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
-                myRef3.removeValue()
-            } else {
-                val myRef3 = FirebaseDatabase.getInstance().getReference("organization")
-                        .child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes")
-                myRef3.child(mAuth.uid!!).child("info").setValue(0)
+            when (comment) {
+                Comment.like -> {
+                    NewsFragment.updateUIflag = false
+                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
+                    myRef.removeValue()
+                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes")
+                    myRef2.child(mAuth.uid!!).child("info").setValue(0)
+                }
+                Comment.dislike -> {
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
+                    myRef3.removeValue()
+                }
+                else -> {
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization")
+                            .child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes")
+                    myRef3.child(mAuth.uid!!).child("info").setValue(0)
+                }
             }
         }
 

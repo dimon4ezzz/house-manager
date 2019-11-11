@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/transparent"
 
-            android:contentDescription="TODO" android:gravity="right"
+            android:gravity="right"
             app:srcCompat="@drawable/delete" />
     </LinearLayout>
 
@@ -68,7 +68,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:contentDescription="TODO" android:scaleType="centerInside"
+                android:scaleType="centerInside"
                 android:src="@drawable/like" />
 
             <TextView
@@ -93,7 +93,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:contentDescription="TODO" android:scaleType="centerInside"
+                android:scaleType="centerInside"
                 android:src="@drawable/dislike" />
 
             <TextView

@@ -1,13 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="16dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
@@ -31,5 +26,4 @@
             android:text="@string/example_text"
             android:textColor="@color/colorBackGround" />
 
-    </LinearLayout>
 </LinearLayout>

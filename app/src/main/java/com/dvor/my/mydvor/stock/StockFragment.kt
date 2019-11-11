@@ -1,27 +1,19 @@
 package com.dvor.my.mydvor.stock
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ListView
-
+import androidx.fragment.app.Fragment
 import com.dvor.my.mydvor.MyEvent
 import com.dvor.my.mydvor.MyEventListener
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Type
 import com.dvor.my.mydvor.data.Stock
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-
-import java.util.ArrayList
-import java.util.LinkedList
+import com.google.firebase.database.*
+import java.util.*
 
 class StockFragment : Fragment() {
 
@@ -36,9 +28,9 @@ class StockFragment : Fragment() {
     internal var listenerRetailers: ValueEventListener? = null
 
     private val stocks = ArrayList<Stock>()
-    internal lateinit var stockList: ListView
+    private lateinit var stockList: ListView
 
-    fun addEventListener(eventListener: MyEventListener) {
+    private fun addEventListener(eventListener: MyEventListener) {
         eventListeners!!.add(eventListener)
     }
 

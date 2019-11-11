@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.QUICKBOOT_POWERON" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
             android:allowBackup="false"
@@ -41,7 +41,7 @@
                 android:name=".MyNotifications"
                 android:enabled="true"
                 android:exported="true"
-                android:permission="" />
+                android:permission="android.permission.FOREGROUND_SERVICE" />
 
         <receiver android:name=".MyReceiver">
             <intent-filter>

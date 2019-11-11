@@ -2,31 +2,21 @@ package com.dvor.my.mydvor.message
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ListView
 import android.widget.Button
+import android.widget.ListView
 import android.widget.TextView
-
-import java.util.*
-
-import com.dvor.my.mydvor.MainActivity
-import com.dvor.my.mydvor.MyEvent
-import com.dvor.my.mydvor.MyEventListener
+import androidx.fragment.app.Fragment
+import com.dvor.my.mydvor.*
 import com.dvor.my.mydvor.R
-import com.dvor.my.mydvor.Type
 import com.dvor.my.mydvor.data.Message
 import com.dvor.my.mydvor.data.MessageBD
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import java.util.*
 
 class MessageFragment : Fragment(), View.OnClickListener {
 
@@ -42,10 +32,10 @@ class MessageFragment : Fragment(), View.OnClickListener {
 
     private val messages = ArrayList<Message>()
     private var messageText: TextView? = null
-    internal lateinit var messageList: ListView
+    private lateinit var messageList: ListView
     internal lateinit var context: Context
 
-    fun addEventListener(eventListener: MyEventListener) {
+    private fun addEventListener(eventListener: MyEventListener) {
         eventListeners!!.add(eventListener)
     }
 

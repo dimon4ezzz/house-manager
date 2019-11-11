@@ -90,7 +90,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         return valid
     }
 
-    fun signin(email: String, password: String) {
+    private fun signin(email: String, password: String) {
         if (!validateForm()) {
             return
         }
