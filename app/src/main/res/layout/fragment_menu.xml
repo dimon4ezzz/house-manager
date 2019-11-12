@@ -12,6 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_menu_news"
+            android:drawablePadding="5dp"
             android:text="@string/title_menu_news"
             android:textAlignment="textStart" />
 
@@ -21,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_menu_stock"
+            android:drawablePadding="5dp"
             android:text="@string/title_menu_stock"
             android:textAlignment="textStart" />
 
@@ -30,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_menu_message"
+            android:drawablePadding="5dp"
             android:text="@string/title_menu_message"
             android:textAlignment="textStart" />
 
@@ -39,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_menu_notif"
+            android:drawablePadding="5dp"
             android:text="@string/title_menu_notification"
             android:textAlignment="textStart" />
 
@@ -48,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_menu_service"
+            android:drawablePadding="5dp"
             android:text="@string/title_menu_service"
             android:textAlignment="textStart" />
 
@@ -57,6 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_menu_settings"
+            android:drawablePadding="5dp"
             android:text="@string/settings"
             android:textAlignment="textStart" />
 
@@ -66,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_menu_logout"
+            android:drawablePadding="5dp"
             android:text="@string/logout"
             android:textAlignment="textStart" />
 </LinearLayout>
