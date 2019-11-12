@@ -114,7 +114,7 @@ class NewsFragment : Fragment() {
             }
         }
         if (MainActivity.imgPref != null)
-            imgPref.setImageResource(R.drawable.delete)
+            imgPref.setImageResource(R.drawable.ic_delete_forever_black_24dp)
 
 
         postText = externalView!!.findViewById(R.id.post_text)
@@ -264,7 +264,7 @@ class NewsFragment : Fragment() {
                     val selectedImage = BitmapFactory.decodeStream(imageStream)
                     Storage.uploadPicture(selectedImage, imgID)
                     val imgPref = externalView!!.findViewById<ImageButton>(R.id.imgPref)
-                    imgPref.setImageResource(R.drawable.delete)
+                    imgPref.setImageResource(R.drawable.ic_delete_forever_black_24dp)
                 } catch (ex: Exception) {
                     Log.d("state", ex.message)
                 }
