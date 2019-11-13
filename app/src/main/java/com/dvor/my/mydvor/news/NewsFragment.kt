@@ -2,6 +2,7 @@ package com.dvor.my.mydvor.news
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -62,8 +63,8 @@ class NewsFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("postText", postText!!.text.toString())
         outState.putString("postImg", imgID)
-        MainActivity.savedPost = postText!!.text.toString()
-        MainActivity.postImg = imgID
+        savedPost = postText!!.text.toString()
+        postImg = imgID
     }
 
 
@@ -105,24 +106,23 @@ class NewsFragment : Fragment() {
             }
         }
 
-        val imgPref = externalView!!.findViewById<ImageButton>(R.id.imgPref)
-        val preImg = BitmapDrawable(context.resources, MainActivity.imgPref)
-        imgPref.background = preImg
-        imgPref.setOnClickListener { v ->
+        val imgPrefBtn = externalView!!.findViewById<ImageButton>(R.id.imgPref)
+        val preImg = BitmapDrawable(context.resources, imgPref)
+        imgPrefBtn.background = preImg
+        imgPrefBtn.setOnClickListener { v ->
             if (v.id == R.id.imgPref) {
                 deletePrefImg()
             }
         }
-        if (MainActivity.imgPref != null)
-            imgPref.setImageResource(R.drawable.ic_delete_forever_black_24dp)
+        imgPrefBtn?.setImageResource(R.drawable.ic_delete_forever_black_24dp)
 
 
         postText = externalView!!.findViewById(R.id.post_text)
         mAuth = FirebaseAuth.getInstance()
 
-        postText!!.text = MainActivity.savedPost
+        postText!!.text = savedPost
         val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth!!.uid!!)
-        imgID = MainActivity.postImg
+        imgID = postImg
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -210,11 +210,11 @@ class NewsFragment : Fragment() {
     }
 
     private fun deletePrefImg() {
-        MainActivity.imgPref = null
+        imgPref = null
         imgID = "newsImages/no"
         val imgPref = externalView!!.findViewById<ImageButton>(R.id.imgPref)
         imgPref.background = null
-        MainActivity.postImg = "newsImages/no"
+        postImg = "newsImages/no"
 
         imgPref.setImageResource(R.drawable.transparent)
     }
@@ -237,7 +237,7 @@ class NewsFragment : Fragment() {
                 Date().toString(), imgID, mAuth!!.uid.toString())
 
         postText!!.text = ""
-        MainActivity.savedPost = ""
+        savedPost = ""
         try {
             Thread.sleep(1000)
         } catch (e: InterruptedException) {
@@ -266,7 +266,7 @@ class NewsFragment : Fragment() {
                     val imgPref = externalView!!.findViewById<ImageButton>(R.id.imgPref)
                     imgPref.setImageResource(R.drawable.ic_delete_forever_black_24dp)
                 } catch (ex: Exception) {
-                    Log.d("state", ex.message)
+                    Log.d("state", ex.message.toString())
                 }
 
             }
@@ -331,7 +331,7 @@ class NewsFragment : Fragment() {
 
         if (itemListener == null) {
             // слушатель выбора в списке
-            itemListener = AdapterView.OnItemClickListener { parent, v, position, id ->
+            itemListener = AdapterView.OnItemClickListener { parent, _, position, _ ->
                 // получаем выбранный пункт
                 val selectedNews = parent.getItemAtPosition(position) as News
                 Toast.makeText(activity!!.applicationContext, "Был выбран пункт " + selectedNews.title!!,
@@ -357,6 +357,10 @@ class NewsFragment : Fragment() {
     }
 
     companion object {
+        var savedMessage: String? = ""
+        var savedPost: String? = ""
+        var postImg = "newsImages/no"
+        var imgPref: Bitmap? = null
 
         private var eventListeners: MutableList<MyEventListener>? = null
         var updateUIflag: Boolean = false
