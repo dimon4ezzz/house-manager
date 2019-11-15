@@ -3,8 +3,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".menu.MenuFragment"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".menu.MenuFragment">
 
     <Button
             android:id="@+id/ib_news"
@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_menu_service"
             android:drawablePadding="5dp"
+            android:enabled="false"
             android:text="@string/title_menu_service"
             android:textAlignment="textStart" />
 
@@ -63,6 +64,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_menu_settings"
             android:drawablePadding="5dp"
+            android:enabled="false"
             android:text="@string/settings"
             android:textAlignment="textStart" />
 
