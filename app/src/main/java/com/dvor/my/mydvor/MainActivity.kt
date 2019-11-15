@@ -57,4 +57,11 @@ class MainActivity : AppCompatActivity() {
             mAuth!!.removeAuthStateListener(mAuthListener!!)
         }
     }
+
+    companion object {
+        var savedMessage: String? = ""
+        var savedPost: String? = ""
+        var postImg = "newsImages/no"
+        var imgPref: Bitmap? = null
+    }
 }

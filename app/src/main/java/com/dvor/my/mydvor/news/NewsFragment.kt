@@ -63,8 +63,8 @@ class NewsFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("postText", postText!!.text.toString())
         outState.putString("postImg", imgID)
-        savedPost = postText!!.text.toString()
-        postImg = imgID
+        MainActivity.savedPost = postText!!.text.toString()
+        MainActivity.postImg = imgID
     }
 
 
@@ -107,7 +107,7 @@ class NewsFragment : Fragment() {
         }
 
         val imgPrefBtn = externalView!!.findViewById<ImageButton>(R.id.imgPref)
-        val preImg = BitmapDrawable(context.resources, imgPref)
+        val preImg = BitmapDrawable(context.resources, MainActivity.imgPref)
         imgPrefBtn.background = preImg
         imgPrefBtn.setOnClickListener { v ->
             if (v.id == R.id.imgPref) {
@@ -120,9 +120,9 @@ class NewsFragment : Fragment() {
         postText = externalView!!.findViewById(R.id.post_text)
         mAuth = FirebaseAuth.getInstance()
 
-        postText!!.text = savedPost
+        postText!!.text = MainActivity.savedPost
         val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth!!.uid!!)
-        imgID = postImg
+        imgID = MainActivity.postImg
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -210,11 +210,11 @@ class NewsFragment : Fragment() {
     }
 
     private fun deletePrefImg() {
-        imgPref = null
+        MainActivity.imgPref = null
         imgID = "newsImages/no"
         val imgPref = externalView!!.findViewById<ImageButton>(R.id.imgPref)
         imgPref.background = null
-        postImg = "newsImages/no"
+        MainActivity.postImg = "newsImages/no"
 
         imgPref.setImageResource(R.drawable.transparent)
     }
@@ -237,7 +237,7 @@ class NewsFragment : Fragment() {
                 Date().toString(), imgID, mAuth!!.uid.toString())
 
         postText!!.text = ""
-        savedPost = ""
+        MainActivity.savedPost = ""
         try {
             Thread.sleep(1000)
         } catch (e: InterruptedException) {
@@ -357,11 +357,6 @@ class NewsFragment : Fragment() {
     }
 
     companion object {
-        var savedMessage: String? = ""
-        var savedPost: String? = ""
-        var postImg = "newsImages/no"
-        var imgPref: Bitmap? = null
-
         private var eventListeners: MutableList<MyEventListener>? = null
         var updateUIflag: Boolean = false
         const val RESULT_GALLERY = 0
