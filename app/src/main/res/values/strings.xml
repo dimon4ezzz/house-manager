@@ -19,7 +19,7 @@
     <string name="title_activity_main">Main</string>
 
     <string name="title_menu_stock">Акции рядом</string>
-    <string name="title_menu_message">Сообщения</string>
+    <string name="title_menu_message">Чат</string>
     <string name="title_menu_news">Новости</string>
     <string name="title_menu_service">Услуги</string>
     <string name="title_menu_notification">Уведомления</string>
