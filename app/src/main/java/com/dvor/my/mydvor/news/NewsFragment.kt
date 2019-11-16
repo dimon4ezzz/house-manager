@@ -39,7 +39,6 @@ class NewsFragment : Fragment() {
     private val comments = ArrayList<NewsAdapter.Comment>()
     private var imgID = "newsImages/no"
     private lateinit var newsList: ListView
-    private var itemListener: AdapterView.OnItemClickListener? = null
     internal lateinit var context: Context
     private var postText: TextView? = null
     private var imageUri: Uri? = null
@@ -65,7 +64,6 @@ class NewsFragment : Fragment() {
         MainActivity.savedPost = postText!!.text.toString()
         MainActivity.postImg = imgID
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -327,16 +325,6 @@ class NewsFragment : Fragment() {
         // устанавливаем адаптер
         newsList.adapter = newsAdapter
 
-        if (itemListener == null) {
-            // слушатель выбора в списке
-            itemListener = AdapterView.OnItemClickListener { parent, _, position, _ ->
-                // получаем выбранный пункт
-                val selectedNews = parent.getItemAtPosition(position) as News
-                Toast.makeText(activity!!.applicationContext, "Был выбран пункт " + selectedNews.title!!,
-                        Toast.LENGTH_SHORT).show()
-            }
-            newsList.onItemClickListener = itemListener
-        }
         //перематывает listView на ранее открытую позицию
         newsList.setSelectionFromTop(index, top)
     }
