@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.widget.ImageView
-import com.dvor.my.mydvor.news.NewsFragment
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -27,7 +26,7 @@ object Storage {
                 imgView.requestLayout()
             }
         } catch (ex: Exception) {
-            Log.d("state", ex.message)
+            Log.d("state", ex.message.toString())
         }
 
     }
@@ -47,7 +46,7 @@ object Storage {
                 // Handle unsuccessful uploads
             }.addOnSuccessListener { }
         } catch (ex: Exception) {
-            Log.d("state", ex.message)
+            Log.d("state", ex.message.toString())
         }
 
     }
