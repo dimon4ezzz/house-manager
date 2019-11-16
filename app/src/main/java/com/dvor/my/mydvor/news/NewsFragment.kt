@@ -2,7 +2,6 @@ package com.dvor.my.mydvor.news
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -114,8 +113,7 @@ class NewsFragment : Fragment() {
                 deletePrefImg()
             }
         }
-        imgPrefBtn?.setImageResource(R.drawable.ic_delete_forever_black_24dp)
-
+        imgPrefBtn?.visibility = View.VISIBLE
 
         postText = externalView!!.findViewById(R.id.post_text)
         mAuth = FirebaseAuth.getInstance()
