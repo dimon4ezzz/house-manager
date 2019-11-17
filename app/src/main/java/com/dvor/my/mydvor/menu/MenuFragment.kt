@@ -61,8 +61,11 @@ class MenuFragment : Fragment() {
     /**
      * Updates view, set `username` and `address` textviews
      */
-    private fun updateUI() {
+    private fun updateUsername() {
         view?.findViewById<TextView>(R.id.username)?.text = getUsername()
+    }
+
+    private fun updateAddress() {
         view?.findViewById<TextView>(R.id.address)?.text = getAddress()
     }
 
@@ -92,7 +95,7 @@ class MenuFragment : Fragment() {
 
                 setAddressListener()
 
-                updateUI()
+                updateUsername()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -116,7 +119,7 @@ class MenuFragment : Fragment() {
                         .child(user.building_id.toString())
                         .child("number").value.toString()
 
-                updateUI()
+                updateAddress()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
