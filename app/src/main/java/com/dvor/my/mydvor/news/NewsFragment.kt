@@ -31,7 +31,6 @@ class NewsFragment : Fragment() {
     internal var newsSnapshot: DataSnapshot? = null
     internal var listenerBuilding: ValueEventListener? = null
     internal var listenerNews: ValueEventListener? = null
-    private var externalView: View? = null
     private val news = ArrayList<News>()
     private val likes = ArrayList<String>()
     private val dislikes = ArrayList<String>()
@@ -75,44 +74,36 @@ class NewsFragment : Fragment() {
             eventListeners!!.clear()
         }
 
-        externalView = inflater.inflate(R.layout.fragment_news, container, false)
+        val view = inflater.inflate(R.layout.fragment_news, container, false)
         // начальная инициализация списка
         // получаем элемент ListView
-        newsList = externalView!!.findViewById(R.id.newsList)
+        newsList = view!!.findViewById(R.id.lv_news)
 
         // создаем адаптер
-        context = externalView!!.context
+        context = view.context
 
-        val button = externalView!!.findViewById<Button>(R.id.send_post)
-        button.setOnClickListener { v ->
-            if (v.id == R.id.send_post) {
+        view.findViewById<Button>(R.id.b_send).setOnClickListener { v ->
+            if (v.id == R.id.b_send) {
                 sendPost()
             }
         }
 
-        val imgbutton = externalView!!.findViewById<ImageButton>(R.id.add_img)
-        imgbutton.setOnClickListener { v ->
+        view.findViewById<ImageButton>(R.id.im_add_image).setOnClickListener { v ->
             when (v.id) {
-                R.id.add_img -> addImage()
-                R.id.imgPref -> {
-                    deletePrefImg()
-                }
-                else -> {
-                }
+                R.id.im_add_image -> addImage()
+                R.id.ib_delete_image -> deletePrefImg()
             }
         }
 
-        val imgPrefBtn = externalView!!.findViewById<ImageButton>(R.id.imgPref)
-        val preImg = BitmapDrawable(context.resources, MainActivity.imgPref)
-        imgPrefBtn.background = preImg
-        imgPrefBtn.setOnClickListener { v ->
-            if (v.id == R.id.imgPref) {
+        val deleteBtn = view.findViewById<ImageButton>(R.id.ib_delete_image)
+        deleteBtn.setOnClickListener { v ->
+            if (v.id == R.id.ib_delete_image) {
                 deletePrefImg()
             }
         }
-        imgPrefBtn?.visibility = View.VISIBLE
+        deleteBtn.visibility = View.VISIBLE
 
-        postText = externalView!!.findViewById(R.id.post_text)
+        postText = view.findViewById(R.id.et_post)
         mAuth = FirebaseAuth.getInstance()
 
         postText!!.text = MainActivity.savedPost
@@ -201,17 +192,14 @@ class NewsFragment : Fragment() {
             }
         })
 
-        return externalView
+        return view
     }
 
     private fun deletePrefImg() {
         MainActivity.imgPref = null
         imgID = "newsImages/no"
-        val imgPref = externalView!!.findViewById<ImageButton>(R.id.imgPref)
-        imgPref.background = null
+        view!!.findViewById<ImageButton>(R.id.ib_delete_image).visibility = View.GONE
         MainActivity.postImg = "newsImages/no"
-
-        imgPref.setImageResource(R.drawable.transparent)
     }
 
     private fun addImage() {
@@ -250,20 +238,21 @@ class NewsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RESULT_GALLERY) {
-            if (null != data) {
+        if (requestCode == RESULT_GALLERY && data != null) {
+            // remember image data
+            imageUri = data.data
 
-                imageUri = data.data
-                try {
-                    val imageStream = activity!!.contentResolver.openInputStream(imageUri!!)
-                    val selectedImage = BitmapFactory.decodeStream(imageStream)
-                    Storage.uploadPicture(selectedImage, imgID)
-                    val imgPref = externalView!!.findViewById<ImageButton>(R.id.imgPref)
-                    imgPref.setImageResource(R.drawable.ic_delete_forever_black_24dp)
-                } catch (ex: Exception) {
-                    Log.d("state", ex.message.toString())
-                }
-
+            try {
+                // open stream for image data
+                val imageStream = activity!!.contentResolver.openInputStream(imageUri!!)
+                // decode this as bitmap
+                val selectedImage = BitmapFactory.decodeStream(imageStream)
+                // upload picture to firebase
+                Storage.uploadPicture(selectedImage, imgID)
+                // show `delete uploaded picture` button
+                view!!.findViewById<ImageButton>(R.id.ib_delete_image).visibility = View.VISIBLE
+            } catch (ex: Exception) {
+                Log.d("state", ex.message.toString())
             }
         }
     }
