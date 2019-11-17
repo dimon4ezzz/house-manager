@@ -80,7 +80,7 @@ class ServiceFragment : Fragment() {
         thisview = inflater.inflate(R.layout.fragment_service, container, false)
         // начальная инициализация списка
         // получаем элемент ListView
-        servicesList = thisview.findViewById(R.id.newsList)
+        servicesList = thisview.findViewById(R.id.lv_news)
         context = thisview.context
         spinner()
         takeDataSnapshot()
