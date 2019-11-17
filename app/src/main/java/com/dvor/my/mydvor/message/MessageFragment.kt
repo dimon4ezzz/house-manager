@@ -20,7 +20,7 @@ import java.util.*
 
 class MessageFragment : Fragment(), View.OnClickListener {
 
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal var organizationId: String = ""
     internal var userBuildingId: String = ""
@@ -73,7 +73,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
 
         mAuth = FirebaseAuth.getInstance()
 
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth!!.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
 
         val button = view.findViewById<Button>(R.id.send_message)
         button.setOnClickListener(this)
@@ -133,7 +133,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
                         }
 
                         myRef3 = FirebaseDatabase.getInstance().getReference("organization")
-                                .child(organizationId).child("messages").child(mAuth!!.uid!!)
+                                .child(organizationId).child("messages").child(mAuth.uid!!)
 
                         listenerMessages = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -182,7 +182,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
         MainActivity.savedMessage = ""
         FirebaseDatabase.getInstance().getReference("organization")
                 .child(organizationId).child("messages")
-                .child(mAuth!!.uid!!).child(messageId.toString()).setValue(mes)
+                .child(mAuth.uid!!).child(messageId.toString()).setValue(mes)
     }
 
     private fun updateUI() {
@@ -197,7 +197,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
                     userName = "Управляющая компания:"
                     FirebaseDatabase.getInstance().getReference("organization")
                             .child(organizationId).child("messages")
-                            .child(mAuth!!.uid!!).child(n.key!!).child("read").setValue(1)
+                            .child(mAuth.uid!!).child(n.key!!).child("read").setValue(1)
                 }
                 messages.add(Message(userName, n.child("text").value.toString(), n.child("date").value.toString()))
             }

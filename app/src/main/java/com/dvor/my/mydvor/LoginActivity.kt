@@ -2,18 +2,18 @@ package com.dvor.my.mydvor
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
 
     private var ETemail: EditText? = null
@@ -58,13 +58,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     public override fun onStart() {
         super.onStart()
-        mAuth!!.addAuthStateListener(mAuthListener!!)
+        mAuth.addAuthStateListener(mAuthListener!!)
     }
 
     public override fun onStop() {
         super.onStop()
         if (mAuthListener != null) {
-            mAuth!!.removeAuthStateListener(mAuthListener!!)
+            mAuth.removeAuthStateListener(mAuthListener!!)
         }
     }
 
@@ -95,7 +95,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             return
         }
 
-        mAuth!!.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (!task.isSuccessful) {
                 Toast.makeText(this@LoginActivity, "Aвторизация провалена", Toast.LENGTH_SHORT).show()
             }

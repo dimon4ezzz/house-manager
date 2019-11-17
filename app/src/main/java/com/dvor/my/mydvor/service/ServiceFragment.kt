@@ -23,7 +23,7 @@ import java.util.*
 class ServiceFragment : Fragment() {
     internal var data = arrayOf("Доставка воды", "Продукты", "Сантехник")
 
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal var organizationId: String = ""
     internal var userBuildingId: String = ""
@@ -89,7 +89,7 @@ class ServiceFragment : Fragment() {
 
     private fun takeDataSnapshot() {
         mAuth = FirebaseAuth.getInstance()
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth!!.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.value != null) {

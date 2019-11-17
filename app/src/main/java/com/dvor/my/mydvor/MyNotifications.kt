@@ -17,7 +17,7 @@ class MyNotifications : Service() {
     internal lateinit var notificationManager: NotificationManager
     private var notificationId = 2
 
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
     internal var userStreetId: String = ""
     internal var organizationId: String = ""
@@ -96,9 +96,9 @@ class MyNotifications : Service() {
             }
         }
 
-        mAuth!!.addAuthStateListener(mAuthListener!!)
+        mAuth.addAuthStateListener(mAuthListener!!)
 
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth!!.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -175,7 +175,7 @@ class MyNotifications : Service() {
                         }
 
                         myRef3 = FirebaseDatabase.getInstance().getReference("organization")
-                                .child(organizationId).child("messages").child(mAuth!!.uid!!)
+                                .child(organizationId).child("messages").child(mAuth.uid!!)
 
                         listenerMessages = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -198,7 +198,7 @@ class MyNotifications : Service() {
                         }
 
                         myRef5 = FirebaseDatabase.getInstance().getReference("streets").child(userStreetId)
-                                .child("buildings").child(userBuildingId).child("notificationsRead").child(mAuth!!.uid!!)
+                                .child("buildings").child(userBuildingId).child("notificationsRead").child(mAuth.uid!!)
 
                         listenerRead = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -307,7 +307,7 @@ class MyNotifications : Service() {
         super.onDestroy()
 
         if (mAuthListener != null) {
-            mAuth!!.removeAuthStateListener(mAuthListener!!)
+            mAuth.removeAuthStateListener(mAuthListener!!)
         }
 
         eventListeners!!.clear()

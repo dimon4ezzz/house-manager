@@ -17,7 +17,7 @@ import java.util.*
 
 class StockFragment : Fragment() {
 
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal lateinit var retailersStreet: DataSnapshot
     internal var myRef2: DatabaseReference? = null
@@ -57,7 +57,7 @@ class StockFragment : Fragment() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth!!.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

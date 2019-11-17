@@ -21,8 +21,7 @@ import com.google.firebase.database.*
 import java.util.*
 
 class NewsFragment : Fragment() {
-
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal var organizationId: String = ""
     internal var userBuildingId: String = ""
@@ -117,7 +116,7 @@ class NewsFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
 
         postText!!.text = MainActivity.savedPost
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth!!.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
         imgID = MainActivity.postImg
 
         myRef.addValueEventListener(object : ValueEventListener {
@@ -230,7 +229,7 @@ class NewsFragment : Fragment() {
             return
 
         val mes = NewsBD(userName, postText!!.text.toString(),
-                Date().toString(), imgID, mAuth!!.uid.toString())
+                Date().toString(), imgID, mAuth.uid.toString())
 
         postText!!.text = ""
         MainActivity.savedPost = ""
@@ -303,9 +302,9 @@ class NewsFragment : Fragment() {
                     countDislikes = dislikesSnapshot.childrenCount
                 }
 
-                if (likesSnapshot.child(mAuth!!.uid!!).value != null) {
+                if (likesSnapshot.child(mAuth.uid!!).value != null) {
                     comment = NewsAdapter.Comment.like
-                } else if (dislikesSnapshot.child(mAuth!!.uid!!).value != null) {
+                } else if (dislikesSnapshot.child(mAuth.uid!!).value != null) {
                     comment = NewsAdapter.Comment.dislike
                 }
 

@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,13 +48,13 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        mAuth!!.addAuthStateListener(mAuthListener!!)
+        mAuth.addAuthStateListener(mAuthListener!!)
     }
 
     public override fun onStop() {
         super.onStop()
         if (mAuthListener != null) {
-            mAuth!!.removeAuthStateListener(mAuthListener!!)
+            mAuth.removeAuthStateListener(mAuthListener!!)
         }
     }
 

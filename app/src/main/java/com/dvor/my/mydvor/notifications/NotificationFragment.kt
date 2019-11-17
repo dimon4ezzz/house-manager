@@ -19,7 +19,7 @@ import java.util.*
 
 class NotificationFragment : Fragment() {
 
-    private var mAuth: FirebaseAuth? = null
+    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal var userBuildingId: String = ""
     internal var myRef2: DatabaseReference? = null
@@ -63,7 +63,7 @@ class NotificationFragment : Fragment() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth!!.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
 
 
         myRef.addValueEventListener(object : ValueEventListener {
@@ -133,7 +133,7 @@ class NotificationFragment : Fragment() {
                 notifications.add(Notification(n.child("text").value!!.toString(), n.child("date").value!!.toString()))
                 FirebaseDatabase.getInstance().getReference("streets")
                         .child(userStreetId).child("buildings")
-                        .child(userBuildingId).child("notificationsRead").child(mAuth!!.uid!!).child(n.key!!).setValue(1)
+                        .child(userBuildingId).child("notificationsRead").child(mAuth.uid!!).child(n.key!!).setValue(1)
             }
         }
         notifications.reverse()
