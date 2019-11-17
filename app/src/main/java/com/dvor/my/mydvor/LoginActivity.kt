@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
-
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var mAuth: FirebaseAuth
@@ -18,7 +17,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private var ETemail: EditText? = null
     private var ETpassword: EditText? = null
-
 
     override fun onClick(view: View) {
         if (view.id == R.id.sign_in_button) {

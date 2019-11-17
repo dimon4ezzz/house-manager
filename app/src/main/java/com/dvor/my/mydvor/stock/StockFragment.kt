@@ -168,7 +168,6 @@ class StockFragment : Fragment() {
         val newsAdapter = StockAdapter(activity, R.layout.list_stocks, stocks)
         // устанавливаем адаптер
         stockList.adapter = newsAdapter
-
     }
 
     override fun onDestroyView() {
@@ -185,7 +184,6 @@ class StockFragment : Fragment() {
     }
 
     companion object {
-
         private var eventListeners: MutableList<MyEventListener>? = null
     }
 }
