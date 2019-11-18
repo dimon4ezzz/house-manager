@@ -45,39 +45,37 @@ class MyNotifications : Service() {
 
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val channel = NotificationChannel("0", "My channel",
-                    NotificationManager.IMPORTANCE_LOW)
-            channel.description = "My channel description"
-            channel.enableLights(true)
-            channel.lightColor = Color.RED
-            channel.enableVibration(false)
-            notificationManager.createNotificationChannel(channel)
+        val channel = NotificationChannel("0", "My channel",
+                NotificationManager.IMPORTANCE_LOW)
+        channel.description = "My channel description"
+        channel.enableLights(true)
+        channel.lightColor = Color.RED
+        channel.enableVibration(false)
+        notificationManager.createNotificationChannel(channel)
 
-            val channel_1 = NotificationChannel("1", "Сообщения от УК",
-                    NotificationManager.IMPORTANCE_HIGH)
-            channel_1.description = "My channel description"
-            channel_1.enableLights(true)
-            channel_1.lightColor = Color.RED
-            channel_1.enableVibration(true)
-            notificationManager.createNotificationChannel(channel_1)
+        val channel_1 = NotificationChannel("1", "Сообщения от УК",
+                NotificationManager.IMPORTANCE_HIGH)
+        channel_1.description = "My channel description"
+        channel_1.enableLights(true)
+        channel_1.lightColor = Color.RED
+        channel_1.enableVibration(true)
+        notificationManager.createNotificationChannel(channel_1)
 
-            val channel_2 = NotificationChannel("2", "Уведомления для вашего дома",
-                    NotificationManager.IMPORTANCE_HIGH)
-            channel_2.description = "My channel description"
-            channel_2.enableLights(true)
-            channel_2.lightColor = Color.RED
-            channel_2.enableVibration(true)
-            notificationManager.createNotificationChannel(channel_2)
+        val channel_2 = NotificationChannel("2", "Уведомления для вашего дома",
+                NotificationManager.IMPORTANCE_HIGH)
+        channel_2.description = "My channel description"
+        channel_2.enableLights(true)
+        channel_2.lightColor = Color.RED
+        channel_2.enableVibration(true)
+        notificationManager.createNotificationChannel(channel_2)
 
-            val notification = NotificationCompat.Builder(this, "0")
-                    .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                    .setContentTitle("Здравствуйте, уважаемый пользователь")
-                    .setContentText("Вы будете получать push-уведомления от MyDvor")
+        val notification = NotificationCompat.Builder(this, "0")
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setContentTitle("Здравствуйте, уважаемый пользователь")
+                .setContentText("Вы будете получать push-уведомления от MyDvor")
 
-            startForeground(1, notification.build())
-            deleteNotification()
-        }
+        startForeground(1, notification.build())
+        deleteNotification()
 
         if (eventListeners == null) {
             eventListeners = LinkedList()
