@@ -56,9 +56,9 @@ class NewsFragment : Fragment() {
     //сохранение текста неотправленного сообщения
     //костыльно но работает
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString("postText", postText!!.text.toString())
+        outState.putString("postText", postText?.text.toString())
         outState.putString("postImg", imgID)
-        MainActivity.savedPost = postText!!.text.toString()
+        MainActivity.savedPost = postText?.text.toString()
         MainActivity.postImg = imgID
     }
 
