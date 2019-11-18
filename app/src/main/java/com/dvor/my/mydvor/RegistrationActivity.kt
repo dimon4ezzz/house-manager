@@ -90,6 +90,13 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
             ETpassword!!.error = null
         }
 
+        if (password.length < 6) {
+            ETpassword!!.error = "Длина пароля должна быть больше 6 символов"
+            valid = false
+        } else {
+            ETpassword!!.error = null
+        }
+
         val confirmedPassword = ETconfirmedPassword!!.text.toString()
         if (TextUtils.isEmpty(confirmedPassword)) {
             ETconfirmedPassword!!.error = "Повторите пароль"
