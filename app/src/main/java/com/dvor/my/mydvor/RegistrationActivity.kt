@@ -8,7 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.dvor.my.mydvor.data.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 
 class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
@@ -16,15 +18,21 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mAuth: FirebaseAuth
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
 
-    private var ETemail: EditText? = null
-    private var ETpassword: EditText? = null
-    private var ETconfirmedPassword: EditText? = null
+    private lateinit var email: EditText
+    private lateinit var password: EditText
+    private lateinit var confirmedPassword: EditText
+
+    private lateinit var name: EditText
+    private lateinit var surname: EditText
+    private lateinit var street: EditText
+    private lateinit var building: EditText
+    private lateinit var apartment: EditText
 
     override fun onClick(view: View) {
         if (view.id == R.id.back_button) {
             finish()
         } else {
-            registration(ETemail!!.text.toString(), ETpassword!!.text.toString(), ETconfirmedPassword!!.text.toString())
+            registration()
         }
     }
 
@@ -46,12 +54,17 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
         val arguments = intent.extras
 
-        ETemail = findViewById(R.id.email)
-        ETpassword = findViewById(R.id.password)
-        ETconfirmedPassword = findViewById(R.id.confirmedPassword)
+        email = findViewById(R.id.email)
+        password = findViewById(R.id.password)
+        confirmedPassword = findViewById(R.id.confirmedPassword)
+        name = findViewById(R.id.name)
+        surname = findViewById(R.id.surname)
+        street = findViewById(R.id.street)
+        building = findViewById(R.id.building)
+        apartment = findViewById(R.id.apartment)
 
-        ETemail!!.setText(arguments!!.get("email")!!.toString())
-        ETpassword!!.setText(arguments.get("password")!!.toString())
+        email.setText(arguments!!.get("email")!!.toString())
+        password.setText(arguments.get("password")!!.toString())
 
         val buttonSignIn = findViewById<Button>(R.id.back_button)
         val buttonRegistration = findViewById<Button>(R.id.registration_button)
@@ -74,53 +87,117 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     private fun validateForm(): Boolean {
         var valid = true
 
-        val email = ETemail!!.text.toString()
-        if (TextUtils.isEmpty(email)) {
-            ETemail!!.error = "Введите email"
+        if (TextUtils.isEmpty(email.text.toString())) {
+            email.error = "Введите email"
             valid = false
         } else {
-            ETemail!!.error = null
+            email.error = null
         }
 
-        val password = ETpassword!!.text.toString()
-        if (TextUtils.isEmpty(password)) {
-            ETpassword!!.error = "Введите пароль"
+        if (TextUtils.isEmpty(password.text.toString())) {
+            password.error = "Введите пароль"
             valid = false
         } else {
-            ETpassword!!.error = null
+            password.error = null
         }
 
-        if (password.length < 6) {
-            ETpassword!!.error = "Длина пароля должна быть больше 6 символов"
+        if (password.text.toString().length < 6) {
+            password.error = "Длина пароля должна быть больше 6 символов"
             valid = false
         } else {
-            ETpassword!!.error = null
+            password.error = null
         }
 
-        val confirmedPassword = ETconfirmedPassword!!.text.toString()
-        if (TextUtils.isEmpty(confirmedPassword)) {
-            ETconfirmedPassword!!.error = "Повторите пароль"
+        if (TextUtils.isEmpty(confirmedPassword.text.toString())) {
+            confirmedPassword.error = "Повторите пароль"
             valid = false
         } else {
-            ETconfirmedPassword!!.error = null
+            confirmedPassword.error = null
+        }
+
+        if (password.text.toString() != confirmedPassword.text.toString()) {
+            confirmedPassword.error = "Пароли не совпали"
+            valid = false
+        } else {
+            confirmedPassword.error = null
+        }
+
+        if (TextUtils.isEmpty(name.text.toString())) {
+            name.error = "Введите имя"
+            valid = false
+        } else {
+            name.error = null
+        }
+
+        if (TextUtils.isEmpty(surname.text.toString())) {
+            surname.error = "Введите фамилию"
+            valid = false
+        } else {
+            surname.error = null
+        }
+
+        if (TextUtils.isEmpty(street.text.toString())) {
+            street.error = "Введите улицу"
+            valid = false
+        } else {
+            street.error = null
+        }
+
+        if (TextUtils.isEmpty(building.text.toString())) {
+            building.error = "Введите дом"
+            valid = false
+        } else {
+            building.error = null
+        }
+
+        if (TextUtils.isEmpty(apartment.text.toString())) {
+            apartment.error = "Введите квартиру"
+            valid = false
+        } else {
+            apartment.error = null
         }
 
         return valid
     }
 
-    private fun registration(email: String, password: String, confirmedPassword: String) {
+    private fun registration() {
         if (!validateForm()) {
             return
         }
 
-        if (password == confirmedPassword) {
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                if (!task.isSuccessful) {
-                    Toast.makeText(this@RegistrationActivity, "Ошибка, измените регистрационные данные", Toast.LENGTH_SHORT).show()
-                }
+        val email = this.email.text.toString()
+        val password = this.password.text.toString()
+        val name = this.name.text.toString()
+        val surname = this.surname.text.toString()
+        val street = this.street.text.toString()
+        val building = this.building.text.toString()
+        val apartment = this.apartment.text.toString()
+
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+            if (!task.isSuccessful) {
+                Toast.makeText(this@RegistrationActivity, "Ошибка, измените регистрационные данные", Toast.LENGTH_SHORT).show()
+            } else {
+                addUserToBranch(User(
+                        name = name,
+                        surname = surname,
+                        street = street,
+                        building = building,
+                        apartment = apartment,
+                        street_id = null,
+                        building_id = null
+                ))
             }
-        } else {
-            Toast.makeText(this@RegistrationActivity, "Ошибка, пароли не совпадают", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun addUserToBranch(user: User) {
+        val database = FirebaseDatabase.getInstance().reference
+        val usersBranch = database.child("users")
+        val uid = mAuth.uid!!
+
+        // child(uid) branch will be auto-generated
+        usersBranch.child(uid).child("name").setValue(user.name)
+        usersBranch.child(uid).child("surname").setValue(user.surname)
+        usersBranch.child(uid).child("apartment").setValue(user.apartment)
     }
 }

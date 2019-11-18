@@ -31,4 +31,7 @@
     <string name="title_menu_menu">Меню</string>
     <string name="settings">Настройки</string>
     <string name="logout">Выход</string>
+    <string name="apartment">Квартира</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Имя</string>
 </resources>
