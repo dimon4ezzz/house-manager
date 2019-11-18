@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.User
@@ -87,6 +88,13 @@ class MenuFragment : Fragment() {
     private fun setUserListener() {
         val listener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // судить можно по любому, в том числе и по `name`
+                if (dataSnapshot.child("name").value == null) {
+                    view!!.findViewById<ConstraintLayout>(R.id.user_info).visibility = View.GONE
+                } else {
+                    view!!.findViewById<ConstraintLayout>(R.id.user_info).visibility = View.VISIBLE
+                }
+
                 user.name = dataSnapshot.child("name").value.toString()
                 user.surname = dataSnapshot.child("surname").value.toString()
                 user.street_id = dataSnapshot.child("street_id").value.toString()
