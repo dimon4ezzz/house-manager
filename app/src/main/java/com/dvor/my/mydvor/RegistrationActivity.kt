@@ -32,6 +32,8 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var buildings: Spinner
     private lateinit var apartment: EditText
 
+    private val streetsList = ArrayList<Street>()
+
     override fun onClick(view: View) {
         if (view.id == R.id.back_button) {
             finish()
@@ -207,21 +209,18 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun streetSpinnerInit() {
-        val streetsList = ArrayList<Street>()
-//        val streetNamesList = ArrayList<String>()
-
         val streetsListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 streetsList.clear()
-//                streetNamesList.clear()
 
                 for (streetSnapshot in dataSnapshot.children) {
                     streetsList.add(Street(
                             id = streetSnapshot.key,
                             name = streetSnapshot.child("name").value.toString()
                     ))
-//                    streetNamesList.add(streetSnapshot.child("name").value.toString())
                 }
+
+                setStreetSpinnerAdapter()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -231,14 +230,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
         database.child("streets").addValueEventListener(streetsListener)
 
-        val adapter = ArrayAdapter<Street>(this, android.R.layout.simple_spinner_item, streetsList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        val spinner: Spinner = findViewById(R.id.streets)
-        spinner.adapter = adapter
-        spinner.prompt = "Выберите улицу"
-//        spinner.setSelection(0)
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        streets.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 Log.d("state", "nothing was selected")
             }
@@ -247,6 +239,13 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
                 buildingSpinnerInit(streetsList[position].name.toString())
             }
         }
+    }
+
+    private fun setStreetSpinnerAdapter() {
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, streetsList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.notifyDataSetChanged()
+        streets.adapter = adapter
     }
 
     private fun buildingSpinnerInit(street: String) {
