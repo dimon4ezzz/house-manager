@@ -179,8 +179,8 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         val password = this.password.text.toString()
         val name = this.name.text.toString()
         val surname = this.surname.text.toString()
-//        val street = this.street.text.toString()
-//        val building = this.building.text.toString()
+        val streetId = streetsList[streets.selectedItemPosition].id
+        val buildingId = buildingsList[buildings.selectedItemPosition].id
         val apartment = this.apartment.text.toString()
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
@@ -193,8 +193,8 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
                         street = null,
                         building = null,
                         apartment = apartment,
-                        street_id = null,
-                        building_id = null
+                        street_id = streetId,
+                        building_id = buildingId
                 ))
             }
         }
@@ -207,6 +207,8 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         // child(uid) branch will be auto-generated
         usersBranch.child(uid).child("name").setValue(user.name)
         usersBranch.child(uid).child("surname").setValue(user.surname)
+        usersBranch.child(uid).child("street_id").setValue(user.street_id)
+        usersBranch.child(uid).child("building_id").setValue(user.building_id)
         usersBranch.child(uid).child("apartment").setValue(user.apartment)
     }
 
