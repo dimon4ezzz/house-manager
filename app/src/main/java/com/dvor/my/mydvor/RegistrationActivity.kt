@@ -257,6 +257,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun buildingSpinnerInit(streetId: String) {
         buildings.visibility = View.VISIBLE
+        apartment.visibility = View.VISIBLE
 
         val buildingsListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
