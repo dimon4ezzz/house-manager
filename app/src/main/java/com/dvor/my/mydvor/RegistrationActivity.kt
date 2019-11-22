@@ -236,7 +236,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                buildingSpinnerInit(streetsList[position].name.toString())
+                buildingSpinnerInit(streetsList[position].id.toString())
             }
         }
     }
