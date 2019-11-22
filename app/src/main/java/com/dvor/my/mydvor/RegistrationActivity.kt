@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.dvor.my.mydvor.data.Building
 import com.dvor.my.mydvor.data.Street
 import com.dvor.my.mydvor.data.User
 import com.google.firebase.auth.FirebaseAuth
@@ -33,6 +34,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var apartment: EditText
 
     private val streetsList = ArrayList<Street>()
+    private val buildingsList = ArrayList<Building>()
 
     override fun onClick(view: View) {
         if (view.id == R.id.back_button) {
@@ -248,7 +250,40 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         streets.adapter = adapter
     }
 
-    private fun buildingSpinnerInit(street: String) {
-        TODO()
+    /**
+     * Производит инициализацию спиннера заданий,
+     * при помощи листенера из Firebase берёт данные,
+     * и при помощи переинициализации адаптера обновляет спиннер
+     */
+    private fun buildingSpinnerInit(streetId: String) {
+        buildings.visibility = View.VISIBLE
+
+        val buildingsListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                buildingsList.clear()
+
+                for (buildingSnapshot in dataSnapshot.children) {
+                    buildingsList.add(Building(
+                            id = buildingSnapshot.key,
+                            number = buildingSnapshot.child("number").value.toString()
+                    ))
+                }
+
+                setBuildingSpinnerAdapter()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("state", databaseError.message)
+            }
+        }
+
+        database.child("streets").child(streetId).child("buildings").addValueEventListener(buildingsListener)
+    }
+
+    private fun setBuildingSpinnerAdapter() {
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, buildingsList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.notifyDataSetChanged()
+        buildings.adapter = adapter
     }
 }
