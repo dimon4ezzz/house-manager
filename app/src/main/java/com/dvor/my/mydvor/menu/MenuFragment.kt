@@ -35,7 +35,10 @@ class MenuFragment : Fragment() {
         view.findViewById<Button>(R.id.ib_notification).setOnClickListener { goto(notificationFragmentId) }
         view.findViewById<Button>(R.id.ib_service).setOnClickListener { goto(serviceFragmentId) }
 
-        view.findViewById<Button>(R.id.ib_logout).setOnClickListener { mAuth.signOut() }
+        view.findViewById<Button>(R.id.ib_logout).setOnClickListener {
+            mAuth.signOut()
+            context!!.dataDir.deleteRecursively()
+        }
 
         return view
     }
