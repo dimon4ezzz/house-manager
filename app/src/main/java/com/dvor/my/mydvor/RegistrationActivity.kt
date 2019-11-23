@@ -146,20 +146,6 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
             surname.error = null
         }
 
-//        if (TextUtils.isEmpty(street.text.toString())) {
-//            street.error = "Введите улицу"
-//            valid = false
-//        } else {
-//            street.error = null
-//        }
-//
-//        if (TextUtils.isEmpty(building.text.toString())) {
-//            building.error = "Введите дом"
-//            valid = false
-//        } else {
-//            building.error = null
-//        }
-
         if (TextUtils.isEmpty(apartment.text.toString())) {
             apartment.error = "Введите квартиру"
             valid = false
