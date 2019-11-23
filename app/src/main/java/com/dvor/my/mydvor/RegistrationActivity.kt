@@ -11,6 +11,8 @@ import com.dvor.my.mydvor.data.Building
 import com.dvor.my.mydvor.data.Street
 import com.dvor.my.mydvor.data.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -171,7 +173,17 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
             if (!task.isSuccessful) {
-                Toast.makeText(this@RegistrationActivity, "Ошибка, измените регистрационные данные", Toast.LENGTH_SHORT).show()
+                when (task.exception) {
+                    is FirebaseAuthUserCollisionException -> {
+                        Toast.makeText(this@RegistrationActivity, "Пользователь с таким email уже существует", Toast.LENGTH_LONG).show()
+                    }
+                    is FirebaseAuthWeakPasswordException -> {
+                        Toast.makeText(this@RegistrationActivity, "Пароль слишком слабый", Toast.LENGTH_LONG).show()
+                    }
+                    else -> {
+                        Toast.makeText(this@RegistrationActivity, "Ошибка, измените регистрационные данные", Toast.LENGTH_LONG).show()
+                    }
+                }
             } else {
                 addUserToBranch(User(
                         name = name,
