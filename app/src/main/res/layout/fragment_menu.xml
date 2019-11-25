@@ -97,7 +97,6 @@
                 android:textAlignment="textStart" />
 
             <Button
-                android:id="@+id/ib_settings"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

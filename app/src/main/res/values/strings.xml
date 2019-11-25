@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Мой двор</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_street">Улица</string>
-    <string name="prompt_house">Дом</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="title_activity_menu">Menu</string>
     <string name="title_menu_stock">Акции рядом</string>
@@ -10,7 +8,6 @@
     <string name="title_menu_news">Новости</string>
     <string name="title_menu_service">Услуги</string>
     <string name="title_menu_notification">Уведомления</string>
-    <string name="title_menu_sign_out">Выход</string>
     <string name="send_message">Отправить</string>
     <string name="send_post">Опубликовать</string>
     <string name="password">Пароль</string>
