@@ -239,7 +239,7 @@ class MyNotifications : Service() {
 
             for (n in messageSnapshot!!.children) {
                 if (Integer.parseInt(n.child("income").value!!.toString()) == 1 && Integer.parseInt(n.child("read").value!!.toString()) == 0) {
-                    buildAndSendNotification("Сообщение от УК:", n.child("Text").value!!.toString(), "1", contentIntent, true)
+                    buildAndSendNotification("Сообщение от УК:", n.child("text").value!!.toString(), "1", contentIntent, true)
                 }
             }
         }
