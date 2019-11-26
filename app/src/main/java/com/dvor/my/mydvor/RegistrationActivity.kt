@@ -108,28 +108,28 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         if (password.text.toString().isEmpty()) {
             password.error = "Введите пароль"
             valid = false
-        } else {
-            password.error = null
         }
 
         if (password.text.toString().length < 6) {
             password.error = "Длина пароля должна быть больше 6 символов"
             valid = false
-        } else {
+        }
+
+        if (password.text.toString().isNotEmpty() && password.text.toString().length > 6) {
             password.error = null
         }
 
         if (confirmedPassword.text.toString().isEmpty()) {
             confirmedPassword.error = "Повторите пароль"
             valid = false
-        } else {
-            confirmedPassword.error = null
         }
 
         if (password.text.toString() != confirmedPassword.text.toString()) {
             confirmedPassword.error = "Пароли не совпали"
             valid = false
-        } else {
+        }
+
+        if (confirmedPassword.text.toString().isNotEmpty() || password.text.toString() == confirmedPassword.text.toString()) {
             confirmedPassword.error = null
         }
 
