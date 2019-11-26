@@ -48,8 +48,12 @@ class MessageFragment : Fragment(), View.OnClickListener {
     //сохранение текста неотправленного сообщения
     //костыльно но работает
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString("message", messageText!!.text.toString())
-        MainActivity.savedMessage = messageText!!.text.toString()
+        if (messageText == null) {
+            outState.putString("message", MainActivity.savedMessage)
+        } else {
+            outState.putString("message", messageText!!.text.toString())
+            MainActivity.savedMessage = messageText!!.text.toString()
+        }
     }
 
 

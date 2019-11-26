@@ -69,6 +69,7 @@ class NewsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        super.onCreate(savedInstanceState)
 
         updateUIflag = true
 

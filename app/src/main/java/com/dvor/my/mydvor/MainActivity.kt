@@ -67,8 +67,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        var savedMessage: String? = ""
-        var savedPost: String? = ""
+        var savedMessage: String = ""
+        var savedPost: String = ""
         var postImg = "newsImages/no"
         var imgPref: Bitmap? = null
     }
