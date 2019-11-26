@@ -2,7 +2,6 @@ package com.dvor.my.mydvor
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -99,14 +98,14 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     private fun validateForm(): Boolean {
         var valid = true
 
-        if (TextUtils.isEmpty(email.text.toString())) {
+        if (email.text.toString().isBlank()) {
             email.error = "Введите email"
             valid = false
         } else {
             email.error = null
         }
 
-        if (TextUtils.isEmpty(password.text.toString())) {
+        if (password.text.toString().isEmpty()) {
             password.error = "Введите пароль"
             valid = false
         } else {
@@ -120,7 +119,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
             password.error = null
         }
 
-        if (TextUtils.isEmpty(confirmedPassword.text.toString())) {
+        if (confirmedPassword.text.toString().isEmpty()) {
             confirmedPassword.error = "Повторите пароль"
             valid = false
         } else {
@@ -134,21 +133,21 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
             confirmedPassword.error = null
         }
 
-        if (TextUtils.isEmpty(name.text.toString())) {
+        if (name.text.toString().isBlank()) {
             name.error = "Введите имя"
             valid = false
         } else {
             name.error = null
         }
 
-        if (TextUtils.isEmpty(surname.text.toString())) {
+        if (surname.text.toString().isBlank()) {
             surname.error = "Введите фамилию"
             valid = false
         } else {
             surname.error = null
         }
 
-        if (TextUtils.isEmpty(apartment.text.toString())) {
+        if (apartment.text.toString().isBlank()) {
             apartment.error = "Введите квартиру"
             valid = false
         } else {
