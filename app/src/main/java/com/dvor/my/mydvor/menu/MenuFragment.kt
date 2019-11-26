@@ -21,6 +21,12 @@ class MenuFragment : Fragment() {
     lateinit var database: DatabaseReference
     lateinit var user: User
 
+    lateinit var userBranch: DatabaseReference
+    lateinit var streetBranch: DatabaseReference
+
+    lateinit var userListener: ValueEventListener
+    lateinit var streetListener: ValueEventListener
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
         mAuth = FirebaseAuth.getInstance()
@@ -89,7 +95,7 @@ class MenuFragment : Fragment() {
      * Other branches are not implemented
      */
     private fun setUserListener() {
-        val listener = object : ValueEventListener {
+        userListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // судить можно по любому, в том числе и по `name`
                 if (dataSnapshot.child("name").value == null) {
@@ -114,15 +120,15 @@ class MenuFragment : Fragment() {
             }
         }
 
-        val userBranch = database.child("users").child(mAuth.uid.toString())
-        userBranch.addValueEventListener(listener)
+        userBranch = database.child("users").child(mAuth.uid.toString())
+        userBranch.addValueEventListener(userListener)
     }
 
     /**
      * Sets database listener for fetch data from `streets` branch
      */
     private fun setAddressListener() {
-        val listener = object : ValueEventListener {
+        streetListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 user.street = dataSnapshot.child("name").value.toString()
                 user.building = dataSnapshot
@@ -138,8 +144,15 @@ class MenuFragment : Fragment() {
             }
         }
 
-        val streetsBranch = database.child("streets").child(user.street_id.toString())
-        streetsBranch.addValueEventListener(listener)
+        streetBranch = database.child("streets").child(user.street_id.toString())
+        streetBranch.addValueEventListener(streetListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        userBranch.removeEventListener(userListener)
+        streetBranch.removeEventListener(streetListener)
     }
 
     companion object {
