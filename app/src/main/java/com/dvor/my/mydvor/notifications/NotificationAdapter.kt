@@ -1,18 +1,17 @@
 package com.dvor.my.mydvor.notifications
 
+
 import android.content.Intent
-import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
-
-
-import com.dvor.my.mydvor.utils.DataConverter
+import androidx.fragment.app.FragmentActivity
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.Notification
+import com.dvor.my.mydvor.utils.DateConverter
 
 class NotificationAdapter(private val context: FragmentActivity?, private val layout: Int, private val notifications: List<Notification>) : ArrayAdapter<Notification>(context!!, layout, notifications) {
 
@@ -37,7 +36,7 @@ class NotificationAdapter(private val context: FragmentActivity?, private val la
         }
 
         textView.text = text
-        dataView.text = DataConverter.convert(notification.data.toString())
+        dataView.text = DateConverter.convert(notification.data.toString())
         return view
     }
 

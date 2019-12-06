@@ -1,15 +1,14 @@
 package com.dvor.my.mydvor.message
 
-import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-
-import com.dvor.my.mydvor.utils.DataConverter
+import androidx.fragment.app.FragmentActivity
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.Message
+import com.dvor.my.mydvor.utils.DateConverter
 
 class MessageAdapter(context: FragmentActivity?, private val layout: Int, private val messages: List<Message>) : ArrayAdapter<Message>(context!!, layout, messages) {
 
@@ -27,7 +26,7 @@ class MessageAdapter(context: FragmentActivity?, private val layout: Int, privat
 
         titleView.text = message.title
         textView.text = message.text
-        dataView.text = DataConverter.convert(message.data.toString())
+        dataView.text = DateConverter.convert(message.data.toString())
         return view
     }
 }

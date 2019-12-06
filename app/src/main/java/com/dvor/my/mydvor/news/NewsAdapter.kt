@@ -1,6 +1,5 @@
 package com.dvor.my.mydvor.news
 
-import androidx.fragment.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +7,11 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-
-import com.dvor.my.mydvor.utils.DataConverter
+import androidx.fragment.app.FragmentActivity
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Storage
 import com.dvor.my.mydvor.data.News
+import com.dvor.my.mydvor.utils.DateConverter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -42,7 +41,7 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
         val currentNews = news[position]
         Storage.downloadPicture(currentNews.imgResource, imgView)
         titleView.text = currentNews.title
-        dateView.text = DataConverter.convert(currentNews.date.toString())
+        dateView.text = DateConverter.convert(currentNews.date.toString())
         textView.text = currentNews.text
         likesView.text = likes[position]
         dislikesView.text = dislikes[position]
