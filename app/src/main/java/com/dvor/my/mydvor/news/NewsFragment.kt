@@ -141,10 +141,6 @@ class NewsFragment : Fragment() {
                 when (event.type) {
                     Type.UpdateAddressID -> {
 
-                        if (myRef2 != null) {
-                            myRef2!!.removeEventListener(listenerBuilding!!)
-                        }
-
                         myRef2 = FirebaseDatabase.getInstance().getReference("streets").child(userStreetId).child("buildings").child(userBuildingId).child("organization_id")
 
                         listenerBuilding = object : ValueEventListener {
@@ -163,10 +159,6 @@ class NewsFragment : Fragment() {
                     }
 
                     Type.UpdateOrganizationId -> {
-
-                        if (myRef3 != null) {
-                            myRef3!!.removeEventListener(listenerNews!!)
-                        }
 
                         myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news")
 
