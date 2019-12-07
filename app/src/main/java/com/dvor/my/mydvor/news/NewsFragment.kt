@@ -272,7 +272,6 @@ class NewsFragment : Fragment() {
                         n.child("text").value.toString(), n.child("date").value.toString(),
                         n.child("img").value.toString(), n.child("uid").value.toString()))
 
-                lastID = Integer.parseInt(n.key.toString())
                 var countLikes: Long = 0
                 var countDislikes: Long = 0
                 var comment: NewsAdapter.Comment = NewsAdapter.Comment.absent
@@ -298,7 +297,7 @@ class NewsFragment : Fragment() {
                 dislikes.add(countDislikes.toString())
                 comments.add(comment)
             }
-
+            lastID = Integer.parseInt(newsSnapshot!!.children.count().toString())
         }
 
         // отображаем сначала новые
