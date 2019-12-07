@@ -97,12 +97,13 @@
                 android:textAlignment="textStart" />
 
             <Button
+                android:id="@+id/ib_settings"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_menu_settings"
                 android:drawablePadding="5dp"
-                android:enabled="false"
+                android:enabled="true"
                 android:text="@string/settings"
                 android:textAlignment="textStart" />
 

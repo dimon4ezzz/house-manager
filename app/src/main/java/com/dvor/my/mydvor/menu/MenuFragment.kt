@@ -44,6 +44,10 @@ class MenuFragment : Fragment() {
             val action = MenuFragmentDirections.actionMenuFragmentToServiceFragment()
             view.findNavController().navigate(action)
         }
+        view.findViewById<Button>(R.id.ib_settings).setOnClickListener {
+            val action = MenuFragmentDirections.actionMenuFragmentToSettingsFragment()
+            view.findNavController().navigate(action)
+        }
 
         view.findViewById<Button>(R.id.ib_logout).setOnClickListener {
             mAuth.signOut()
@@ -164,7 +168,5 @@ class MenuFragment : Fragment() {
         const val stockFragmentId: Int = R.id.stockFragment
         const val messageFragmentId: Int = R.id.messageFragment
         const val notificationFragmentId: Int = R.id.notificationFragment
-        const val serviceFragmentId: Int = R.id.serviceFragment
-        // TODO settings fragment
     }
 }
