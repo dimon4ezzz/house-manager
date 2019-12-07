@@ -1,6 +1,5 @@
 package com.dvor.my.mydvor.notifications
 
-
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -42,7 +41,6 @@ class NotificationFragment : Fragment() {
         }
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -83,7 +81,7 @@ class NotificationFragment : Fragment() {
 
         this.addEventListener(object : MyEventListener {
             override fun processEvent(event: MyEvent) {
-                if (event.source == null || event.type == null) {
+                if (event.source == null) {
                     return
                 }
 
@@ -123,10 +121,8 @@ class NotificationFragment : Fragment() {
         return view
     }
 
-
     private fun updateUI() {
         notifications.clear()
-        val userName: String
 
         if (notificationSnapshot != null) {
             for (n in notificationSnapshot!!.children) {
