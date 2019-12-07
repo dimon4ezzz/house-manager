@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_menu_service"
                 android:drawablePadding="5dp"
-                android:enabled="false"
+                android:enabled="true"
                 android:text="@string/title_menu_service"
                 android:textAlignment="textStart" />
 

@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.User
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -39,7 +40,10 @@ class MenuFragment : Fragment() {
         view.findViewById<Button>(R.id.ib_stock).setOnClickListener { goto(stockFragmentId) }
         view.findViewById<Button>(R.id.ib_message).setOnClickListener { goto(messageFragmentId) }
         view.findViewById<Button>(R.id.ib_notification).setOnClickListener { goto(notificationFragmentId) }
-        view.findViewById<Button>(R.id.ib_service).setOnClickListener { goto(serviceFragmentId) }
+        view.findViewById<Button>(R.id.ib_service).setOnClickListener {
+            val action = MenuFragmentDirections.actionMenuFragmentToServiceFragment()
+            view.findNavController().navigate(action)
+        }
 
         view.findViewById<Button>(R.id.ib_logout).setOnClickListener {
             mAuth.signOut()
