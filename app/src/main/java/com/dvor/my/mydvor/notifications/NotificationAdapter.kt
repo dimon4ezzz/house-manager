@@ -16,7 +16,6 @@ import com.dvor.my.mydvor.utils.DateConverter
 class NotificationAdapter(private val context: FragmentActivity?, private val layout: Int, private val notifications: List<Notification>) : ArrayAdapter<Notification>(context!!, layout, notifications) {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var text: String? = null
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
@@ -25,7 +24,7 @@ class NotificationAdapter(private val context: FragmentActivity?, private val la
         val textView = view.findViewById<TextView>(R.id.text)
         val dataView = view.findViewById<TextView>(R.id.data)
         val notification = notifications[position]
-        text = notification.text
+        val text = notification.text
         val shareButton = view.findViewById<ImageButton>(R.id.shareButton)
         shareButton.setOnClickListener {
             val sendIntent = Intent()
