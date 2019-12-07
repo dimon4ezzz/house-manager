@@ -3,10 +3,7 @@ package com.dvor.my.mydvor.news
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Storage
@@ -20,7 +17,6 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-
     enum class Comment {
         absent, like, dislike
     }
@@ -29,29 +25,27 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
 
         val view = inflater.inflate(this.layout, parent, false)
 
-        val imgView = view.findViewById<ImageView>(R.id.image)
-        val titleView = view.findViewById<TextView>(R.id.title)
-        val textView = view.findViewById<TextView>(R.id.text)
-        val dateView = view.findViewById<TextView>(R.id.date)
-        val likesView = view.findViewById<TextView>(R.id.likesCount)
-        val dislikesView = view.findViewById<TextView>(R.id.dislikesCount)
-        val likesButton = view.findViewById<ImageButton>(R.id.likesButton)
-        val dislikesButton = view.findViewById<ImageButton>(R.id.dislikesButton)
-        val deleteButton = view.findViewById<ImageButton>(R.id.deleteButton)
+        val imgView = view.findViewById<ImageView>(R.id.iv_news_picture)
+        val titleView = view.findViewById<TextView>(R.id.tv_title)
+        val textView = view.findViewById<TextView>(R.id.tv_news_text)
+        val dateView = view.findViewById<TextView>(R.id.tv_date)
+        val likesButton = view.findViewById<Button>(R.id.b_like)
+        val dislikesButton = view.findViewById<Button>(R.id.b_dislike)
+        val deleteButton = view.findViewById<ImageButton>(R.id.ib_delete)
         val currentNews = news[position]
         Storage.downloadPicture(currentNews.imgResource, imgView)
         titleView.text = currentNews.title
         dateView.text = DateConverter.convert(currentNews.date.toString())
         textView.text = currentNews.text
-        likesView.text = likes[position]
-        dislikesView.text = dislikes[position]
+        likesButton.text = likes[position]
+        dislikesButton.text = dislikes[position]
 
         val comment = comments[position]
 
         if (comment == Comment.like) {
-            likesButton.setImageResource(R.drawable.like_red)
+            likesButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.like_red, 0, 0, 0)
         } else if (comment == Comment.dislike) {
-            dislikesButton.setImageResource(R.drawable.dislike_red)
+            dislikesButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dislike_red, 0, 0, 0)
         }
 
         likesButton.setOnClickListener {

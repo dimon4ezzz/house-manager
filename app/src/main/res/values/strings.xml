@@ -32,4 +32,7 @@
     <string name="surname">Фамилия</string>
     <string name="name">Имя</string>
     <string name="lately">Здесь пока ничего нет, возращайтесь позже!</string>
+    <string name="delete_button_desc">Кнопка удаления новости</string>
+    <string name="news_picture_desc">Картинка, прикреплённая к новости</string>
+    <string name="news_like_desc">Новость понравилась</string>
 </resources>
