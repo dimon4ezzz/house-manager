@@ -106,7 +106,7 @@ class NewsFragment : Fragment() {
                 deletePrefImg()
             }
         }
-        deleteBtn.visibility = View.VISIBLE
+        deleteBtn.visibility = View.GONE
 
         postText = view.findViewById(R.id.et_post)
         mAuth = FirebaseAuth.getInstance()
@@ -245,9 +245,9 @@ class NewsFragment : Fragment() {
                 // decode this as bitmap
                 val selectedImage = BitmapFactory.decodeStream(imageStream)
                 // upload picture to firebase
-                Storage.uploadPicture(selectedImage, imgID)
-                // show `delete uploaded picture` button
-                view!!.findViewById<ImageButton>(R.id.ib_delete_image).visibility = View.VISIBLE
+                Storage.uploadPicture(selectedImage, imgID) {
+                    view!!.findViewById<ImageButton>(R.id.ib_delete_image).visibility = View.VISIBLE
+                }
             } catch (ex: Exception) {
                 Log.d("state", ex.message.toString())
             }
