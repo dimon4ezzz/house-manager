@@ -39,7 +39,14 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
         val dislikesButton = view.findViewById<ImageButton>(R.id.dislikesButton)
         val deleteButton = view.findViewById<ImageButton>(R.id.deleteButton)
         val currentNews = news[position]
-        Storage.downloadPicture(currentNews.imgResource, imgView)
+
+        if (currentNews.imgResource != "newsImages/no" && currentNews.imgResource != "null") {
+            imgView.visibility = View.VISIBLE
+            Storage.downloadPicture(currentNews.imgResource, imgView)
+        } else {
+            imgView.visibility = View.GONE
+        }
+
         titleView.text = currentNews.title
         dateView.text = DateConverter.convert(currentNews.date.toString())
         textView.text = currentNews.text
