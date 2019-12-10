@@ -2,7 +2,6 @@
     <string name="app_name">Мой двор</string>
     <string name="prompt_email">Email</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="title_activity_menu">Menu</string>
     <string name="title_menu_stock">Акции рядом</string>
     <string name="title_menu_message">Чат</string>
     <string name="title_menu_news">Новости</string>
