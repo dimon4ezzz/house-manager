@@ -24,7 +24,8 @@
             android:background="@android:color/transparent"
 
             android:gravity="end"
-            app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+            app:srcCompat="@drawable/ic_delete_forever_black_24dp"
+            android:contentDescription="@string/delete_post" />
     </LinearLayout>
 
     <TextView
@@ -67,7 +68,8 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/like" />
+                android:src="@drawable/like"
+                android:contentDescription="@string/like" />
 
             <TextView
                 android:id="@+id/likesCount"
@@ -91,7 +93,8 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/dislike" />
+                android:src="@drawable/dislike"
+                android:contentDescription="@string/dislike" />
 
             <TextView
                 android:id="@+id/dislikesCount"

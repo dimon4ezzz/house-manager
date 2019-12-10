@@ -33,4 +33,10 @@
     <string name="lately">Здесь пока ничего нет, возращайтесь позже!</string>
     <string name="title_menu_emergency">Экстренные вызовы</string>
     <string name="your_company_is">Вы обслуживаетесь в </string>
+    <string name="delete_image">Удалить картинку</string>
+    <string name="add_image">Добавить картинку</string>
+    <string name="delete_post">Удалить пост</string>
+    <string name="like">Нравится</string>
+    <string name="dislike">Не нравится</string>
+    <string name="share">Поделиться</string>
 </resources>
