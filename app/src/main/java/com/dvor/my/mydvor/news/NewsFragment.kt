@@ -235,6 +235,8 @@ class NewsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        val loader = view!!.findViewById<ProgressBar>(R.id.loading_spinner)
+
         if (requestCode == RESULT_GALLERY && data != null) {
             // remember image data
             imageUri = data.data
@@ -246,8 +248,10 @@ class NewsFragment : Fragment() {
                 val selectedImage = BitmapFactory.decodeStream(imageStream)
                 // upload picture to firebase
                 Storage.uploadPicture(selectedImage, imgID) {
+                    loader.visibility = View.GONE
                     view!!.findViewById<ImageButton>(R.id.ib_delete_image).visibility = View.VISIBLE
                 }
+                loader.visibility = View.VISIBLE
             } catch (ex: Exception) {
                 Log.d("state", ex.message.toString())
             }
