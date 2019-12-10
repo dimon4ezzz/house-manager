@@ -15,16 +15,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mAuth: FirebaseAuth
     private var mAuthListener: FirebaseAuth.AuthStateListener? = null
 
-    private var ETemail: EditText? = null
-    private var ETpassword: EditText? = null
+    private var _email: EditText? = null
+    private var _password: EditText? = null
 
     override fun onClick(view: View) {
         if (view.id == R.id.sign_in_button) {
-            signin(ETemail!!.text.toString(), ETpassword!!.text.toString())
+            signin(_email!!.text.toString(), _password!!.text.toString())
         } else {
             val i = Intent(this@LoginActivity, RegistrationActivity::class.java)
-            i.putExtra("email", ETemail!!.text)
-            i.putExtra("password", ETpassword!!.text)
+            i.putExtra("email", _email!!.text)
+            i.putExtra("password", _password!!.text)
             startActivity(i)
         }
     }
@@ -45,8 +45,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        ETemail = findViewById(R.id.email)
-        ETpassword = findViewById(R.id.password)
+        _email = findViewById(R.id.email)
+        _password = findViewById(R.id.password)
 
         val buttonSignIn = findViewById<Button>(R.id.sign_in_button)
         val buttonRegistration = findViewById<Button>(R.id.registration_button)
@@ -69,20 +69,20 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun validateForm(): Boolean {
         var valid = true
 
-        val email = ETemail!!.text.toString()
+        val email = _email!!.text.toString()
         if (TextUtils.isEmpty(email)) {
-            ETemail!!.error = "Введите email"
+            _email!!.error = "Введите email"
             valid = false
         } else {
-            ETemail!!.error = null
+            _email!!.error = null
         }
 
-        val password = ETpassword!!.text.toString()
+        val password = _password!!.text.toString()
         if (TextUtils.isEmpty(password)) {
-            ETpassword!!.error = "Введите пароль"
+            _password!!.error = "Введите пароль"
             valid = false
         } else {
-            ETpassword!!.error = null
+            _password!!.error = null
         }
 
         return valid

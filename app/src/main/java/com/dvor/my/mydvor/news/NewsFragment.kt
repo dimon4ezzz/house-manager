@@ -274,7 +274,7 @@ class NewsFragment : Fragment() {
 
                 var countLikes: Long = 0
                 var countDislikes: Long = 0
-                var comment: NewsAdapter.Comment = NewsAdapter.Comment.absent
+                var comment: NewsAdapter.Comment = NewsAdapter.Comment.Absent
 
                 val likesSnapshot = n.child("likes")
                 val dislikesSnapshot = n.child("dislikes")
@@ -288,9 +288,9 @@ class NewsFragment : Fragment() {
                 }
 
                 if (likesSnapshot.child(mAuth.uid!!).value != null) {
-                    comment = NewsAdapter.Comment.like
+                    comment = NewsAdapter.Comment.Like
                 } else if (dislikesSnapshot.child(mAuth.uid!!).value != null) {
-                    comment = NewsAdapter.Comment.dislike
+                    comment = NewsAdapter.Comment.Dislike
                 }
 
                 likes.add(countLikes.toString())

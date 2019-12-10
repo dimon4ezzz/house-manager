@@ -22,7 +22,7 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
 
 
     enum class Comment {
-        absent, like, dislike
+        Absent, Like, Dislike
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -55,19 +55,19 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
 
         val comment = comments[position]
 
-        if (comment == Comment.like) {
+        if (comment == Comment.Like) {
             likesButton.setImageResource(R.drawable.like_red)
-        } else if (comment == Comment.dislike) {
+        } else if (comment == Comment.Dislike) {
             dislikesButton.setImageResource(R.drawable.dislike_red)
         }
 
         likesButton.setOnClickListener {
             when (comment) {
-                Comment.like -> {
+                Comment.Like -> {
                     val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
                     myRef3.removeValue()
                 }
-                Comment.dislike -> {
+                Comment.Dislike -> {
                     NewsFragment.updateUIflag = false
                     val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
                     myRef.removeValue()
@@ -83,14 +83,14 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
 
         dislikesButton.setOnClickListener {
             when (comment) {
-                Comment.like -> {
+                Comment.Like -> {
                     NewsFragment.updateUIflag = false
                     val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
                     myRef.removeValue()
                     val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes")
                     myRef2.child(mAuth.uid!!).child("info").setValue(0)
                 }
-                Comment.dislike -> {
+                Comment.Dislike -> {
                     val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
                     myRef3.removeValue()
                 }
