@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.Notification
@@ -26,6 +27,9 @@ class NotificationAdapter(private val context: FragmentActivity?, private val la
         val notification = notifications[position]
         val text = notification.text
         val shareButton = view.findViewById<ImageButton>(R.id.shareButton)
+        dataView.setOnClickListener {
+            Toast.makeText(context, notification.data.toString(), Toast.LENGTH_SHORT).show()
+        }
         shareButton.setOnClickListener {
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
