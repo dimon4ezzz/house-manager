@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-            android:id="@+id/newsFragment"
-            android:icon="@drawable/ic_menu_news"
-            android:title="@string/title_menu_news" />
+        android:id="@+id/emergencyFragment"
+        android:icon="@drawable/ic_call_black_24dp"
+        android:title="@string/title_menu_emergency" />
     <item
             android:id="@+id/stockFragment"
             android:icon="@drawable/ic_menu_stock"

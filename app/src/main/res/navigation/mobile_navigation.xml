@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/newsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/emergencyFragment">
 
     <fragment
-            android:id="@+id/messageFragment"
-            android:name="com.dvor.my.mydvor.message.MessageFragment"
-            android:label="@string/title_menu_message"
-            tools:layout="@layout/fragment_message" />
+        android:id="@+id/messageFragment"
+        android:name="com.dvor.my.mydvor.message.MessageFragment"
+        android:label="@string/title_menu_message"
+        tools:layout="@layout/fragment_message" />
     <fragment
-            android:id="@+id/newsFragment"
-            android:name="com.dvor.my.mydvor.news.NewsFragment"
-            android:label="@string/title_menu_news"
-            tools:layout="@layout/fragment_news" />
+        android:id="@+id/newsFragment"
+        android:name="com.dvor.my.mydvor.news.NewsFragment"
+        android:label="@string/title_menu_news"
+        tools:layout="@layout/fragment_news" />
     <fragment
-            android:id="@+id/stockFragment"
-            android:name="com.dvor.my.mydvor.stock.StockFragment"
-            android:label="@string/title_menu_stock"
-            tools:layout="@layout/fragment_stock" />
+        android:id="@+id/stockFragment"
+        android:name="com.dvor.my.mydvor.stock.StockFragment"
+        android:label="@string/title_menu_stock"
+        tools:layout="@layout/fragment_stock" />
     <fragment
-            android:id="@+id/serviceFragment"
-            android:name="com.dvor.my.mydvor.service.ServiceFragment"
-            android:label="@string/title_menu_service"
-            tools:layout="@layout/fragment_service" />
+        android:id="@+id/serviceFragment"
+        android:name="com.dvor.my.mydvor.service.ServiceFragment"
+        android:label="@string/title_menu_service"
+        tools:layout="@layout/fragment_service" />
     <fragment
-            android:id="@+id/notificationFragment"
-            android:name="com.dvor.my.mydvor.notifications.NotificationFragment"
-            android:label="@string/title_menu_notification"
-            tools:layout="@layout/fragment_notification" />
+        android:id="@+id/notificationFragment"
+        android:name="com.dvor.my.mydvor.notifications.NotificationFragment"
+        android:label="@string/title_menu_notification"
+        tools:layout="@layout/fragment_notification" />
     <fragment
-            android:id="@+id/menuFragment"
-            android:name="com.dvor.my.mydvor.menu.MenuFragment"
-            android:label="@string/title_menu_menu"
+        android:id="@+id/menuFragment"
+        android:name="com.dvor.my.mydvor.menu.MenuFragment"
+        android:label="@string/title_menu_menu"
         tools:layout="@layout/fragment_menu">
         <action
             android:id="@+id/action_menuFragment_to_serviceFragment"
@@ -40,10 +40,18 @@
         <action
             android:id="@+id/action_menuFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.dvor.my.mydvor.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/emergencyFragment"
+        android:name="com.dvor.my.mydvor.emergency.EmergencyFragment"
+        android:label="@string/title_menu_emergency"
+        tools:layout="@layout/fragment_emergency" />
 </navigation>

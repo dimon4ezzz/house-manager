@@ -32,4 +32,6 @@
     <string name="surname">Фамилия</string>
     <string name="name">Имя</string>
     <string name="lately">Здесь пока ничего нет, возращайтесь позже!</string>
+    <string name="title_menu_emergency">Экстренные вызовы</string>
+    <string name="your_company_is">Вы обслуживаетесь в </string>
 </resources>

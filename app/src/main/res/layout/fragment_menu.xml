@@ -46,6 +46,16 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/ib_emergency"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_call_black_24dp"
+                android:drawablePadding="5dp"
+                android:text="@string/title_menu_emergency"
+                android:textAlignment="textStart" />
+
+            <Button
                 android:id="@+id/ib_news"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"

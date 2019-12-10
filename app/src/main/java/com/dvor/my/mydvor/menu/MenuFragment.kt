@@ -36,7 +36,11 @@ class MenuFragment : Fragment() {
         user = User("", "", "", "", "", "", "")
         setUserListener()
 
-        view.findViewById<Button>(R.id.ib_news).setOnClickListener { goto(newsFragmentId) }
+        view.findViewById<Button>(R.id.ib_emergency).setOnClickListener { goto(emergencyFragment) }
+        view.findViewById<Button>(R.id.ib_news).setOnClickListener {
+            val action = MenuFragmentDirections.actionMenuFragmentToNewsFragment()
+            view.findNavController().navigate(action)
+        }
         view.findViewById<Button>(R.id.ib_stock).setOnClickListener { goto(stockFragmentId) }
         view.findViewById<Button>(R.id.ib_message).setOnClickListener { goto(messageFragmentId) }
         view.findViewById<Button>(R.id.ib_notification).setOnClickListener { goto(notificationFragmentId) }
@@ -164,7 +168,7 @@ class MenuFragment : Fragment() {
     }
 
     companion object {
-        const val newsFragmentId: Int = R.id.newsFragment
+        const val emergencyFragment: Int = R.id.emergencyFragment
         const val stockFragmentId: Int = R.id.stockFragment
         const val messageFragmentId: Int = R.id.messageFragment
         const val notificationFragmentId: Int = R.id.notificationFragment
