@@ -1,6 +1,6 @@
 package com.dvor.my.mydvor
 
-import java.util.EventListener
+import java.util.*
 
 interface MyEventListener : EventListener {
     fun processEvent(event: MyEvent)
