@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.Message
@@ -18,7 +19,6 @@ class MessageAdapter(context: FragmentActivity?, private val layout: Int, privat
 
         val view = inflater.inflate(this.layout, parent, false)
 
-
         val titleView = view.findViewById<TextView>(R.id.title)
         val textView = view.findViewById<TextView>(R.id.text)
         val dataView = view.findViewById<TextView>(R.id.data)
@@ -27,6 +27,9 @@ class MessageAdapter(context: FragmentActivity?, private val layout: Int, privat
         titleView.text = message.title
         textView.text = message.text
         dataView.text = DateConverter.convert(message.data.toString())
+        dataView.setOnClickListener {
+            Toast.makeText(context, message.data.toString(), Toast.LENGTH_SHORT).show()
+        }
         return view
     }
 }

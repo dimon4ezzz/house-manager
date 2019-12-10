@@ -3,10 +3,7 @@ package com.dvor.my.mydvor.news
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Storage
@@ -49,6 +46,9 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
 
         titleView.text = currentNews.title
         dateView.text = DateConverter.convert(currentNews.date.toString())
+        dateView.setOnClickListener {
+            Toast.makeText(context, currentNews.date.toString(), Toast.LENGTH_SHORT).show()
+        }
         textView.text = currentNews.text
         likesView.text = likes[position]
         dislikesView.text = dislikes[position]
