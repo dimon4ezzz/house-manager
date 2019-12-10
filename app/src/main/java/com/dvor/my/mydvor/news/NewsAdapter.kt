@@ -64,18 +64,18 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
         likesButton.setOnClickListener {
             when (comment) {
                 Comment.Like -> {
-                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("likes").child(mAuth.uid!!)
                     myRef3.removeValue()
                 }
                 Comment.Dislike -> {
                     NewsFragment.updateUIflag = false
-                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
+                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("dislikes").child(mAuth.uid!!)
                     myRef.removeValue()
-                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes")
+                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("likes")
                     myRef2.child(mAuth.uid!!).child("info").setValue(0)
                 }
                 else -> {
-                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes")
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("likes")
                     myRef3.child(mAuth.uid!!).child("info").setValue(0)
                 }
             }
@@ -85,18 +85,18 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
             when (comment) {
                 Comment.Like -> {
                     NewsFragment.updateUIflag = false
-                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
+                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("likes").child(mAuth.uid!!)
                     myRef.removeValue()
-                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes")
+                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("dislikes")
                     myRef2.child(mAuth.uid!!).child("info").setValue(0)
                 }
                 Comment.Dislike -> {
-                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("dislikes").child(mAuth.uid!!)
                     myRef3.removeValue()
                 }
                 else -> {
                     val myRef3 = FirebaseDatabase.getInstance().getReference("organization")
-                            .child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes")
+                            .child(organizationId).child("news").child(currentNews.id).child("dislikes")
                     myRef3.child(mAuth.uid!!).child("info").setValue(0)
                 }
             }
