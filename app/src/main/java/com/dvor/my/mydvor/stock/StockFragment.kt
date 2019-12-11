@@ -6,181 +6,43 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
-import com.dvor.my.mydvor.MyEvent
-import com.dvor.my.mydvor.MyEventListener
 import com.dvor.my.mydvor.R
-import com.dvor.my.mydvor.Type
+import com.dvor.my.mydvor.data.Retailer
 import com.dvor.my.mydvor.data.Stock
-import com.dvor.my.mydvor.firebase.Auth
-import com.google.firebase.database.*
+import com.dvor.my.mydvor.firebase.RetailersBranchDao
+import com.dvor.my.mydvor.firebase.UsersBranchDao
 import java.util.*
 
 class StockFragment : Fragment() {
-
-    internal var userStreetId: String = ""
-    internal lateinit var retailersStreet: DataSnapshot
-    internal var myRef2: DatabaseReference? = null
-    internal var myRef3: DatabaseReference? = null
-    internal var retailers: MutableList<DataSnapshot> = LinkedList()
-    internal var shopsID: MutableList<DataSnapshot> = LinkedList()
-    internal var listenerRetailersStreet: ValueEventListener? = null
-    internal var listenerRetailers: ValueEventListener? = null
-
-    private val stocks = ArrayList<Stock>()
     private lateinit var stockList: ListView
-
-    private fun addEventListener(eventListener: MyEventListener) {
-        eventListeners!!.add(eventListener)
-    }
-
-    fun notifyEventListeners(event: MyEvent) {
-        for (eventListener in eventListeners!!) {
-            eventListener.processEvent(event)
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        if (eventListeners == null) {
-            eventListeners = LinkedList()
-        } else {
-            eventListeners!!.clear()
-        }
-
         val view = inflater.inflate(R.layout.fragment_stock, container, false)
-        // начальная инициализация списка
-        //setInitialData();
-        // получаем элемент ListView
         stockList = view.findViewById(R.id.stocksList)
 
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(Auth.getCurrentUserId())
-
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.value != null) {
-                    userStreetId = dataSnapshot.child("street_id").value!!.toString()
-
-                    notifyEventListeners(MyEvent(this, Type.UpdateAddressID))
-                }
+        UsersBranchDao.listenUsersBranch { user ->
+            RetailersBranchDao.listenRetailersBranch(user.street_id) { list ->
+                updateUI(list)
             }
+        }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        })
-
-        this.addEventListener(object : MyEventListener {
-            override fun processEvent(event: MyEvent) {
-                if (event.source == null) {
-                    return
-                }
-
-                when (event.type) {
-                    Type.UpdateAddressID -> {
-
-                        if (myRef2 != null) {
-                            myRef2!!.removeEventListener(listenerRetailersStreet!!)
-                        }
-
-                        myRef2 = FirebaseDatabase.getInstance()
-                                .getReference("streets")
-                                .child(userStreetId)
-                                .child("retailers")
-
-                        listenerRetailersStreet = object : ValueEventListener {
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                retailersStreet = dataSnapshot
-
-                                notifyEventListeners(MyEvent(this, Type.UpdateRetailersStreet))
-                            }
-
-                            override fun onCancelled(databaseError: DatabaseError) {
-
-                            }
-                        }
-
-                        myRef2!!.addValueEventListener(listenerRetailersStreet!!)
-                    }
-
-                    Type.UpdateRetailersStreet -> {
-
-                        if (myRef3 != null) {
-                            myRef3!!.removeEventListener(listenerRetailers!!)
-                        }
-
-                        myRef3 = FirebaseDatabase.getInstance().getReference("retailers")
-
-                        listenerRetailers = object : ValueEventListener {
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                                retailers.clear()
-                                shopsID.clear()
-
-                                if (dataSnapshot.value != null) {
-                                    for (retailerStreet in retailersStreet.children) {
-                                        shopsID.add(retailerStreet.child("shops"))
-
-                                        val retailerID = retailerStreet.child("id").value!!.toString()
-                                        retailers.add(dataSnapshot.child(retailerID))
-
-                                        notifyEventListeners(MyEvent(this, Type.UpdateRetailers))
-                                    }
-                                }
-                            }
-
-                            override fun onCancelled(databaseError: DatabaseError) {
-
-                            }
-                        }
-
-                        myRef3!!.addValueEventListener(listenerRetailers!!)
-                    }
-
-                    Type.UpdateRetailers -> {
-                        updateUI()
-                        System.gc()
-                    }
-                }
-            }
-        })
         return view
     }
 
-    private fun updateUI() {
-        stocks.clear()
-
-        for (i in retailers.indices) {
-            //String retailerName = retailers.get(i).child("name").getValue().toString();
-
-            val sales = retailers[i].child("sales")
-
-            for (sale in sales.children) {
-                stocks.add(Stock(sale.child("title").value!!.toString(),
-                        sale.child("text").value!!.toString(),
-                        sale.child("address").value!!.toString(), sale.child("img").value!!.toString()))
-            }
+    private fun updateUI(retailers: List<Retailer>) {
+        val stocks = ArrayList<Stock>()
+        for (ret in retailers) {
+            stocks.addAll(ret.stocks!!.asIterable())
         }
 
         val newsAdapter = StockAdapter(activity, R.layout.list_stocks, stocks)
-        // устанавливаем адаптер
         stockList.adapter = newsAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        eventListeners!!.clear()
-        if (myRef2 != null) {
-            myRef2!!.removeEventListener(listenerRetailersStreet!!)
-        }
-        if (myRef3 != null) {
-            myRef3!!.removeEventListener(listenerRetailers!!)
-        }
-        listenerRetailersStreet = null
-        listenerRetailers = null
-    }
-
-    companion object {
-        private var eventListeners: MutableList<MyEventListener>? = null
+        RetailersBranchDao.stopListenRetailersBranch()
     }
 }
