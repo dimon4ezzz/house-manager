@@ -2,7 +2,6 @@ package com.dvor.my.mydvor.stock
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,15 +34,11 @@ class StockAdapter(internal var context: FragmentActivity?, private val layout: 
         Storage.downloadPicture(stock.imgResource.toString(), imgView)
 
         addressView.setOnClickListener {
-            try {
-                val gmmIntentUri = Uri.parse("geo:56.8138122,60.5145084,11?q=" + Uri.encode(stock.address))
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.setPackage("com.google.android.apps.maps")
-                if (mapIntent.resolveActivity(context?.packageManager!!) != null) {
-                    context?.startActivity(mapIntent)
-                }
-            } catch (ex: Exception) {
-                Log.d("state", ex.message)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("geo:56.8138122,60.5145084")
+            }
+            if (intent.resolveActivity(context!!.packageManager) != null) {
+                context!!.startActivity(intent)
             }
         }
 
