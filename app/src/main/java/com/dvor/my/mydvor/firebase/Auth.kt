@@ -91,4 +91,10 @@ object Auth {
             actionOnFail()
         }
     }
+
+    /**
+     * Sign out user from Firebase.
+     */
+    fun signOut() =
+            auth.signOut()
 }
