@@ -16,6 +16,7 @@ object Auth {
     internal val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private var listener: FirebaseAuth.AuthStateListener? = null
+    private var notificationsListener: FirebaseAuth.AuthStateListener? = null
 
     /**
      * Checks if current user is present.
@@ -57,12 +58,21 @@ object Auth {
      * @sample listenAuthState(moveToLogin)
      */
     fun listenAuthState(f: (loggedIn: Boolean) -> Unit) {
-        stopListenAuthState()
-
         listener = FirebaseAuth.AuthStateListener {
             f(isLoggedIn())
         }
         auth.addAuthStateListener(listener!!)
+    }
+
+    /**
+     * Special listener for notifications.
+     * Creates another listener, which un-removable with usual method.
+     */
+    fun listenNotifications(f: (loggedIn: Boolean) -> Unit) {
+        notificationsListener = FirebaseAuth.AuthStateListener {
+            f(isLoggedIn())
+        }
+        auth.addAuthStateListener(notificationsListener!!)
     }
 
     /**
@@ -74,6 +84,18 @@ object Auth {
         }
 
         listener = null
+    }
+
+    /**
+     * Special detacher for notifications.
+     * Detaches notifications listener from auth, set `listener` to `null`.
+     */
+    fun stopNotifications() {
+        notificationsListener?.let {
+            auth.removeAuthStateListener(notificationsListener!!)
+        }
+
+        notificationsListener = null
     }
 
     /**

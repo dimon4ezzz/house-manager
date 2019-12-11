@@ -10,7 +10,6 @@ import android.graphics.Color
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.dvor.my.mydvor.firebase.Auth
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
 
@@ -18,8 +17,6 @@ class MyNotifications : Service() {
     internal lateinit var notificationManager: NotificationManager
     private var notificationId = 2
 
-    private lateinit var mAuth: FirebaseAuth
-    private var mAuthListener: FirebaseAuth.AuthStateListener? = null
     internal var userStreetId: String = ""
     internal var organizationId: String = ""
     internal var userBuildingId: String = ""
@@ -84,18 +81,12 @@ class MyNotifications : Service() {
             eventListeners!!.clear()
         }
 
-        mAuth = FirebaseAuth.getInstance()
-
-        mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            val user = firebaseAuth.currentUser
-
-            if (user == null) {
+        Auth.listenNotifications { loggedIn ->
+            if (!loggedIn) {
                 notificationManager.cancelAll()
                 stopSelf()
             }
         }
-
-        mAuth.addAuthStateListener(mAuthListener!!)
 
         val myRef = FirebaseDatabase.getInstance().getReference("users").child(Auth.getCurrentUserId())
 
@@ -304,10 +295,7 @@ class MyNotifications : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener!!)
-        }
+        Auth.stopNotifications()
 
         eventListeners!!.clear()
         if (myRef2 != null) {
