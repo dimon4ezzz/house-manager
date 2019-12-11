@@ -1,6 +1,6 @@
 package com.dvor.my.mydvor
 
-import java.util.EventObject
+import java.util.*
 
 class MyEvent(source: Any, type: Type) : EventObject(source) {
 

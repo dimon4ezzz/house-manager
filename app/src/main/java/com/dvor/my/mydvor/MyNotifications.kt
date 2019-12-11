@@ -53,21 +53,21 @@ class MyNotifications : Service() {
         channel.enableVibration(false)
         notificationManager.createNotificationChannel(channel)
 
-        val channel_1 = NotificationChannel("1", "Сообщения от УК",
+        val channel1 = NotificationChannel("1", "Сообщения от УК",
                 NotificationManager.IMPORTANCE_HIGH)
-        channel_1.description = "My channel description"
-        channel_1.enableLights(true)
-        channel_1.lightColor = Color.RED
-        channel_1.enableVibration(true)
-        notificationManager.createNotificationChannel(channel_1)
+        channel1.description = "My channel description"
+        channel1.enableLights(true)
+        channel1.lightColor = Color.RED
+        channel1.enableVibration(true)
+        notificationManager.createNotificationChannel(channel1)
 
-        val channel_2 = NotificationChannel("2", "Уведомления для вашего дома",
+        val channel2 = NotificationChannel("2", "Уведомления для вашего дома",
                 NotificationManager.IMPORTANCE_HIGH)
-        channel_2.description = "My channel description"
-        channel_2.enableLights(true)
-        channel_2.lightColor = Color.RED
-        channel_2.enableVibration(true)
-        notificationManager.createNotificationChannel(channel_2)
+        channel2.description = "My channel description"
+        channel2.enableLights(true)
+        channel2.lightColor = Color.RED
+        channel2.enableVibration(true)
+        notificationManager.createNotificationChannel(channel2)
 
         val notification = NotificationCompat.Builder(this, "0")
                 .setSmallIcon(R.mipmap.ic_launcher_foreground)
@@ -202,7 +202,7 @@ class MyNotifications : Service() {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 notificationsRead = dataSnapshot
 
-                                notifyEventListeners(MyEvent(this, Type.UpdateUI_2))
+                                notifyEventListeners(MyEvent(this, Type.AnotherUpdateUI))
                             }
 
                             override fun onCancelled(databaseError: DatabaseError) {
@@ -218,7 +218,7 @@ class MyNotifications : Service() {
                         System.gc()
                     }
 
-                    Type.UpdateUI_2 -> {
+                    Type.AnotherUpdateUI -> {
                         deleteNotificationsAndUpdateUI()
                         System.gc()
                     }

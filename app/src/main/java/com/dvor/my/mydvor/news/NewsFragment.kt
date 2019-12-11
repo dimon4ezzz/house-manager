@@ -106,7 +106,10 @@ class NewsFragment : Fragment() {
                 deletePrefImg()
             }
         }
-        deleteBtn.visibility = View.VISIBLE
+
+        if (MainActivity.postImg != "newsImages/no") {
+            deleteBtn.visibility = View.VISIBLE
+        }
 
         postText = view.findViewById(R.id.et_post)
         mAuth = FirebaseAuth.getInstance()
@@ -235,6 +238,8 @@ class NewsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        val loader = view!!.findViewById<ProgressBar>(R.id.loading_spinner)
+
         if (requestCode == RESULT_GALLERY && data != null) {
             // remember image data
             imageUri = data.data
@@ -245,9 +250,11 @@ class NewsFragment : Fragment() {
                 // decode this as bitmap
                 val selectedImage = BitmapFactory.decodeStream(imageStream)
                 // upload picture to firebase
-                Storage.uploadPicture(selectedImage, imgID)
-                // show `delete uploaded picture` button
-                view!!.findViewById<ImageButton>(R.id.ib_delete_image).visibility = View.VISIBLE
+                Storage.uploadPicture(selectedImage, imgID) {
+                    loader.visibility = View.GONE
+                    view!!.findViewById<ImageButton>(R.id.ib_delete_image).visibility = View.VISIBLE
+                }
+                loader.visibility = View.VISIBLE
             } catch (ex: Exception) {
                 Log.d("state", ex.message.toString())
             }
@@ -274,7 +281,7 @@ class NewsFragment : Fragment() {
 
                 var countLikes: Long = 0
                 var countDislikes: Long = 0
-                var comment: NewsAdapter.Comment = NewsAdapter.Comment.absent
+                var comment: NewsAdapter.Comment = NewsAdapter.Comment.Absent
 
                 val likesSnapshot = n.child("likes")
                 val dislikesSnapshot = n.child("dislikes")
@@ -288,9 +295,9 @@ class NewsFragment : Fragment() {
                 }
 
                 if (likesSnapshot.child(mAuth.uid!!).value != null) {
-                    comment = NewsAdapter.Comment.like
+                    comment = NewsAdapter.Comment.Like
                 } else if (dislikesSnapshot.child(mAuth.uid!!).value != null) {
-                    comment = NewsAdapter.Comment.dislike
+                    comment = NewsAdapter.Comment.Dislike
                 }
 
                 likes.add(countLikes.toString())

@@ -31,7 +31,7 @@ object Storage {
 
     }
 
-    fun uploadPicture(img: Bitmap, Url: String) {
+    fun uploadPicture(img: Bitmap, Url: String, f: () -> Unit) {
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
         val imagesRef = storageRef.child(Url)
@@ -42,9 +42,11 @@ object Storage {
             val data = baos.toByteArray()
             val uploadTask = imagesRef.putBytes(data)
 
-            uploadTask.addOnFailureListener {
-                // Handle unsuccessful uploads
-            }.addOnSuccessListener { }
+            uploadTask.addOnSuccessListener {
+                f()
+            }.addOnFailureListener {
+                Log.d("state", "failure upload")
+            }
         } catch (ex: Exception) {
             Log.d("state", ex.message.toString())
         }

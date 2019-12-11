@@ -2,7 +2,6 @@
     <string name="app_name">Мой двор</string>
     <string name="prompt_email">Email</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="title_activity_menu">Menu</string>
     <string name="title_menu_stock">Акции рядом</string>
     <string name="title_menu_message">Чат</string>
     <string name="title_menu_news">Новости</string>
@@ -34,4 +33,11 @@
     <string name="lately">Здесь пока ничего нет, возращайтесь позже!</string>
     <string name="title_menu_emergency">Экстренные вызовы</string>
     <string name="your_company_is">Вы обслуживаетесь в </string>
+    <string name="delete_image">Удалить картинку</string>
+    <string name="add_image">Добавить картинку</string>
+    <string name="delete_post">Удалить пост</string>
+    <string name="like">Нравится</string>
+    <string name="dislike">Не нравится</string>
+    <string name="share">Поделиться</string>
+    <string name="calls">Вызовы</string>
 </resources>

@@ -3,21 +3,21 @@
     <item
         android:id="@+id/emergencyFragment"
         android:icon="@drawable/ic_call_black_24dp"
-        android:title="@string/title_menu_emergency" />
+        android:title="@string/calls" />
     <item
-            android:id="@+id/stockFragment"
-            android:icon="@drawable/ic_menu_stock"
-            android:title="@string/title_menu_stock" />
+        android:id="@+id/stockFragment"
+        android:icon="@drawable/ic_menu_stock"
+        android:title="@string/title_menu_stock" />
     <item
-            android:id="@+id/messageFragment"
-            android:icon="@drawable/ic_menu_message"
-            android:title="@string/title_menu_message" />
+        android:id="@+id/messageFragment"
+        android:icon="@drawable/ic_menu_message"
+        android:title="@string/title_menu_message" />
     <item
-            android:id="@+id/notificationFragment"
-            android:icon="@drawable/ic_menu_notif"
-            android:title="@string/title_menu_notification" />
+        android:id="@+id/notificationFragment"
+        android:icon="@drawable/ic_menu_notif"
+        android:title="@string/title_menu_notification" />
     <item
-            android:id="@+id/menuFragment"
-            android:icon="@drawable/ic_menu_black_24dp"
-            android:title="@string/title_menu_menu" />
+        android:id="@+id/menuFragment"
+        android:icon="@drawable/ic_menu_black_24dp"
+        android:title="@string/title_menu_menu" />
 </menu>

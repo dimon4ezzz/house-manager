@@ -3,10 +3,7 @@ package com.dvor.my.mydvor.news
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.FragmentActivity
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Storage
@@ -22,7 +19,7 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
 
 
     enum class Comment {
-        absent, like, dislike
+        Absent, Like, Dislike
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -39,36 +36,46 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
         val dislikesButton = view.findViewById<ImageButton>(R.id.dislikesButton)
         val deleteButton = view.findViewById<ImageButton>(R.id.deleteButton)
         val currentNews = news[position]
-        Storage.downloadPicture(currentNews.imgResource, imgView)
+
+        if (currentNews.imgResource != "newsImages/no" && currentNews.imgResource != "null") {
+            imgView.visibility = View.VISIBLE
+            Storage.downloadPicture(currentNews.imgResource, imgView)
+        } else {
+            imgView.visibility = View.GONE
+        }
+
         titleView.text = currentNews.title
         dateView.text = DateConverter.convert(currentNews.date.toString())
+        dateView.setOnClickListener {
+            Toast.makeText(context, currentNews.date.toString(), Toast.LENGTH_SHORT).show()
+        }
         textView.text = currentNews.text
         likesView.text = likes[position]
         dislikesView.text = dislikes[position]
 
         val comment = comments[position]
 
-        if (comment == Comment.like) {
+        if (comment == Comment.Like) {
             likesButton.setImageResource(R.drawable.like_red)
-        } else if (comment == Comment.dislike) {
+        } else if (comment == Comment.Dislike) {
             dislikesButton.setImageResource(R.drawable.dislike_red)
         }
 
         likesButton.setOnClickListener {
             when (comment) {
-                Comment.like -> {
-                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
+                Comment.Like -> {
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("likes").child(mAuth.uid!!)
                     myRef3.removeValue()
                 }
-                Comment.dislike -> {
+                Comment.Dislike -> {
                     NewsFragment.updateUIflag = false
-                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
+                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("dislikes").child(mAuth.uid!!)
                     myRef.removeValue()
-                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes")
+                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("likes")
                     myRef2.child(mAuth.uid!!).child("info").setValue(0)
                 }
                 else -> {
-                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes")
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("likes")
                     myRef3.child(mAuth.uid!!).child("info").setValue(0)
                 }
             }
@@ -76,20 +83,20 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
 
         dislikesButton.setOnClickListener {
             when (comment) {
-                Comment.like -> {
+                Comment.Like -> {
                     NewsFragment.updateUIflag = false
-                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("likes").child(mAuth.uid!!)
+                    val myRef = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("likes").child(mAuth.uid!!)
                     myRef.removeValue()
-                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes")
+                    val myRef2 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("dislikes")
                     myRef2.child(mAuth.uid!!).child("info").setValue(0)
                 }
-                Comment.dislike -> {
-                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes").child(mAuth.uid!!)
+                Comment.Dislike -> {
+                    val myRef3 = FirebaseDatabase.getInstance().getReference("organization").child(organizationId).child("news").child(currentNews.id).child("dislikes").child(mAuth.uid!!)
                     myRef3.removeValue()
                 }
                 else -> {
                     val myRef3 = FirebaseDatabase.getInstance().getReference("organization")
-                            .child(organizationId).child("news").child((news.size - 1 - position).toString()).child("dislikes")
+                            .child(organizationId).child("news").child(currentNews.id).child("dislikes")
                     myRef3.child(mAuth.uid!!).child("info").setValue(0)
                 }
             }
