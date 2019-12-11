@@ -15,6 +15,7 @@ import com.dvor.my.mydvor.*
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.News
 import com.dvor.my.mydvor.data.NewsBD
+import com.dvor.my.mydvor.firebase.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
@@ -115,7 +116,7 @@ class NewsFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
 
         postText!!.text = MainActivity.savedPost
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(Auth.getCurrentUserId())
         imgID = MainActivity.postImg
 
         myRef.addValueEventListener(object : ValueEventListener {
@@ -217,7 +218,7 @@ class NewsFragment : Fragment() {
             return
 
         val mes = NewsBD(userName, postText!!.text.toString(),
-                Date().toString(), imgID, mAuth.uid.toString())
+                Date().toString(), imgID, Auth.getCurrentUserId())
 
         postText!!.text = ""
         MainActivity.savedPost = ""
@@ -294,9 +295,9 @@ class NewsFragment : Fragment() {
                     countDislikes = dislikesSnapshot.childrenCount
                 }
 
-                if (likesSnapshot.child(mAuth.uid!!).value != null) {
+                if (likesSnapshot.child(Auth.getCurrentUserId()).value != null) {
                     comment = NewsAdapter.Comment.Like
-                } else if (dislikesSnapshot.child(mAuth.uid!!).value != null) {
+                } else if (dislikesSnapshot.child(Auth.getCurrentUserId()).value != null) {
                     comment = NewsAdapter.Comment.Dislike
                 }
 

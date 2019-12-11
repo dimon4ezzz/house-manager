@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.dvor.my.mydvor.firebase.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
@@ -96,7 +97,7 @@ class MyNotifications : Service() {
 
         mAuth.addAuthStateListener(mAuthListener!!)
 
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(Auth.getCurrentUserId())
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -173,7 +174,7 @@ class MyNotifications : Service() {
                         }
 
                         myRef3 = FirebaseDatabase.getInstance().getReference("organization")
-                                .child(organizationId).child("messages").child(mAuth.uid!!)
+                                .child(organizationId).child("messages").child(Auth.getCurrentUserId())
 
                         listenerMessages = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -196,7 +197,7 @@ class MyNotifications : Service() {
                         }
 
                         myRef5 = FirebaseDatabase.getInstance().getReference("streets").child(userStreetId)
-                                .child("buildings").child(userBuildingId).child("notificationsRead").child(mAuth.uid!!)
+                                .child("buildings").child(userBuildingId).child("notificationsRead").child(Auth.getCurrentUserId())
 
                         listenerRead = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {

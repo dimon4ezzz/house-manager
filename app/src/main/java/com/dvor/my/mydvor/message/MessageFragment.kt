@@ -14,13 +14,12 @@ import com.dvor.my.mydvor.*
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.Message
 import com.dvor.my.mydvor.data.MessageBD
-import com.google.firebase.auth.FirebaseAuth
+import com.dvor.my.mydvor.firebase.Auth
 import com.google.firebase.database.*
 import java.util.*
 
 class MessageFragment : Fragment(), View.OnClickListener {
 
-    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal var organizationId: String = ""
     internal var userBuildingId: String = ""
@@ -75,9 +74,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
         // создаем адаптер
         context = view.context
 
-        mAuth = FirebaseAuth.getInstance()
-
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(Auth.getCurrentUserId())
 
         val button = view.findViewById<Button>(R.id.send_message)
         button.setOnClickListener(this)
@@ -137,7 +134,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
                         }
 
                         myRef3 = FirebaseDatabase.getInstance().getReference("organization")
-                                .child(organizationId).child("messages").child(mAuth.uid!!)
+                                .child(organizationId).child("messages").child(Auth.getCurrentUserId())
 
                         listenerMessages = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -186,7 +183,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
         MainActivity.savedMessage = ""
         FirebaseDatabase.getInstance().getReference("organization")
                 .child(organizationId).child("messages")
-                .child(mAuth.uid!!).child(messageId.toString()).setValue(mes)
+                .child(Auth.getCurrentUserId()).child(messageId.toString()).setValue(mes)
     }
 
     private fun updateUI() {
@@ -201,7 +198,7 @@ class MessageFragment : Fragment(), View.OnClickListener {
                     userName = "Управляющая компания:"
                     FirebaseDatabase.getInstance().getReference("organization")
                             .child(organizationId).child("messages")
-                            .child(mAuth.uid!!).child(n.key!!).child("read").setValue(1)
+                            .child(Auth.getCurrentUserId()).child(n.key!!).child("read").setValue(1)
                 }
                 messages.add(Message(userName, n.child("text").value.toString(), n.child("date").value.toString()))
             }

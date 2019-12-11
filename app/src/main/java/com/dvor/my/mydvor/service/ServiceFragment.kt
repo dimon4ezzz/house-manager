@@ -16,14 +16,13 @@ import com.dvor.my.mydvor.MyEventListener
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Type
 import com.dvor.my.mydvor.data.Service
-import com.google.firebase.auth.FirebaseAuth
+import com.dvor.my.mydvor.firebase.Auth
 import com.google.firebase.database.*
 import java.util.*
 
 class ServiceFragment : Fragment() {
     internal var data = arrayOf("Доставка воды", "Продукты", "Сантехник")
 
-    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal var organizationId: String = ""
     internal var userBuildingId: String = ""
@@ -88,8 +87,7 @@ class ServiceFragment : Fragment() {
     }
 
     private fun takeDataSnapshot() {
-        mAuth = FirebaseAuth.getInstance()
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(Auth.getCurrentUserId())
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.value != null) {

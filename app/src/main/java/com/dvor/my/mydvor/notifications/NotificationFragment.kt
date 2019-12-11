@@ -12,13 +12,12 @@ import com.dvor.my.mydvor.MyEventListener
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Type
 import com.dvor.my.mydvor.data.Notification
-import com.google.firebase.auth.FirebaseAuth
+import com.dvor.my.mydvor.firebase.Auth
 import com.google.firebase.database.*
 import java.util.*
 
 class NotificationFragment : Fragment() {
 
-    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal var userBuildingId: String = ""
     internal var myRef2: DatabaseReference? = null
@@ -59,9 +58,7 @@ class NotificationFragment : Fragment() {
         // создаем адаптер
         context = view.context
 
-        mAuth = FirebaseAuth.getInstance()
-
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(Auth.getCurrentUserId())
 
 
         myRef.addValueEventListener(object : ValueEventListener {
@@ -129,7 +126,7 @@ class NotificationFragment : Fragment() {
                 notifications.add(Notification(n.child("text").value!!.toString(), n.child("date").value!!.toString()))
                 FirebaseDatabase.getInstance().getReference("streets")
                         .child(userStreetId).child("buildings")
-                        .child(userBuildingId).child("notificationsRead").child(mAuth.uid!!).child(n.key!!).setValue(1)
+                        .child(userBuildingId).child("notificationsRead").child(Auth.getCurrentUserId()).child(n.key!!).setValue(1)
             }
         }
         notifications.reverse()

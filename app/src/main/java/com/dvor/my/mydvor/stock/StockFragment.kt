@@ -11,13 +11,12 @@ import com.dvor.my.mydvor.MyEventListener
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.Type
 import com.dvor.my.mydvor.data.Stock
-import com.google.firebase.auth.FirebaseAuth
+import com.dvor.my.mydvor.firebase.Auth
 import com.google.firebase.database.*
 import java.util.*
 
 class StockFragment : Fragment() {
 
-    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal lateinit var retailersStreet: DataSnapshot
     internal var myRef2: DatabaseReference? = null
@@ -55,9 +54,7 @@ class StockFragment : Fragment() {
         // получаем элемент ListView
         stockList = view.findViewById(R.id.stocksList)
 
-        mAuth = FirebaseAuth.getInstance()
-
-        val myRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.uid!!)
+        val myRef = FirebaseDatabase.getInstance().getReference("users").child(Auth.getCurrentUserId())
 
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
