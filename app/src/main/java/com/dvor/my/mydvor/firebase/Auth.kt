@@ -21,4 +21,17 @@ object Auth {
      */
     fun isLoggedIn(): Boolean =
             auth.currentUser != null
+
+    /**
+     * Gets current user id from Firebase and returns it.
+     *
+     * @return id of current user from Firebase (uid)
+     * @throws IllegalAccessException when user is not logged in
+     */
+    internal fun getCurrentUserId(): String {
+        if (!isLoggedIn())
+            throw IllegalAccessException("user is not logged in")
+
+        return auth.currentUser!!.uid
+    }
 }

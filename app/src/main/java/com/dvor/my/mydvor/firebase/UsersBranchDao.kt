@@ -28,14 +28,15 @@ object UsersBranchDao {
     /**
      * Calls `f` function with user with `userId` from Firebase. Detaches last listener from branch.
      *
-     * @param userId uid, e.g. from FirebaseAuth
+     * @param userId uid, e.g. from FirebaseAuth; current user id by default
      * @param f function to call, e.g. updateUI
      * @sample listenUsersBranch("Zya1L9AadzMXZfDkih2zjWpkq0I2", updateUI)
      * @throws com.google.firebase.database.DatabaseException
      *  when `users/userId` branch does not exists,
      *  or Firebase cancels request
+     * @throws IllegalAccessException when user is not logged in
      */
-    fun listenUsersBranch(userId: String, f: (user: User) -> Unit) {
+    fun listenUsersBranch(userId: String = Auth.getCurrentUserId(), f: (user: User) -> Unit) {
         stopListenUsersBranch()
         checkUserLogin()
 
