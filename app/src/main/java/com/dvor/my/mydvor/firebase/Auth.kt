@@ -23,6 +23,17 @@ object Auth {
             auth.currentUser != null
 
     /**
+     * Checks if user is not logged in, and throws.
+     *
+     * @throws IllegalAccessException when user is not logged in
+     * @see Auth.isLoggedIn
+     */
+    fun checkUserLoginAndThrow() {
+        if (!Auth.isLoggedIn())
+            throw IllegalAccessException("user is not logged in")
+    }
+
+    /**
      * Gets current user id from Firebase and returns it.
      *
      * @return id of current user from Firebase (uid)

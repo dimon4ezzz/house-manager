@@ -32,13 +32,13 @@ object UsersBranchDao {
      * @param f function to call, e.g. updateUI
      * @sample listenUsersBranch("Zya1L9AadzMXZfDkih2zjWpkq0I2", updateUI)
      * @throws com.google.firebase.database.DatabaseException
-     *  when `users/userId` branch does not exists,
+     *  when `users/userId` branch is not exist,
      *  or Firebase cancels request
      * @throws IllegalAccessException when user is not logged in
      */
     fun listenUsersBranch(userId: String = Auth.getCurrentUserId(), f: (user: User) -> Unit) {
         stopListenUsersBranch()
-        checkUserLogin()
+        Auth.checkUserLoginAndThrow()
 
         usersBranch = usersBranch.child(userId)
         usersBranchListener = object : ValueEventListener {
@@ -69,20 +69,11 @@ object UsersBranchDao {
     }
 
     /**
-     * Checks if user is not logged in, and throws.
-     *
-     * @throws IllegalAccessException when user is not logged in
-     * @see Auth.isLoggedIn
-     */
-    private fun checkUserLogin() {
-        if (!Auth.isLoggedIn())
-            throw IllegalAccessException("user is not logged in")
-    }
-
-    /**
      * Gets user data from database.
      *
      * @return User POJO without `building` and `street` fields.
+     * @throws com.google.firebase.database.DatabaseException
+     *  when cannot find fields in the branch.
      */
     private fun getUser(dataSnapshot: DataSnapshot): User =
             User(
