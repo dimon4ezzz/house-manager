@@ -74,4 +74,8 @@ object Auth {
 
         listener = null
     }
+
+    @Deprecated("only for compatibility; don't use")
+    fun getUserId(): String =
+            auth.currentUser!!.uid
 }
