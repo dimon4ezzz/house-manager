@@ -53,12 +53,15 @@ class MenuFragment : Fragment() {
     }
 
     /**
-     * Updates view, set `username` and `address` textviews
+     * Updates `username` textView
      */
     private fun updateUsername() {
         view?.findViewById<TextView>(R.id.username)?.text = getUsername()
     }
 
+    /**
+     * Updates `address` textView
+     */
     private fun updateAddress() {
         view?.findViewById<TextView>(R.id.address)?.text = getAddress()
     }
