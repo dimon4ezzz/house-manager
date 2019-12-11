@@ -9,24 +9,19 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.dvor.my.mydvor.firebase.Auth
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var mAuth: FirebaseAuth
-    private var mAuthListener: FirebaseAuth.AuthStateListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mAuth = FirebaseAuth.getInstance()
-        mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            val user = firebaseAuth.currentUser
-
-            if (user == null) {
-                val i = Intent(this@MainActivity, LoginActivity::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        Auth.listenAuthState { loggedIn ->
+            if (!loggedIn) {
+                val i = Intent(this@MainActivity, LoginActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
                 startActivity(i)
             }
         }
@@ -63,14 +58,11 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        mAuth.addAuthStateListener(mAuthListener!!)
     }
 
     public override fun onStop() {
         super.onStop()
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener!!)
-        }
+        Auth.stopListenAuthState()
     }
 
     companion object {
