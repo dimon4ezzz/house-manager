@@ -1,7 +1,6 @@
 package com.dvor.my.mydvor.menu
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,25 +11,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.User
+import com.dvor.my.mydvor.firebase.AddressDelegator
 import com.dvor.my.mydvor.firebase.UsersBranchDao
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
 
 class MenuFragment : Fragment() {
 
     lateinit var mAuth: FirebaseAuth
-    lateinit var database: DatabaseReference
     lateinit var user: User
-
-    lateinit var streetBranch: DatabaseReference
-
-    lateinit var streetListener: ValueEventListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
         mAuth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance().reference
         // variable init
         user = User("", "", "", "", "", "", "")
         setUserListener()
@@ -97,31 +89,18 @@ class MenuFragment : Fragment() {
      * Sets database listener for fetch data from `streets` branch
      */
     private fun setAddressListener() {
-        streetListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                user.street = dataSnapshot.child("name").value.toString()
-                user.building = dataSnapshot
-                        .child("buildings")
-                        .child(user.building_id.toString())
-                        .child("number").value.toString()
+        AddressDelegator.listenAddress(user) { user ->
+            this.user = user
 
-                updateAddress()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("state", databaseError.message)
-            }
+            updateAddress()
         }
-
-        streetBranch = database.child("streets").child(user.street_id.toString())
-        streetBranch.addValueEventListener(streetListener)
     }
 
     override fun onStop() {
         super.onStop()
 
         UsersBranchDao.stopListenUsersBranch()
-        streetBranch.removeEventListener(streetListener)
+        AddressDelegator.stopListenAddress()
     }
 
     companion object {

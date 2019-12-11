@@ -216,7 +216,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
                 for (streetSnapshot in dataSnapshot.children) {
                     streetsList.add(Street(
-                            id = streetSnapshot.key,
+                            id = streetSnapshot.key.toString(),
                             name = streetSnapshot.child("name").value.toString()
                     ))
                 }
@@ -264,7 +264,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
                 for (buildingSnapshot in dataSnapshot.children) {
                     buildingsList.add(Building(
-                            id = buildingSnapshot.key,
+                            id = buildingSnapshot.key.toString(),
                             number = buildingSnapshot.child("number").value.toString()
                     ))
                 }

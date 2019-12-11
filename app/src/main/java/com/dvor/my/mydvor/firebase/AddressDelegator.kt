@@ -1,6 +1,6 @@
 package com.dvor.my.mydvor.firebase
 
-import com.dvor.my.mydvor.data.Address
+import com.dvor.my.mydvor.data.User
 
 /**
  * Support object to get full address of user from Firebase database.
@@ -9,30 +9,27 @@ import com.dvor.my.mydvor.data.Address
  */
 object AddressDelegator {
     /**
-     * Calls `f` function with street with `streetId` and building with `buildingId` from Firebase.
+     * Calls `f` function with street with `street_id` and building with `building_id` from Firebase.
      *
-     * @param streetId id of the street
-     * @param buildingId id of the building
-     * @param apartment user apartment
-     * @sample listenAddress("1", "0", "12", updateUI)
+     * @param user user to complete
+     * @sample listenAddress(user, updateUI)
      * @throws com.google.firebase.database.DatabaseException
-     *  when `streets/streetId` branch is not exist,
+     *  when `streets/id` branch is not exist,
      *  or `streets/id/buildings/buildingId` branch is not exist,
      *  or Firebase cancels request
      * @throws IllegalAccessException
      *  when user is not logged in
      */
-    fun listenAddress(streetId: String, buildingId: String, apartment: String, f: (address: Address) -> Unit) {
-        val address = Address("", "", apartment)
+    fun listenAddress(user: User, f: (user: User) -> Unit) {
         stopListenAddress()
 
-        StreetsBranchDao.listenStreetsBranch(streetId) { street ->
-            address.street = street.name
+        StreetsBranchDao.listenStreetsBranch(user.street_id) { street ->
+            user.street = street.name
 
-            BuildingsBranchDao.listenBuildingsBranch(streetId, buildingId) { building ->
-                address.building = building.number
+            BuildingsBranchDao.listenBuildingsBranch(user.street_id, user.building_id) { building ->
+                user.building = building.number
 
-                f(address)
+                f(user)
             }
         }
     }
