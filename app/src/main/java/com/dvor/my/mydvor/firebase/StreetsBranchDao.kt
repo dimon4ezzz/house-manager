@@ -76,7 +76,7 @@ object StreetsBranchDao {
      */
     private fun getStreet(dataSnapshot: DataSnapshot): Street =
             Street(
-                    id = dataSnapshot.key,
+                    id = dataSnapshot.key.toString(),
                     name = dataSnapshot.child("name").value.toString()
             )
 }

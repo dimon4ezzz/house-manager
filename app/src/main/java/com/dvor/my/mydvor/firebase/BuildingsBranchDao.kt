@@ -83,7 +83,7 @@ object BuildingsBranchDao {
      */
     private fun getBuilding(dataSnapshot: DataSnapshot): Building =
             Building(
-                    id = dataSnapshot.key,
+                    id = dataSnapshot.key.toString(),
                     number = dataSnapshot.child("number").value.toString()
             )
 }
