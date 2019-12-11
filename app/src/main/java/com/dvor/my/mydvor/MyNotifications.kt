@@ -283,14 +283,14 @@ class MyNotifications : Service() {
     private fun buildAndSendNotification(title: String, message: String, channelId: String, contentIntent: PendingIntent, mess: Boolean) {
         val builder: NotificationCompat.Builder = if (mess) {
             NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.drawable.ic_menu_message)
+                    .setSmallIcon(R.drawable.ic_chat_black_24dp)
                     .setContentTitle(title)
                     .setContentText(message)
                     .setContentIntent(contentIntent)
                     .setAutoCancel(true)
         } else {
             NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.drawable.ic_menu_notif)
+                    .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                     .setContentTitle(title)
                     .setContentText(message)
                     .setContentIntent(contentIntent)

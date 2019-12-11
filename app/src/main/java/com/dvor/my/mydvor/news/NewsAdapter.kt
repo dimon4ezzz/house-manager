@@ -56,9 +56,9 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
         val comment = comments[position]
 
         if (comment == Comment.Like) {
-            likesButton.setImageResource(R.drawable.like_red)
+            likesButton.setImageResource(R.drawable.ic_thumb_up_red_24dp)
         } else if (comment == Comment.Dislike) {
-            dislikesButton.setImageResource(R.drawable.dislike_red)
+            dislikesButton.setImageResource(R.drawable.ic_thumb_down_red_24dp)
         }
 
         likesButton.setOnClickListener {
