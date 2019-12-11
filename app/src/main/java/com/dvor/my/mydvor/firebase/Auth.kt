@@ -1,5 +1,6 @@
 package com.dvor.my.mydvor.firebase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 
 /**
@@ -73,6 +74,22 @@ object Auth {
         }
 
         listener = null
+    }
+
+    /**
+     * Tries to sign-in to Firebase with email and password credentials.
+     * If Firebase cancels authorization, it calls `actionOnFail`.
+     * Writes to debug log Firebase exception message.
+     *
+     * @param email user email for signin
+     * @param password user password for signin
+     * @param actionOnFail function to call when auth fails
+     */
+    fun signIn(email: String, password: String, actionOnFail: () -> Unit) {
+        auth.signInWithEmailAndPassword(email, password).addOnFailureListener { exception ->
+            Log.d("state", exception.message.toString())
+            actionOnFail()
+        }
     }
 
     @Deprecated("only for compatibility; don't use")
