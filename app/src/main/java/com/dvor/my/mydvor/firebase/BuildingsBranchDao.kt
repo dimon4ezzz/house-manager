@@ -60,6 +60,8 @@ object BuildingsBranchDao {
                 throw databaseError.toException()
             }
         }
+
+        buildingsBranch.addValueEventListener(buildingsBranchListener!!)
     }
 
     /**

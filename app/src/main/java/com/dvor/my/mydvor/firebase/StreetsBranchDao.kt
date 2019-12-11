@@ -53,6 +53,8 @@ object StreetsBranchDao {
                 throw databaseError.toException()
             }
         }
+
+        streetsBranch.addValueEventListener(streetsBranchListener!!)
     }
 
     /**
