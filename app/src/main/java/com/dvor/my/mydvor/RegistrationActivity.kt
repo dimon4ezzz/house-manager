@@ -9,19 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dvor.my.mydvor.data.Building
 import com.dvor.my.mydvor.data.Street
 import com.dvor.my.mydvor.data.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.dvor.my.mydvor.firebase.Auth
+import com.dvor.my.mydvor.firebase.Registration
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
 class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var mAuth: FirebaseAuth
-    private var mAuthListener: FirebaseAuth.AuthStateListener? = null
     private var database = FirebaseDatabase.getInstance().reference
 
     private lateinit var email: EditText
@@ -49,14 +45,11 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
-        mAuth = FirebaseAuth.getInstance()
-
-        mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            val user = firebaseAuth.currentUser
-
-            if (user != null) {
-                val i = Intent(this@RegistrationActivity, MainActivity::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        Auth.listenAuthState { loggedIn ->
+            if (loggedIn) {
+                val i = Intent(this@RegistrationActivity, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
                 startActivity(i)
             }
         }
@@ -85,14 +78,11 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
     public override fun onStart() {
         super.onStart()
-        mAuth.addAuthStateListener(mAuthListener!!)
     }
 
     public override fun onStop() {
         super.onStop()
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener!!)
-        }
+        Auth.stopListenAuthState()
     }
 
     private fun validateForm(): Boolean {
@@ -164,50 +154,26 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
         val email = this.email.text.toString()
         val password = this.password.text.toString()
-        val name = this.name.text.toString()
-        val surname = this.surname.text.toString()
-        val streetId = streetsList[streets.selectedItemPosition].id
-        val buildingId = buildingsList[buildings.selectedItemPosition].id
-        val apartment = this.apartment.text.toString()
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-            if (!task.isSuccessful) {
-                when (task.exception) {
-                    is FirebaseAuthUserCollisionException -> {
-                        Toast.makeText(this@RegistrationActivity, "Пользователь с таким email уже существует", Toast.LENGTH_LONG).show()
-                    }
-                    is FirebaseAuthWeakPasswordException -> {
-                        Toast.makeText(this@RegistrationActivity, "Пароль слишком слабый", Toast.LENGTH_LONG).show()
-                    }
-                    else -> {
-                        Toast.makeText(this@RegistrationActivity, "Ошибка, измените регистрационные данные", Toast.LENGTH_LONG).show()
-                    }
-                }
-            } else {
-                addUserToBranch(User(
-                        name = name,
-                        surname = surname,
-                        street = null,
-                        building = null,
-                        apartment = apartment,
-                        street_id = streetId,
-                        building_id = buildingId
-                ))
-            }
-        }
+        Registration.registrate(email, password, getUser(), {
+            Toast.makeText(this@RegistrationActivity, R.string.user_collision, Toast.LENGTH_LONG).show()
+        }, {
+            Toast.makeText(this@RegistrationActivity, R.string.user_weak, Toast.LENGTH_LONG).show()
+        }, {
+            Toast.makeText(this@RegistrationActivity, R.string.registration_failture, Toast.LENGTH_LONG).show()
+        })
     }
 
-    private fun addUserToBranch(user: User) {
-        val usersBranch = database.child("users")
-        val uid = mAuth.uid!!
-
-        // child(uid) branch will be auto-generated
-        usersBranch.child(uid).child("name").setValue(user.name)
-        usersBranch.child(uid).child("surname").setValue(user.surname)
-        usersBranch.child(uid).child("street_id").setValue(user.street_id)
-        usersBranch.child(uid).child("building_id").setValue(user.building_id)
-        usersBranch.child(uid).child("apartment").setValue(user.apartment)
-    }
+    private fun getUser() =
+            User(
+                    name = this.name.text.toString(),
+                    surname = this.surname.text.toString(),
+                    street = null,
+                    building = null,
+                    apartment = this.apartment.text.toString(),
+                    street_id = streetsList[streets.selectedItemPosition].id,
+                    building_id = buildingsList[buildings.selectedItemPosition].id
+            )
 
     private fun streetSpinnerInit() {
         val streetsListener = object : ValueEventListener {

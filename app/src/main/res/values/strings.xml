@@ -40,4 +40,7 @@
     <string name="dislike">Не нравится</string>
     <string name="share">Поделиться</string>
     <string name="calls">Вызовы</string>
+    <string name="user_collision">Пользователь с таким email уже существует</string>
+    <string name="user_weak">Пароль слишком слабый</string>
+    <string name="registration_failture">Регистрация не удалась</string>
 </resources>
