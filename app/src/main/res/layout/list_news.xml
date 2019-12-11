@@ -72,7 +72,7 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/like"
         android:scaleType="centerInside"
-        android:src="@drawable/like"
+        android:src="@drawable/ic_thumb_up_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
@@ -96,7 +96,7 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/dislike"
         android:scaleType="centerInside"
-        android:src="@drawable/dislike"
+        android:src="@drawable/ic_thumb_down_black_24dp"
         app:layout_constraintStart_toEndOf="@+id/likesCount"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 

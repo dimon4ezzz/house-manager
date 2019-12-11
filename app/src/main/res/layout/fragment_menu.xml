@@ -60,7 +60,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_menu_news"
+                android:drawableStart="@drawable/ic_news_black_24dp"
                 android:drawablePadding="5dp"
                 android:text="@string/title_menu_news"
                 android:textAlignment="textStart" />
@@ -70,7 +70,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_menu_stock"
+                android:drawableStart="@drawable/ic_shopping_cart_black_24dp"
                 android:drawablePadding="5dp"
                 android:text="@string/title_menu_stock"
                 android:textAlignment="textStart" />
@@ -80,7 +80,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_menu_message"
+                android:drawableStart="@drawable/ic_chat_black_24dp"
                 android:drawablePadding="5dp"
                 android:text="@string/title_menu_message"
                 android:textAlignment="textStart" />
@@ -90,7 +90,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_menu_notif"
+                android:drawableStart="@drawable/ic_notifications_black_24dp"
                 android:drawablePadding="5dp"
                 android:text="@string/title_menu_notification"
                 android:textAlignment="textStart" />
@@ -100,7 +100,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_menu_service"
+                android:drawableStart="@drawable/ic_service_black_24dp"
                 android:drawablePadding="5dp"
                 android:enabled="true"
                 android:text="@string/title_menu_service"
