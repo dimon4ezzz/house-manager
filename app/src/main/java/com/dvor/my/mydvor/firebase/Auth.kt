@@ -14,6 +14,8 @@ object Auth {
      */
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
+    private var listener: FirebaseAuth.AuthStateListener? = null
+
     /**
      * Checks if current user is present.
      *
@@ -44,5 +46,32 @@ object Auth {
             throw IllegalAccessException("user is not logged in")
 
         return auth.currentUser!!.uid
+    }
+
+    /**
+     * Calls `f` function with `loggedIn` state from Firebase.
+     * Detaches last listener from auth.
+     *
+     * @param f function to call, e.g. moveToLogin
+     * @sample listenAuthState(moveToLogin)
+     */
+    fun listenAuthState(f: (loggedIn: Boolean) -> Unit) {
+        stopListenAuthState()
+
+        listener = FirebaseAuth.AuthStateListener {
+            f(isLoggedIn())
+        }
+        auth.addAuthStateListener(listener!!)
+    }
+
+    /**
+     * Detaches listener from auth, set `listener` to `null`.
+     */
+    fun stopListenAuthState() {
+        listener?.let {
+            auth.removeAuthStateListener(listener!!)
+        }
+
+        listener = null
     }
 }
