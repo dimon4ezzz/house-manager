@@ -10,7 +10,7 @@ import com.google.firebase.database.*
  */
 object StreetsBranchDao {
     /**
-     * Constant names in the database.
+     * Constant name in the database.
      */
     private const val streets = "streets"
 
@@ -54,7 +54,9 @@ object StreetsBranchDao {
     }
 
     /**
-     * Detaches listener from `streets` branch. Set `streetsBranch` to default path, `listener` to `null`.
+     * Detaches listener from `streets` branch.
+     *
+     * Set `streetsBranch` to default path, `listener` to `null`.
      */
     fun stopListenStreetsBranch() {
         streetsBranchListener?.let {
@@ -70,7 +72,7 @@ object StreetsBranchDao {
      *
      * @return Street POJO
      * @throws com.google.firebase.database.DatabaseException
-     *  when cannot find fields in the branch.
+     *  when cannot find fields in the branch
      */
     private fun getStreet(dataSnapshot: DataSnapshot): Street =
             Street(
