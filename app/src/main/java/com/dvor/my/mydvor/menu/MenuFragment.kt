@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.User
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -37,22 +36,13 @@ class MenuFragment : Fragment() {
         user = User("", "", "", "", "", "", "")
         setUserListener()
 
-        view.findViewById<Button>(R.id.ib_emergency).setOnClickListener { goto(emergencyFragment) }
-        view.findViewById<Button>(R.id.ib_news).setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToNewsFragment()
-            view.findNavController().navigate(action)
-        }
-        view.findViewById<Button>(R.id.ib_stock).setOnClickListener { goto(stockFragmentId) }
-        view.findViewById<Button>(R.id.ib_message).setOnClickListener { goto(messageFragmentId) }
-        view.findViewById<Button>(R.id.ib_notification).setOnClickListener { goto(notificationFragmentId) }
-        view.findViewById<Button>(R.id.ib_service).setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToServiceFragment()
-            view.findNavController().navigate(action)
-        }
-        view.findViewById<Button>(R.id.ib_settings).setOnClickListener {
-            val action = MenuFragmentDirections.actionMenuFragmentToSettingsFragment()
-            view.findNavController().navigate(action)
-        }
+        view.findViewById<Button>(R.id.ib_emergency).setOnClickListener { view.findNavController().navigate(emergencyFragment) }
+        view.findViewById<Button>(R.id.ib_news).setOnClickListener { view.findNavController().navigate(newsFragmentId) }
+        view.findViewById<Button>(R.id.ib_stock).setOnClickListener { view.findNavController().navigate(stockFragmentId) }
+        view.findViewById<Button>(R.id.ib_message).setOnClickListener { view.findNavController().navigate(messageFragmentId) }
+        view.findViewById<Button>(R.id.ib_notification).setOnClickListener { view.findNavController().navigate(notificationFragmentId) }
+        view.findViewById<Button>(R.id.ib_service).setOnClickListener { view.findNavController().navigate(serviceFragmentId) }
+        view.findViewById<Button>(R.id.ib_settings).setOnClickListener { view.findNavController().navigate(settingsFragmentId) }
 
         view.findViewById<Button>(R.id.ib_logout).setOnClickListener {
             mAuth.signOut()
@@ -60,25 +50,6 @@ class MenuFragment : Fragment() {
         }
 
         return view
-    }
-
-    /**
-     * Implements moving between fragments,
-     * which are on bottom bar.
-     *
-     * There is no jump to `service` or `settings` fragments
-     */
-    private fun goto(fragment: Int) {
-        activity!!.findViewById<BottomNavigationView>(R.id.nav_view)
-                .selectedItemId = fragment
-
-        // Это не работает, так как в этом проекте другой навигатор
-        // и вызывать нужно его (см. выше)
-        /*activity!!.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.menuFragment, nextFragment) // nextFragment из аргумента функции
-                .addToBackStack(null)
-                .commit()*/
     }
 
     /**
@@ -172,5 +143,9 @@ class MenuFragment : Fragment() {
         const val stockFragmentId: Int = R.id.stockFragment
         const val messageFragmentId: Int = R.id.messageFragment
         const val notificationFragmentId: Int = R.id.notificationFragment
+
+        const val newsFragmentId: Int = R.id.newsFragment
+        const val serviceFragmentId: Int = R.id.serviceFragment
+        const val settingsFragmentId: Int = R.id.settingsFragment
     }
 }
