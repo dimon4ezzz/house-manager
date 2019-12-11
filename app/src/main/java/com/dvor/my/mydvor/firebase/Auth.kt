@@ -58,6 +58,8 @@ object Auth {
      * @sample listenAuthState(moveToLogin)
      */
     fun listenAuthState(f: (loggedIn: Boolean) -> Unit) {
+        stopListenAuthState()
+
         listener = FirebaseAuth.AuthStateListener {
             f(isLoggedIn())
         }
