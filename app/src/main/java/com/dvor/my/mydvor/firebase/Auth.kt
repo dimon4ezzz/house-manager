@@ -13,7 +13,7 @@ object Auth {
     /**
      * FirebaseAuth instance.
      */
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    internal val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private var listener: FirebaseAuth.AuthStateListener? = null
 
@@ -91,8 +91,4 @@ object Auth {
             actionOnFail()
         }
     }
-
-    @Deprecated("only for compatibility; don't use")
-    fun getUserId(): String =
-            auth.currentUser!!.uid
 }
