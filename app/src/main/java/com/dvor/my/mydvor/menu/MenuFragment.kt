@@ -32,6 +32,7 @@ class MenuFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
         mAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
+        userBranch = database.child("users").child(mAuth.uid.toString())
         // variable init
         user = User("", "", "", "", "", "", "")
         setUserListener()
@@ -132,7 +133,6 @@ class MenuFragment : Fragment() {
             }
         }
 
-        userBranch = database.child("users").child(mAuth.uid.toString())
         userBranch.addValueEventListener(userListener)
     }
 
