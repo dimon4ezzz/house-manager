@@ -16,12 +16,10 @@ import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.News
 import com.dvor.my.mydvor.data.NewsBD
 import com.dvor.my.mydvor.firebase.Auth
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
 
 class NewsFragment : Fragment() {
-    private lateinit var mAuth: FirebaseAuth
     internal var userStreetId: String = ""
     internal var organizationId: String = ""
     internal var userBuildingId: String = ""
@@ -113,7 +111,6 @@ class NewsFragment : Fragment() {
         }
 
         postText = view.findViewById(R.id.et_post)
-        mAuth = FirebaseAuth.getInstance()
 
         postText!!.text = MainActivity.savedPost
         val myRef = FirebaseDatabase.getInstance().getReference("users").child(Auth.getCurrentUserId())
