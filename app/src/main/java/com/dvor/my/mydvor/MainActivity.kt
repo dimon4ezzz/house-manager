@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onStop() {
         super.onStop()
-        Auth.stopListenAuthState()
     }
 
     companion object {

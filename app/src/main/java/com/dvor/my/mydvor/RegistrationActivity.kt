@@ -82,7 +82,6 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
     public override fun onStop() {
         super.onStop()
-        Auth.stopListenAuthState()
     }
 
     private fun validateForm(): Boolean {
