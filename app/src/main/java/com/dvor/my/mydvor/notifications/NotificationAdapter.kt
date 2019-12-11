@@ -28,7 +28,7 @@ class NotificationAdapter(private val context: FragmentActivity?, private val la
         val text = notification.text
         val shareButton = view.findViewById<ImageButton>(R.id.shareButton)
         dataView.setOnClickListener {
-            Toast.makeText(context, notification.data.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, notification.date.toString(), Toast.LENGTH_SHORT).show()
         }
         shareButton.setOnClickListener {
             val sendIntent = Intent()
@@ -39,7 +39,7 @@ class NotificationAdapter(private val context: FragmentActivity?, private val la
         }
 
         textView.text = text
-        dataView.text = DateConverter.convert(notification.data.toString())
+        dataView.text = DateConverter.convert(notification.date.toString())
         return view
     }
 

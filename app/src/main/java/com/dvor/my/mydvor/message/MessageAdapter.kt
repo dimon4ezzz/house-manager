@@ -26,9 +26,9 @@ class MessageAdapter(context: FragmentActivity?, private val layout: Int, privat
 
         titleView.text = message.title
         textView.text = message.text
-        dataView.text = DateConverter.convert(message.data.toString())
+        dataView.text = DateConverter.convert(message.date.toString())
         dataView.setOnClickListener {
-            Toast.makeText(context, message.data.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, message.date.toString(), Toast.LENGTH_SHORT).show()
         }
         return view
     }
