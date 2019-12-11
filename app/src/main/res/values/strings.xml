@@ -39,4 +39,5 @@
     <string name="like">Нравится</string>
     <string name="dislike">Не нравится</string>
     <string name="share">Поделиться</string>
+    <string name="calls">Вызовы</string>
 </resources>

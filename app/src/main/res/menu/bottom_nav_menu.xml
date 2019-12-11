@@ -3,7 +3,7 @@
     <item
         android:id="@+id/emergencyFragment"
         android:icon="@drawable/ic_call_black_24dp"
-        android:title="@string/title_menu_emergency" />
+        android:title="@string/calls" />
     <item
         android:id="@+id/stockFragment"
         android:icon="@drawable/ic_menu_stock"
