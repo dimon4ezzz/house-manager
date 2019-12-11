@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.User
+import com.dvor.my.mydvor.firebase.UsersBranchDao
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -22,10 +23,8 @@ class MenuFragment : Fragment() {
     lateinit var database: DatabaseReference
     lateinit var user: User
 
-    lateinit var userBranch: DatabaseReference
     lateinit var streetBranch: DatabaseReference
 
-    lateinit var userListener: ValueEventListener
     lateinit var streetListener: ValueEventListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -107,33 +106,19 @@ class MenuFragment : Fragment() {
      * Other branches are not implemented
      */
     private fun setUserListener() {
-        userListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // судить можно по любому, в том числе и по `name`
-                if (dataSnapshot.child("name").value == null) {
-                    view!!.findViewById<ConstraintLayout>(R.id.user_info).visibility = View.GONE
-                } else {
-                    view!!.findViewById<ConstraintLayout>(R.id.user_info).visibility = View.VISIBLE
-                }
-
-                user.name = dataSnapshot.child("name").value.toString()
-                user.surname = dataSnapshot.child("surname").value.toString()
-                user.street_id = dataSnapshot.child("street_id").value.toString()
-                user.building_id = dataSnapshot.child("building_id").value.toString()
-                user.apartment = dataSnapshot.child("apartment").value.toString()
+        try {
+            UsersBranchDao.listenUsersBranch { user ->
+                this.user = user
 
                 setAddressListener()
 
                 updateUsername()
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("state", databaseError.message)
+                view!!.findViewById<ConstraintLayout>(R.id.user_info).visibility = View.VISIBLE
             }
+        } catch (e: Exception) {
+            view!!.findViewById<ConstraintLayout>(R.id.user_info).visibility = View.GONE
         }
-
-        userBranch = database.child("users").child(mAuth.uid.toString())
-        userBranch.addValueEventListener(userListener)
     }
 
     /**
@@ -163,7 +148,7 @@ class MenuFragment : Fragment() {
     override fun onStop() {
         super.onStop()
 
-        userBranch.removeEventListener(userListener)
+        UsersBranchDao.stopListenUsersBranch()
         streetBranch.removeEventListener(streetListener)
     }
 
