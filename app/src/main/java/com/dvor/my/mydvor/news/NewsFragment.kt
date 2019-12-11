@@ -106,7 +106,10 @@ class NewsFragment : Fragment() {
                 deletePrefImg()
             }
         }
-        deleteBtn.visibility = View.GONE
+
+        if (MainActivity.postImg != "newsImages/no") {
+            deleteBtn.visibility = View.VISIBLE
+        }
 
         postText = view.findViewById(R.id.et_post)
         mAuth = FirebaseAuth.getInstance()
