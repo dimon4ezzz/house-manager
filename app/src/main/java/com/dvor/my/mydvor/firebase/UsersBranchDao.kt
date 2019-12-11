@@ -59,7 +59,7 @@ object UsersBranchDao {
     /**
      * Removes listener from `users` branch. Set `usersBranch` to default path, `listener` to `null`.
      */
-    private fun stopListenUsersBranch() {
+    fun stopListenUsersBranch() {
         usersBranchListener?.let {
             usersBranch.removeEventListener(usersBranchListener!!)
         }
