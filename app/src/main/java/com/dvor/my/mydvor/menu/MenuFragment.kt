@@ -12,17 +12,15 @@ import androidx.navigation.findNavController
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.User
 import com.dvor.my.mydvor.firebase.AddressDelegator
+import com.dvor.my.mydvor.firebase.Auth
 import com.dvor.my.mydvor.firebase.UsersBranchDao
-import com.google.firebase.auth.FirebaseAuth
 
 class MenuFragment : Fragment() {
 
-    lateinit var mAuth: FirebaseAuth
     lateinit var user: User
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
-        mAuth = FirebaseAuth.getInstance()
         // variable init
         user = User("", "", "", "", "", "", "")
         setUserListener()
@@ -36,7 +34,7 @@ class MenuFragment : Fragment() {
         view.findViewById<Button>(R.id.ib_settings).setOnClickListener { view.findNavController().navigate(settingsFragmentId) }
 
         view.findViewById<Button>(R.id.ib_logout).setOnClickListener {
-            mAuth.signOut()
+            Auth.signOut()
             context!!.dataDir.deleteRecursively()
         }
 
