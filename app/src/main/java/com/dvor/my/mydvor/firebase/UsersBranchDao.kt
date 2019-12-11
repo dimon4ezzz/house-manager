@@ -68,6 +68,16 @@ object UsersBranchDao {
         usersBranchListener = null
     }
 
+    fun addUser(user: User) {
+        val branch = database.child(users).child(Auth.getCurrentUserId())
+
+        branch.child("name").setValue(user.name)
+        branch.child("surname").setValue(user.surname)
+        branch.child("street_id").setValue(user.street_id)
+        branch.child("building_id").setValue(user.building_id)
+        branch.child("apartment").setValue(user.apartment)
+    }
+
     /**
      * Gets user data from database.
      *
