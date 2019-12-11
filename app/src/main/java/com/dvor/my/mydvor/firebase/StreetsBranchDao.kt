@@ -34,6 +34,8 @@ object StreetsBranchDao {
      * @throws com.google.firebase.database.DatabaseException
      *  when `streets/streetId` branch is not exist,
      *  or Firebase cancels request
+     * @throws IllegalAccessException
+     *  when user is not logged in
      */
     fun listenStreetsBranch(streetId: String, f: (street: Street) -> Unit) {
         stopListenStreetsBranch()
