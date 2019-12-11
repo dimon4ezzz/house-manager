@@ -26,10 +26,10 @@ object Auth {
      * Checks if user is not logged in, and throws.
      *
      * @throws IllegalAccessException when user is not logged in
-     * @see Auth.isLoggedIn
+     * @see isLoggedIn
      */
     fun checkUserLoginAndThrow() {
-        if (!Auth.isLoggedIn())
+        if (!isLoggedIn())
             throw IllegalAccessException("user is not logged in")
     }
 
