@@ -8,12 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.dvor.my.mydvor.firebase.Auth
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
-
-    private lateinit var mAuth: FirebaseAuth
-    private var mAuthListener: FirebaseAuth.AuthStateListener? = null
 
     private var _email: EditText? = null
     private var _password: EditText? = null
@@ -33,14 +30,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        mAuth = FirebaseAuth.getInstance()
-
-        mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            val user = firebaseAuth.currentUser
-
-            if (user != null) {
-                val i = Intent(this@LoginActivity, MainActivity::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        Auth.listenAuthState { loggedIn ->
+            if (loggedIn) {
+                val i = Intent(this@LoginActivity, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
                 startActivity(i)
             }
         }
@@ -56,14 +50,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     public override fun onStart() {
         super.onStart()
-        mAuth.addAuthStateListener(mAuthListener!!)
     }
 
     public override fun onStop() {
         super.onStop()
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener!!)
-        }
+        Auth.stopListenAuthState()
     }
 
     private fun validateForm(): Boolean {
@@ -93,10 +84,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             return
         }
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-            if (!task.isSuccessful) {
-                Toast.makeText(this@LoginActivity, "Aвторизация провалена", Toast.LENGTH_SHORT).show()
-            }
+        Auth.signIn(email, password) {
+            Toast.makeText(this@LoginActivity, "Aвторизация провалена", Toast.LENGTH_SHORT).show()
         }
     }
 }
