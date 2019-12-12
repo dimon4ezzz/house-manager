@@ -242,6 +242,7 @@ class SettingsFragment : Fragment() {
                 .setValue(apartment.text.toString())
 
         Toast.makeText(requireContext(), R.string.successful_address_changing, Toast.LENGTH_LONG).show()
+        canChangeAddress = true
     }
 
     private fun streetsSpinnerInit() {
@@ -370,7 +371,7 @@ class SettingsFragment : Fragment() {
     private fun selectUserInfo(name: String, streetId: String, buildingId: String, apartment: String) {
         fullName.setText(name)
 
-        if (!canChangeAddress) {
+        if (canChangeAddress) {
             streets.setSelection(streetsList!!.indexOfFirst { it.id == streetId })
             buildings.setSelection(buildingsList!!.indexOfFirst { it.id == buildingId })
             this.apartment.setText(apartment)
