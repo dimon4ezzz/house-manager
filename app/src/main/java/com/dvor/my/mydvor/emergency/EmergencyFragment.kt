@@ -31,12 +31,13 @@ class EmergencyFragment : Fragment() {
 
     private var usersBranchListener: ValueEventListener? = null
     private var streetsBranchListener: ValueEventListener? = null
-    private var organizationsBranchListener: ValueEventListener? = null
+    private var organizationBranchListener: ValueEventListener? = null
 
     private lateinit var listOnView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_emergency, container, false)
         listOnView = view.findViewById(R.id.emergency_list)
         listOnView.layoutManager = LinearLayoutManager(view.context)
@@ -46,6 +47,8 @@ class EmergencyFragment : Fragment() {
     }
 
     private fun listenUsersBranch() {
+        usersBranch = usersBranch.child(mAuth.currentUser!!.uid)
+
         usersBranchListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.d("state", p0.message)
@@ -53,11 +56,9 @@ class EmergencyFragment : Fragment() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 listenStreetsBranch(
-                        p0.child(mAuth.currentUser!!.uid)
-                                .child("street_id")
+                        p0.child("street_id")
                                 .value.toString(),
-                        p0.child(mAuth.currentUser!!.uid)
-                                .child("building_id")
+                        p0.child("building_id")
                                 .value.toString()
                 )
             }
@@ -67,6 +68,11 @@ class EmergencyFragment : Fragment() {
     }
 
     private fun listenStreetsBranch(streetId: String, buildingId: String) {
+        streetsBranch = streetsBranch.child(streetId)
+                .child("buildings")
+                .child(buildingId)
+                .child("organization_id")
+
         streetsBranchListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.d("state", p0.message)
@@ -74,11 +80,7 @@ class EmergencyFragment : Fragment() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 listenOrganizationsBranch(
-                        p0.child(streetId)
-                                .child("buildings")
-                                .child(buildingId)
-                                .child("organization_id")
-                                .value.toString()
+                        p0.value.toString()
                 )
             }
         }
@@ -87,16 +89,17 @@ class EmergencyFragment : Fragment() {
     }
 
     private fun listenOrganizationsBranch(id: String) {
-        organizationsBranchListener = object : ValueEventListener {
+        organizationBranch = organizationBranch.child(id)
+                .child("emergencies")
+
+        organizationBranchListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.d("state", p0.message)
             }
 
             override fun onDataChange(p0: DataSnapshot) {
                 updateUI(
-                        p0.child(id)
-                                .child("emergencies")
-                                .children.map {
+                        p0.children.map {
                             EmergencyContact(
                                     tel = it.child("tel").value.toString(),
                                     telName = it.child("name").value.toString()
@@ -106,15 +109,18 @@ class EmergencyFragment : Fragment() {
             }
         }
 
-        organizationBranch.addValueEventListener(organizationsBranchListener!!)
+        organizationBranch.addValueEventListener(organizationBranchListener!!)
     }
 
     private fun updateUI(list: List<EmergencyContact>) {
         emergency_list.adapter = EmergencyAdapter(list)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    /**
+     * При скрытии фрагмента просто обнулить все листенеры и использовать дефолтные пути для веток.
+     */
+    override fun onPause() {
+        super.onPause()
         usersBranchListener?.let {
             usersBranch.removeEventListener(it)
         }
@@ -123,12 +129,16 @@ class EmergencyFragment : Fragment() {
             streetsBranch.removeEventListener(it)
         }
 
-        organizationsBranchListener?.let {
+        organizationBranchListener?.let {
             organizationBranch.removeEventListener(it)
         }
 
+        usersBranch = FirebaseDatabase.getInstance().getReference("users")
+        streetsBranch = FirebaseDatabase.getInstance().getReference("streets")
+        organizationBranch = FirebaseDatabase.getInstance().getReference("organization")
+
         usersBranchListener = null
         streetsBranchListener = null
-        organizationsBranchListener = null
+        organizationBranchListener = null
     }
 }
