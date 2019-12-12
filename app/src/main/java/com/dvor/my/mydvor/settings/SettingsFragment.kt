@@ -79,6 +79,34 @@ class SettingsFragment : Fragment() {
         return view
     }
 
+    /**
+     * When fragment not visible.
+     */
+    override fun onPause() {
+        super.onPause()
+        streetsBranchListener?.let {
+            streetsBranch.removeEventListener(it)
+        }
+
+        usersBranchListener?.let {
+            usersBranch.removeEventListener(it)
+        }
+
+        buildingsBranchListener?.let {
+            buildingsBranch.removeEventListener(it)
+        }
+
+        streetsBranch = database.child("streets")
+        usersBranch = database.child("users")
+        buildingsBranch = database.child("streets")
+
+        usersBranchListener = null
+        streetsBranchListener = null
+        buildingsBranchListener = null
+
+        System.gc()
+    }
+
     private fun checkAndSendFullName() {
         if (fullName.text.toString().isBlank())
             fullName.error = resources.getString(R.string.empty_full_name)
