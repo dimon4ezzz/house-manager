@@ -40,4 +40,10 @@
     <string name="dislike">Не нравится</string>
     <string name="share">Поделиться</string>
     <string name="calls">Вызовы</string>
+    <string name="update_name">Настройки имени</string>
+    <string name="update_name_hint">Имя Фамилия</string>
+    <string name="update_address">Настройка адреса</string>
+    <string name="delete_me">Удалиться</string>
+    <string name="update_email_password">Настройка входа</string>
+    <string name="email">Электронная почта</string>
 </resources>
