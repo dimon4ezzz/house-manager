@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,18 +29,22 @@ class EmergencyFragment : Fragment() {
     private var usersBranch = FirebaseDatabase.getInstance().getReference("users")
     private var streetsBranch = FirebaseDatabase.getInstance().getReference("streets")
     private var organizationBranch = FirebaseDatabase.getInstance().getReference("organization")
+    private var emergenciesBranch = FirebaseDatabase.getInstance().getReference("organization")
 
     private var usersBranchListener: ValueEventListener? = null
     private var streetsBranchListener: ValueEventListener? = null
     private var organizationBranchListener: ValueEventListener? = null
+    private var emergenciesBranchListener: ValueEventListener? = null
 
     private lateinit var listOnView: RecyclerView
+    private lateinit var name: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_emergency, container, false)
         listOnView = view.findViewById(R.id.emergency_list)
+        name = view.findViewById(R.id.company_name)
         listOnView.layoutManager = LinearLayoutManager(view.context)
         listOnView.setHasFixedSize(true)
         listenUsersBranch()
@@ -90,9 +95,24 @@ class EmergencyFragment : Fragment() {
 
     private fun listenOrganizationsBranch(id: String) {
         organizationBranch = organizationBranch.child(id)
-                .child("emergencies")
 
         organizationBranchListener = object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d("state", p0.message)
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                name.text = p0.child("name").value.toString()
+            }
+
+        }
+
+        organizationBranch.addValueEventListener(organizationBranchListener!!)
+
+        emergenciesBranch = emergenciesBranch.child(id)
+                .child("emergencies")
+
+        emergenciesBranchListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.d("state", p0.message)
             }
@@ -109,7 +129,7 @@ class EmergencyFragment : Fragment() {
             }
         }
 
-        organizationBranch.addValueEventListener(organizationBranchListener!!)
+        emergenciesBranch.addValueEventListener(emergenciesBranchListener!!)
     }
 
     private fun updateUI(list: List<EmergencyContact>) {
@@ -133,12 +153,18 @@ class EmergencyFragment : Fragment() {
             organizationBranch.removeEventListener(it)
         }
 
+        emergenciesBranchListener?.let {
+            emergenciesBranch.removeEventListener(it)
+        }
+
         usersBranch = FirebaseDatabase.getInstance().getReference("users")
         streetsBranch = FirebaseDatabase.getInstance().getReference("streets")
         organizationBranch = FirebaseDatabase.getInstance().getReference("organization")
+        emergenciesBranch = FirebaseDatabase.getInstance().getReference("organization")
 
         usersBranchListener = null
         streetsBranchListener = null
         organizationBranchListener = null
+        emergenciesBranchListener = null
     }
 }
