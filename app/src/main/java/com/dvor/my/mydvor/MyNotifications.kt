@@ -45,14 +45,6 @@ class MyNotifications : Service() {
 
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val channel = NotificationChannel("0", "My channel",
-                NotificationManager.IMPORTANCE_LOW)
-        channel.description = "My channel description"
-        channel.enableLights(true)
-        channel.lightColor = Color.RED
-        channel.enableVibration(false)
-        notificationManager.createNotificationChannel(channel)
-
         val channel1 = NotificationChannel("1", "Сообщения от УК",
                 NotificationManager.IMPORTANCE_HIGH)
         channel1.description = "My channel description"
@@ -68,14 +60,6 @@ class MyNotifications : Service() {
         channel2.lightColor = Color.RED
         channel2.enableVibration(true)
         notificationManager.createNotificationChannel(channel2)
-
-        val notification = NotificationCompat.Builder(this, "0")
-                .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                .setContentTitle("Здравствуйте, уважаемый пользователь")
-                .setContentText("Вы будете получать push-уведомления от MyDvor")
-
-        startForeground(1, notification.build())
-        deleteNotification()
 
         if (eventListeners == null) {
             eventListeners = LinkedList()
@@ -325,23 +309,6 @@ class MyNotifications : Service() {
         listenerMessages = null
         listenerNotifications = null
         listenerRead = null
-    }
-
-    private fun deleteNotification() {
-        val r = Thread(WaitAndDeleteNotificationChannel())
-        r.start()
-    }
-
-    private inner class WaitAndDeleteNotificationChannel : Runnable {
-        override fun run() {
-            try {
-                Thread.sleep(1000)
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-
-            notificationManager.deleteNotificationChannel("0")
-        }
     }
 
     companion object {
