@@ -6,6 +6,6 @@ import android.content.Intent
 
 class MyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        context.startForegroundService(Intent(context, MyNotifications::class.java))
+        context.startService(Intent(context, MyNotifications::class.java))
     }
 }

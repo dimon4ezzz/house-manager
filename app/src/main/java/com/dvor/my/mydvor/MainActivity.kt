@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        ContextCompat.startForegroundService(this, Intent(this, MyNotifications::class.java))
+        applicationContext.startService(Intent(this, MyNotifications::class.java))
     }
 
     public override fun onStart() {
