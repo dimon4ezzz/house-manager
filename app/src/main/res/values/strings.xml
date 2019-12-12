@@ -46,4 +46,19 @@
     <string name="delete_me">Удалиться</string>
     <string name="update_email_password">Настройка входа</string>
     <string name="email">Электронная почта</string>
+    <string name="empty_email">Поле электронной почты пустое!</string>
+    <string name="empty_full_name">Поле имени пустое!</string>
+    <string name="not_full_name">Поле имени включает в себя имя и фамилию</string>
+    <string name="empty_password">Поле пароля пустое!</string>
+    <string name="new_password">Введите новый пароль</string>
+    <string name="successful_email_change">Успешно изменён электронный адрес</string>
+    <string name="unsuccessful_email_changing">Электронный адрес не изменён</string>
+    <string name="successful_password_changing">Успешно изменён пароль</string>
+    <string name="unsuccessful_password_changing">Пароль не изменён</string>
+    <string name="successful_name_changing">Успешно изменено имя</string>
+    <string name="deletion_warning">Действительно ли вы хотите удалить аккаунт? Это не удалит ваши данные в базе данных, но зайти вы больше не сможете!</string>
+    <string name="account_deletion">Удаление аккаунта</string>
+    <string name="delete">Удалить</string>
+    <string name="discard">Отмена</string>
+    <string name="unsuccessful_account_deletion">Аккаунт не удалился</string>
 </resources>
