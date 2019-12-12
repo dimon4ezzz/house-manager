@@ -27,8 +27,8 @@ class MenuFragment : Fragment() {
     private var userBranch = database.child("users")
     private var streetBranch = database.child("streets")
 
-    private lateinit var userListener: ValueEventListener
-    private lateinit var streetListener: ValueEventListener
+    private var userListener: ValueEventListener? = null
+    private var streetListener: ValueEventListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
@@ -108,7 +108,7 @@ class MenuFragment : Fragment() {
             }
         }
 
-        userBranch.addValueEventListener(userListener)
+        userBranch.addValueEventListener(userListener!!)
     }
 
     /**
@@ -132,14 +132,19 @@ class MenuFragment : Fragment() {
         }
 
         streetBranch = streetBranch.child(user.street_id)
-        streetBranch.addValueEventListener(streetListener)
+        streetBranch.addValueEventListener(streetListener!!)
     }
 
     override fun onStop() {
         super.onStop()
 
-        userBranch.removeEventListener(userListener)
-        streetBranch.removeEventListener(streetListener)
+        userListener?.let {
+            userBranch.removeEventListener(it)
+        }
+
+        streetListener?.let {
+            streetBranch.removeEventListener(it)
+        }
 
         userBranch = database.child("users")
         streetBranch = database.child("streets")
