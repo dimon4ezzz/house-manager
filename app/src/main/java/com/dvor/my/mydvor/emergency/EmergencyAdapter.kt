@@ -17,7 +17,7 @@ class EmergencyAdapter(contacts: List<EmergencyContact>) : RecyclerView.Adapter<
 
         fun bind(contact: EmergencyContact) {
             tel.text = contact.tel
-            tel.setOnClickListener {
+            itemView.setOnClickListener {
                 val intent = Intent(Intent.ACTION_DIAL).apply {
                     data = Uri.parse("tel:${contact.tel}")
                 }
