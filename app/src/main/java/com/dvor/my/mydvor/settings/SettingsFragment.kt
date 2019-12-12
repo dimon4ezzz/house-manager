@@ -24,11 +24,13 @@ import com.google.firebase.database.ValueEventListener
  * A simple [Fragment] subclass.
  */
 class SettingsFragment : Fragment() {
+    private var canChangeAddress = true
 
     private lateinit var fullName: EditText
     private lateinit var streets: Spinner
     private lateinit var buildings: Spinner
     private lateinit var apartment: EditText
+    private lateinit var updateAddress: Button
     private lateinit var email: EditText
     private lateinit var password: EditText
     private lateinit var deleter: Button
@@ -59,6 +61,12 @@ class SettingsFragment : Fragment() {
         streets = view.findViewById(R.id.s_update_street)
         buildings = view.findViewById(R.id.s_update_building)
         apartment = view.findViewById(R.id.et_update_apartment)
+
+        updateAddress = view.findViewById(R.id.b_update_address)
+        updateAddress.setOnClickListener {
+            updateAddress()
+        }
+        updateAddress.isEnabled = false
 
         email = view.findViewById(R.id.update_email)
         email.onSubmit {
@@ -220,7 +228,27 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun updateAddress() {
+        val branch = database.child("users")
+                .child(mAuth.currentUser!!.uid)
+
+        branch.child("street_id")
+                .setValue((streets.selectedItem as Street).id)
+
+        branch.child("building_id")
+                .setValue((buildings.selectedItem as Building).id)
+
+        branch.child("apartment")
+                .setValue(apartment.text.toString())
+
+        Toast.makeText(requireContext(), R.string.successful_address_changing, Toast.LENGTH_LONG).show()
+    }
+
     private fun streetsSpinnerInit() {
+        streetsBranchListener?.let {
+            streetsBranch.removeEventListener(it)
+        }
+
         streetsBranchListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.d("state", p0.message)
@@ -264,6 +292,10 @@ class SettingsFragment : Fragment() {
     }
 
     private fun buildingsSpinnerInit() {
+        buildingsBranchListener?.let {
+            buildingsBranch.removeEventListener(it)
+        }
+
         buildingsBranchListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.d("state", p0.message)
@@ -278,7 +310,6 @@ class SettingsFragment : Fragment() {
                 }
 
                 setBuildingsSpinnerAdapter()
-                usersBranchListenerInit()
             }
         }
 
@@ -293,6 +324,8 @@ class SettingsFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         adapter.notifyDataSetChanged()
         buildings.adapter = adapter
+
+        updateAddress.isEnabled = true
     }
 
     private fun setBuildingsSpinnerAction() {
@@ -303,11 +336,16 @@ class SettingsFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 apartment.requestFocus()
+                usersBranchListenerInit()
             }
         }
     }
 
     private fun usersBranchListenerInit() {
+        usersBranchListener?.let {
+            usersBranch.removeEventListener(it)
+        }
+
         usersBranchListener = object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.d("state", p0.message)
@@ -331,9 +369,14 @@ class SettingsFragment : Fragment() {
 
     private fun selectUserInfo(name: String, streetId: String, buildingId: String, apartment: String) {
         fullName.setText(name)
-        streets.setSelection(streetsList!!.indexOfFirst { it.id == streetId })
-        buildings.setSelection(buildingsList!!.indexOfFirst { it.id == buildingId })
-        this.apartment.setText(apartment)
+
+        if (!canChangeAddress) {
+            streets.setSelection(streetsList!!.indexOfFirst { it.id == streetId })
+            buildings.setSelection(buildingsList!!.indexOfFirst { it.id == buildingId })
+            this.apartment.setText(apartment)
+            canChangeAddress = false
+        }
+
         email.setText(mAuth.currentUser!!.email)
     }
 

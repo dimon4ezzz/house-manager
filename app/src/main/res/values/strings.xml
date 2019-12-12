@@ -64,4 +64,6 @@
     <string name="relogin">Перезайти</string>
     <string name="password_changing_warning">Изменение пароля невозможно, если Вы давно не заходили</string>
     <string name="require_old_password">Для подтверждения введите Ваш текущий пароль</string>
+    <string name="update_address_button">Обновить адрес</string>
+    <string name="successful_address_changing">Адрес успешно изменён</string>
 </resources>
