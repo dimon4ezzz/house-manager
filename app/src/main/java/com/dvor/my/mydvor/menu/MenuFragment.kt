@@ -13,25 +13,26 @@ import androidx.navigation.findNavController
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class MenuFragment : Fragment() {
 
-    lateinit var mAuth: FirebaseAuth
-    lateinit var database: DatabaseReference
+    private val mAuth = FirebaseAuth.getInstance()
+    private val database = FirebaseDatabase.getInstance().reference
     lateinit var user: User
 
-    private lateinit var userBranch: DatabaseReference
-    private lateinit var streetBranch: DatabaseReference
+    private var userBranch = database.child("users")
+    private var streetBranch = database.child("streets")
 
     private lateinit var userListener: ValueEventListener
     private lateinit var streetListener: ValueEventListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_menu, container, false)
-        mAuth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance().reference
-        userBranch = database.child("users").child(mAuth.uid.toString())
+        userBranch = userBranch.child(mAuth.uid.toString())
         // variable init
         user = User("", "", "", "", "", "", "")
         setUserListener()
@@ -119,7 +120,7 @@ class MenuFragment : Fragment() {
                 user.street = dataSnapshot.child("name").value.toString()
                 user.building = dataSnapshot
                         .child("buildings")
-                        .child(user.building_id.toString())
+                        .child(user.building_id)
                         .child("number").value.toString()
 
                 updateAddress()
@@ -130,7 +131,7 @@ class MenuFragment : Fragment() {
             }
         }
 
-        streetBranch = database.child("streets").child(user.street_id.toString())
+        streetBranch = streetBranch.child(user.street_id)
         streetBranch.addValueEventListener(streetListener)
     }
 
@@ -139,6 +140,9 @@ class MenuFragment : Fragment() {
 
         userBranch.removeEventListener(userListener)
         streetBranch.removeEventListener(streetListener)
+
+        userBranch = database.child("users")
+        streetBranch = database.child("streets")
     }
 
     companion object {
