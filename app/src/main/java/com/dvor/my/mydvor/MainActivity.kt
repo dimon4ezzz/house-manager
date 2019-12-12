@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity() {
 
         if (intent != null && intent.hasExtra("fragment")) {
             if (intent.getStringExtra("fragment") == "MessageFragment") {
-                this.findViewById<BottomNavigationView>(R.id.nav_view).selectedItemId = R.id.messageFragment
+                findNavController(R.id.nav_host_fragment).navigate(R.id.messageFragment)
             } else if (intent.getStringExtra("fragment") == "NotificationFragment") {
-                this.findViewById<BottomNavigationView>(R.id.nav_view).selectedItemId = R.id.notificationFragment
+                findNavController(R.id.nav_host_fragment).navigate(R.id.notificationFragment)
             }
         }
 
