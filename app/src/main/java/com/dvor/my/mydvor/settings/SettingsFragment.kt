@@ -1,6 +1,5 @@
 package com.dvor.my.mydvor.settings
 
-
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +9,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.dvor.my.mydvor.MainActivity
 import com.dvor.my.mydvor.R
 import com.dvor.my.mydvor.data.Building
 import com.dvor.my.mydvor.data.Street
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -128,36 +129,18 @@ class SettingsFragment : Fragment() {
         Toast.makeText(requireContext(), R.string.successful_name_changing, Toast.LENGTH_LONG).show()
     }
 
-    /* TODO сюда нужно добавить разлогин и новый логин,
-        потому что операция обновления email требует недавнего входа
-    */
     private fun checkAndSendEmail() {
         if (email.text.toString().isBlank())
             email.error = resources.getString(R.string.empty_email)
 
-        mAuth.currentUser!!.updateEmail(email.text.toString())
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), R.string.successful_email_change, Toast.LENGTH_LONG).show()
-                }.addOnFailureListener {
-                    Log.d("state", it.message.toString())
-                    Toast.makeText(requireContext(), R.string.unsuccessful_email_changing, Toast.LENGTH_LONG).show()
-                }
+        relogin { updateEmail() }
     }
 
-    /* TODO сюда нужно добавить разлогин и новый логин,
-        потому что операция обновления пароля требует недавнего входа
-    */
     private fun checkAndSendPassword() {
         if (password.text.toString().isBlank())
             password.error = resources.getString(R.string.empty_password)
 
-        mAuth.currentUser!!.updatePassword(password.text.toString())
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), R.string.successful_email_change, Toast.LENGTH_LONG).show()
-                }.addOnFailureListener {
-                    Log.d("state", it.message.toString())
-                    Toast.makeText(requireContext(), R.string.unsuccessful_email_changing, Toast.LENGTH_LONG).show()
-                }
+        relogin { updatePassword() }
     }
 
     private fun deleteUser() {
@@ -165,7 +148,7 @@ class SettingsFragment : Fragment() {
         builder.setMessage("Действительно ли вы хотите удалить аккаунт ${mAuth.currentUser!!.email}? Это не удалит ваши данные в базе данных, но зайти вы больше не сможете!")
                 .setTitle(resources.getString(R.string.account_deletion))
 
-        builder.setPositiveButton(R.string.delete) { _, _ -> realDelete() }
+        builder.setPositiveButton(R.string.delete) { _, _ -> relogin { realDelete() } }
         builder.setNegativeButton(R.string.discard) { a, _ -> a.dismiss() }
 
         builder.create().show()
@@ -175,6 +158,48 @@ class SettingsFragment : Fragment() {
         mAuth.currentUser!!.delete()
                 .addOnFailureListener {
                     Toast.makeText(requireContext(), R.string.unsuccessful_account_deletion, Toast.LENGTH_LONG).show()
+                }
+    }
+
+    private fun relogin(action: () -> Unit) {
+        val alertBuilder = AlertDialog.Builder(activity)
+        val inflater = activity!!.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_confirmation, null)
+        alertBuilder.setView(dialogView)
+        alertBuilder.setPositiveButton(R.string.relogin) { _, _ ->
+            val credentials = EmailAuthProvider.getCredential(
+                    email.text.toString(),
+                    dialogView.findViewById<EditText>(R.id.password).text.toString()
+            )
+            MainActivity.waitForLogin = true
+            mAuth.currentUser!!.reauthenticate(credentials).addOnSuccessListener {
+                action()
+                MainActivity.waitForLogin = true
+            }
+        }.setNegativeButton(R.string.discard) { a, _ ->
+            a.dismiss()
+        }
+
+        alertBuilder.create().show()
+    }
+
+    private fun updateEmail() {
+        mAuth.currentUser!!.updateEmail(email.text.toString())
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext(), R.string.successful_email_change, Toast.LENGTH_LONG).show()
+                }.addOnFailureListener {
+                    Log.d("state", it.message.toString())
+                    Toast.makeText(requireContext(), R.string.unsuccessful_email_changing, Toast.LENGTH_LONG).show()
+                }
+    }
+
+    private fun updatePassword() {
+        mAuth.currentUser!!.updatePassword(password.text.toString())
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext(), R.string.successful_password_changing, Toast.LENGTH_LONG).show()
+                }.addOnFailureListener {
+                    Log.d("state", it.message.toString())
+                    Toast.makeText(requireContext(), R.string.unsuccessful_password_changing, Toast.LENGTH_LONG).show()
                 }
     }
 
