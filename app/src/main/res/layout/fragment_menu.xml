@@ -10,14 +10,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/user_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
             android:text="@string/example_text"
             android:textAllCaps="true"
             android:textSize="18sp"
@@ -29,7 +30,7 @@
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="16dp"
             android:text="@string/example_text"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_call_black_24dp"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/default_drawable_padding"
                 android:text="@string/title_menu_emergency"
                 android:textAlignment="textStart" />
 
@@ -61,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_news_black_24dp"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/default_drawable_padding"
                 android:text="@string/title_menu_news"
                 android:textAlignment="textStart" />
 
@@ -71,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_shopping_cart_black_24dp"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/default_drawable_padding"
                 android:text="@string/title_menu_stock"
                 android:textAlignment="textStart" />
 
@@ -81,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_chat_black_24dp"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/default_drawable_padding"
                 android:text="@string/title_menu_message"
                 android:textAlignment="textStart" />
 
@@ -91,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_notifications_black_24dp"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/default_drawable_padding"
                 android:text="@string/title_menu_notification"
                 android:textAlignment="textStart" />
 
@@ -101,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_service_black_24dp"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/default_drawable_padding"
                 android:enabled="true"
                 android:text="@string/title_menu_service"
                 android:textAlignment="textStart" />
@@ -112,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_menu_settings"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/default_drawable_padding"
                 android:enabled="true"
                 android:text="@string/settings"
                 android:textAlignment="textStart" />
@@ -123,7 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_menu_logout"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/default_drawable_padding"
                 android:text="@string/logout"
                 android:textAlignment="textStart" />
         </LinearLayout>
