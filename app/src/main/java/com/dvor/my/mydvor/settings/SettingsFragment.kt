@@ -117,12 +117,16 @@ class SettingsFragment : Fragment() {
     }
 
     private fun checkAndSendFullName() {
-        if (fullName.text.toString().isBlank())
+        if (fullName.text.toString().isBlank()) {
             fullName.error = resources.getString(R.string.empty_full_name)
+            return
+        }
 
         val arr = fullName.text.toString().split(" ")
-        if (arr.count() < 2)
+        if (arr.count() < 2) {
             fullName.error = resources.getString(R.string.not_full_name)
+            return
+        }
 
         database.child("users")
                 .child(mAuth.currentUser!!.uid)
@@ -138,15 +142,19 @@ class SettingsFragment : Fragment() {
     }
 
     private fun checkAndSendEmail() {
-        if (email.text.toString().isBlank())
+        if (email.text.toString().isBlank()) {
             email.error = resources.getString(R.string.empty_email)
+            return
+        }
 
         relogin { updateEmail() }
     }
 
     private fun checkAndSendPassword() {
-        if (password.text.toString().isBlank())
+        if (password.text.toString().isBlank()) {
             password.error = resources.getString(R.string.empty_password)
+            return
+        }
 
         relogin { updatePassword() }
     }
@@ -232,6 +240,10 @@ class SettingsFragment : Fragment() {
     }
 
     private fun updateAddress() {
+        if (apartment.text.toString().isBlank()) {
+            Toast.makeText(requireContext(), R.string.empty_apartment, Toast.LENGTH_LONG).show()
+            return
+        }
         val branch = database.child("users")
                 .child(mAuth.currentUser!!.uid)
 

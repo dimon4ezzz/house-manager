@@ -66,4 +66,5 @@
     <string name="update_address_button">Обновить адрес</string>
     <string name="successful_address_changing">Адрес успешно изменён</string>
     <string name="unsuccessful_relogin">Пароль от аккаунта неверный!</string>
+    <string name="empty_apartment">Поле квартиры пустое!</string>
 </resources>
