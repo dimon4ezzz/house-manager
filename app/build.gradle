@@ -10,8 +10,8 @@ android {
     defaultConfig {
         applicationId "com.dvor.my.mydvor"
         targetSdkVersion 29
-        versionCode 24
-        versionName "1.0.24"
+        versionCode 25
+        versionName "1.0.25-test"
         minSdkVersion 28
         setProperty("archivesBaseName", "$applicationId-$versionName")
     }
