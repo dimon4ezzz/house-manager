@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             val user = firebaseAuth.currentUser
 
-            if (user == null) {
+            if (user == null && !waitForLogin) {
                 val i = Intent(this@MainActivity, LoginActivity::class.java)
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(i)
@@ -77,5 +77,7 @@ class MainActivity : AppCompatActivity() {
         var savedPost: String = ""
         var postImg = "newsImages/no"
         var imgPref: Bitmap? = null
+
+        var waitForLogin: Boolean = false
     }
 }
