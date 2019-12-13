@@ -11,24 +11,44 @@ import java.io.File
 
 object Storage {
 
-    fun downloadPicture(url: String, imgView: ImageView) {
+    fun downloadPicture(context: Context, url: String, imgView: ImageView) {
+        val buf = url.split('/')
+        val filename = buf.last()
+        val path = url.dropLast(filename.length)
+
+        var bufPath = context.getCacheDir().toString()
+
+        for(el in buf.dropLast(1)) {
+            bufPath += "/" + el
+
+            val f = File(bufPath)
+
+            if(!f.exists()) {
+                f.mkdir()
+            }
+        }
 
         try {
             val storage = FirebaseStorage.getInstance()
             val storageRef = storage.reference
             val imageRef = storageRef.child(url)
-            val localFile = File.createTempFile("image", "jpg")
-            imageRef.getFile(localFile).addOnSuccessListener {
-                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
-                imgView.setImageBitmap(bitmap)
-            }.addOnFailureListener {
-                imgView.layoutParams.height = 0
-                imgView.requestLayout()
+            val file = File(context.getCacheDir().toString() + "/" + path, filename);
+            if(!file.exists()) {
+                file.createNewFile()
+                imageRef.getFile(file).addOnSuccessListener {
+                    val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                    imgView.setImageBitmap(bitmap)
+                }.addOnFailureListener {
+                    imgView.layoutParams.height = 0
+                    imgView.requestLayout()
+                }
+            }
+            else {
+                imgView.setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
             }
         } catch (ex: Exception) {
             Log.d("state", ex.message.toString())
         }
-
     }
 
     fun uploadPicture(img: Bitmap, Url: String, f: () -> Unit) {
