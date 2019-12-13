@@ -39,7 +39,7 @@ class NewsAdapter(context: FragmentActivity?, private val layout: Int, private v
 
         if (currentNews.imgResource != "newsImages/no" && currentNews.imgResource != "null") {
             imgView.visibility = View.VISIBLE
-            Storage.downloadPicture(currentNews.imgResource, imgView)
+            Storage.downloadPicture(this.getContext(), currentNews.imgResource, imgView)
         } else {
             imgView.visibility = View.GONE
         }
