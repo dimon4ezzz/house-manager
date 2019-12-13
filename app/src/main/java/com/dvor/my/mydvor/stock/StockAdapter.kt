@@ -31,7 +31,7 @@ class StockAdapter(internal var context: FragmentActivity?, private val layout: 
         titleView.text = stock.title
         textView.text = stock.text
         addressView.text = stock.address
-        Storage.downloadPicture(stock.imgResource.toString(), imgView)
+        Storage.downloadPicture(this.getContext(), stock.imgResource.toString(), imgView)
 
         addressView.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW).apply {
