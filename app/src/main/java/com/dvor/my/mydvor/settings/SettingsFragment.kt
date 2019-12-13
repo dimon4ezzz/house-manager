@@ -174,15 +174,18 @@ class SettingsFragment : Fragment() {
         val inflater = activity!!.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_confirmation, null)
         alertBuilder.setView(dialogView)
-        alertBuilder.setPositiveButton(R.string.relogin) { _, _ ->
+        alertBuilder.setPositiveButton(R.string.accept) { _, _ ->
             val credentials = EmailAuthProvider.getCredential(
-                    email.text.toString(),
+                    mAuth.currentUser!!.email.toString(),
                     dialogView.findViewById<EditText>(R.id.password).text.toString()
             )
             MainActivity.waitForLogin = true
             mAuth.currentUser!!.reauthenticate(credentials).addOnSuccessListener {
                 action()
-                MainActivity.waitForLogin = true
+                MainActivity.waitForLogin = false
+            }.addOnFailureListener {
+                Toast.makeText(requireContext(), R.string.unsuccessful_relogin, Toast.LENGTH_LONG).show()
+                MainActivity.waitForLogin = false
             }
         }.setNegativeButton(R.string.discard) { a, _ ->
             a.dismiss()
