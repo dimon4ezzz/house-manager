@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity() {
                         R.id.menuFragment,
                         R.id.newsFragment,
                         R.id.settingsFragment,
-                        R.id.serviceFragment
+                        R.id.serviceFragment,
+                        R.id.aboutFragment
                 )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
