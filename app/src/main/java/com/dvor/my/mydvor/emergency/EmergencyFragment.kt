@@ -121,8 +121,9 @@ class EmergencyFragment : Fragment() {
                 updateUI(
                         p0.children.map {
                             EmergencyContact(
-                                    tel = it.child("tel").value.toString(),
-                                    telName = it.child("name").value.toString()
+                                    phone = it.child("tel").value.toString(),
+                                    owner = it.child("name").value as String?,
+                                    department = it.child("department").value.toString()
                             )
                         }
                 )

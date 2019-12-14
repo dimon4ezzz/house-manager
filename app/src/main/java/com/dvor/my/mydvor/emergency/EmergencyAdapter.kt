@@ -12,21 +12,28 @@ import com.dvor.my.mydvor.data.EmergencyContact
 
 class EmergencyAdapter(contacts: List<EmergencyContact>) : RecyclerView.Adapter<EmergencyAdapter.EmergencyViewHolder>() {
     class EmergencyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tel = itemView.findViewById<TextView>(R.id.tel)
-        private val telName = itemView.findViewById<TextView>(R.id.tel_name)
+        private val phone = itemView.findViewById<TextView>(R.id.tv_phone_number)
+        private val phoneOwner = itemView.findViewById<TextView>(R.id.tv_phone_owner)
+        private val phoneDepartment = itemView.findViewById<TextView>(R.id.tv_phone_department)
 
         fun bind(contact: EmergencyContact) {
-            tel.text = contact.tel
+            phone.text = contact.phone
             itemView.setOnClickListener {
                 val intent = Intent(Intent.ACTION_DIAL).apply {
-                    data = Uri.parse("tel:${contact.tel}")
+                    data = Uri.parse("tel:${contact.phone}")
                 }
                 if (intent.resolveActivity(itemView.context.packageManager) != null) {
                     itemView.context.startActivity(intent)
                 }
             }
 
-            telName.text = contact.telName
+            // если прописан человек, показывать это
+            contact.owner?.let {
+                phoneOwner.text = it
+                phoneOwner.visibility = View.VISIBLE
+            }
+
+            phoneDepartment.text = contact.department
         }
     }
 
