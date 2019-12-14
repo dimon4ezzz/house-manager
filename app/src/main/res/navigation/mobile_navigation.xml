@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_menuFragment_to_newsFragment"
             app:destination="@id/newsFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -54,4 +57,9 @@
         android:name="com.dvor.my.mydvor.emergency.EmergencyFragment"
         android:label="@string/title_menu_emergency"
         tools:layout="@layout/fragment_emergency" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.dvor.my.mydvor.about.AboutFragment"
+        android:label="@string/about"
+        tools:layout="@layout/fragment_about" />
 </navigation>

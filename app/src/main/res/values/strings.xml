@@ -67,4 +67,8 @@
     <string name="successful_address_changing">Адрес успешно изменён</string>
     <string name="unsuccessful_relogin">Пароль от аккаунта неверный!</string>
     <string name="empty_apartment">Поле квартиры пустое!</string>
+    <string name="about">О приложении</string>
+    <string name="app_icon_desc">Иконка приложения</string>
+    <string name="version">Версия %1$s</string>
+    <string name="about_team">Приложение разработано\nкомандой The Name, УрФУ</string>
 </resources>

@@ -37,13 +37,14 @@ class MenuFragment : Fragment() {
         user = User("", "", "", "", "", "", "")
         setUserListener()
 
-        view.findViewById<Button>(R.id.ib_emergency).setOnClickListener { view.findNavController().navigate(emergencyFragment) }
-        view.findViewById<Button>(R.id.ib_news).setOnClickListener { view.findNavController().navigate(newsFragmentId) }
-        view.findViewById<Button>(R.id.ib_stock).setOnClickListener { view.findNavController().navigate(stockFragmentId) }
-        view.findViewById<Button>(R.id.ib_message).setOnClickListener { view.findNavController().navigate(messageFragmentId) }
-        view.findViewById<Button>(R.id.ib_notification).setOnClickListener { view.findNavController().navigate(notificationFragmentId) }
-        view.findViewById<Button>(R.id.ib_service).setOnClickListener { view.findNavController().navigate(serviceFragmentId) }
-        view.findViewById<Button>(R.id.ib_settings).setOnClickListener { view.findNavController().navigate(settingsFragmentId) }
+        setListener(view, R.id.ib_emergency, emergencyFragmentId)
+        setListener(view, R.id.ib_news, newsFragmentId)
+        setListener(view, R.id.ib_stock, stockFragmentId)
+        setListener(view, R.id.ib_message, messageFragmentId)
+        setListener(view, R.id.ib_notification, notificationFragmentId)
+        setListener(view, R.id.ib_service, serviceFragmentId)
+        setListener(view, R.id.ib_settings, settingsFragmentId)
+        setListener(view, R.id.ib_about, aboutFragmentId)
 
         view.findViewById<Button>(R.id.ib_logout).setOnClickListener {
             mAuth.signOut()
@@ -51,6 +52,10 @@ class MenuFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun setListener(view: View, buttonId: Int, fragmentId: Int) {
+        view.findViewById<Button>(buttonId).setOnClickListener { view.findNavController().navigate(fragmentId) }
     }
 
     /**
@@ -151,7 +156,7 @@ class MenuFragment : Fragment() {
     }
 
     companion object {
-        const val emergencyFragment: Int = R.id.emergencyFragment
+        const val emergencyFragmentId: Int = R.id.emergencyFragment
         const val stockFragmentId: Int = R.id.stockFragment
         const val messageFragmentId: Int = R.id.messageFragment
         const val notificationFragmentId: Int = R.id.notificationFragment
@@ -159,5 +164,6 @@ class MenuFragment : Fragment() {
         const val newsFragmentId: Int = R.id.newsFragment
         const val serviceFragmentId: Int = R.id.serviceFragment
         const val settingsFragmentId: Int = R.id.settingsFragment
+        const val aboutFragmentId: Int = R.id.aboutFragment
     }
 }

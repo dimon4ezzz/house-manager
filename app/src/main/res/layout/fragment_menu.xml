@@ -127,6 +127,16 @@
                 android:drawablePadding="@dimen/default_drawable_padding"
                 android:text="@string/logout"
                 android:textAlignment="textStart" />
+
+            <Button
+                android:id="@+id/ib_about"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_info_outline_black_24dp"
+                android:drawablePadding="@dimen/default_drawable_padding"
+                android:text="@string/about"
+                android:textAlignment="textStart" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
